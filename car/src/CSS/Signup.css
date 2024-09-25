@@ -1,0 +1,59 @@
+.signup-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100vh;
+    padding-right: 100px;
+  }
+  
+  .signup-form {
+    width: 300px;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  .password-info {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+    margin-right: 185px;
+  }
+  
+  .company-info {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .signup-button {
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    color: black;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .signup-button:hover {
+    background-color: white;
+  }
+  
+  .terms {
+    font-size: 12px;
+    color: #666;
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  .blue-text {
+    color: #007BFF;
+    cursor: pointer;
+  }
+  

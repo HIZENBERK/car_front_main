@@ -28,6 +28,54 @@
   color: #61dafb;
 }
 
+/* 화면의 오른쪽에서 중앙으로 정렬 */
+.login-container {
+  display: flex;
+  justify-content: flex-end; /* 수평 방향 오른쪽 정렬 */
+  align-items: center; /* 수직 방향 중앙 정렬 */
+  height: 100vh; /* 화면 전체 높이를 사용 */
+  padding-right: 100px; /* 오른쪽에서 일정 간격 띄우기 */
+  transform: translateY(-100px); /* 위로 100px 이동 */
+}
+
+.login-form {
+  width: 300px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+/* 회원가입 라벨과 자동로그인을 같은 줄에 배치 */
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.signup-label {
+  color: black;
+  cursor: pointer;
+}
+
+.auto-login {
+  display: flex;
+  align-items: center;
+}
+
+.auto-login label {
+  margin-left: 5px;
+}
+
+
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
