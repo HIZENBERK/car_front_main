@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Signup from './Signup';
 import Admin from './Admin';
 import React, { useState } from 'react';
-import {useNavigate} from "react-router-dom";
 import axios from 'axios';
 
 function App() {
@@ -24,11 +23,7 @@ function Login() {
   const [emailOrPhone, setEmailOrPhone] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
 
-  const registerNavigate = async (e) => {
-    navigate("./Signup",  { replace: false})
-  };
   const handleLogin = async (e) => {
       e.preventDefault(); // 기본 폼 제출 이벤트 방지
       setError(''); // 이전 에러 메시지 초기화
@@ -50,19 +45,36 @@ function Login() {
     <div className="login-container">
       <form className="login-form">
         <div className="form-group">
-          <input type="text" id="username" name="username" placeholder="아이디" />
+          <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="아이디"
+              value={emailOrPhone}
+              onChange={(e) => setEmailOrPhone(e.target.value)}
+              required
+          />
         </div>
         <div className="form-group">
-          <input type="password" id="password" name="password" placeholder="비밀번호" />
+          <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+          />
+            {error && <p style={{ color: 'red' }}>{error}</p>}
         </div>
         <div className="form-footer">
         <div className="auto-login">
-            <input type="checkbox" id="autoLogin" name="autoLogin" />
-            <label onClick={handleLogin} htmlFor="autoLogin">자동로그인</label>
-          </div>
+            <input type="checkbox" id="autoLogin" name="autoLogin"/>
+            <label  htmlFor="autoLogin">자동로그인</label>
+        </div>
           <Link to="/signup" className="signup-label">회원가입</Link>
           
-          <button className="login-button">로그인</button>
+          <button onClick={handleLogin} className="login-button">로그인</button>
         </div>
       </form>
     </div>
