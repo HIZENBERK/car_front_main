@@ -54,23 +54,29 @@
 
 /* 회원가입 라벨과 자동로그인을 같은 줄에 배치 */
 .form-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.signup-label {
-  color: black;
-  cursor: pointer;
+  display: flex; /* 플렉스 박스 사용 */
+  align-items: center; /* 수직 정렬 */
+  justify-content: flex-start; /* 좌측 정렬 */
 }
 
 .auto-login {
-  display: flex;
-  align-items: center;
+  margin-right: 20px; /* 오른쪽 여백 추가 */
 }
 
-.auto-login label {
-  margin-left: 5px;
+.signup-label {
+  margin-right: 20px; /* 오른쪽 여백 추가 */
+}
+
+.login-button {
+  background-color: white; /* 버튼 배경색 흰색 */
+  border: 1px solid black; /* 검은색 테두리 */
+  padding: 5px 10px; /* 버튼 안쪽 여백 */
+  cursor: pointer; /* 커서 모양 변경 */
+  border-radius: 4px; /* 버튼 모서리를 둥글게 */
+}
+
+.login-button:hover {
+  background-color: #f0f0f0; /* 호버 시 배경색 변화 */
 }
 
 
