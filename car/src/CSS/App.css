@@ -64,7 +64,8 @@
 }
 
 .signup-label {
-  margin-right: 20px; /* 오른쪽 여백 추가 */
+  margin-right: 24px; /* 오른쪽 여백 추가 */
+  color: black;
 }
 
 .login-button {
@@ -73,6 +74,7 @@
   padding: 5px 10px; /* 버튼 안쪽 여백 */
   cursor: pointer; /* 커서 모양 변경 */
   border-radius: 4px; /* 버튼 모서리를 둥글게 */
+  margin-left: 30px;
 }
 
 .login-button:hover {
