@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  display: flex; /* 사이드바와 컨텐츠를 나란히 배치 */
 }
 
 .App-logo {
@@ -108,6 +109,10 @@
 }
 
 .content {
-  flex: 1;
+  flex-grow: 1;
+  display: flex; /* 중앙 정렬을 위한 플렉스 박스 설정 */
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
   padding: 20px;
+  min-height: 100vh; /* 화면 전체 높이만큼 공간 차지 */
 }
