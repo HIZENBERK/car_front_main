@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../CSS/Sidebar.css'; // 사이드바에 대한 CSS
 
 const Sidebar = () => {
+    const [selectedItem, setSelectedItem] = useState(null); // 선택된 항목의 상태 관리
+
+    const handleClick = (index) => {
+        setSelectedItem(index); // 클릭된 항목의 인덱스를 상태로 설정
+    };
+
+    const menuItems = ['대시보드', '사용자 관리', '차량 관리', '차량 운행 내역', '지출관리']; // 메뉴 항목들
+
     return (
         <div className="sidebar">
             <div className="company-section">
@@ -9,10 +17,18 @@ const Sidebar = () => {
                 <div className="company-name">회사명</div>
             </div>
             <div className="menu">
-                <div className="menu-item">사용자 관리</div>
-                <div className="menu-item">차량 관리</div>
-                <div className="menu-item">차량 운행 내역</div>
-                <div className="menu-item">지출관리</div>
+                <hr />
+                {menuItems.map((item, index) => (
+                    <div key={index}>
+                        <div
+                            className={`menu-item ${selectedItem === index ? 'selected' : ''}`} // 선택된 항목에 'selected' 클래스 추가
+                            onClick={() => handleClick(index)} // 클릭 시 해당 인덱스를 선택
+                        >
+                            {item}
+                        </div>
+                        <hr />
+                    </div>
+                ))}
             </div>
         </div>
     );
