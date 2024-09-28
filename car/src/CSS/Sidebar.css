@@ -2,6 +2,10 @@
   width: 200px;
   background-color: #f8f8f8;
   padding: 20px;
+  position: fixed; /* 사이드바를 고정시킴 */
+  top: 0;
+  left: 0;
+  height: 100%; /* 전체 높이 차지 */
 }
 
 .company-section {

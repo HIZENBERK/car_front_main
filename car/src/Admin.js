@@ -8,33 +8,40 @@ function Admin() {
 
   return (
     <div className="admin-container">
-      <div className="admin-list">
-      <p className="blank"> </p>
-        <hr />
-        <button className="admin-button" onClick={() => handleClick('대시보드')}>대시보드</button>
-        <hr />
-        <button className="admin-button" onClick={() => handleClick('사용자 관리')}>사용자 관리</button>
-        <hr />
-        <button className="admin-button" onClick={() => handleClick('차량 관리')}>차량 관리</button>
-        <hr />
-        <button className="admin-button" onClick={() => handleClick('차량 운행 내역')}>차량 운행 내역</button>
-        <hr />
-        <button className="admin-button" onClick={() => handleClick('지출 관리')}>지출 관리</button>
-        <hr />
-        <div className="spacer"></div>
-        <hr />
-        <button className="admin-button" onClick={() => handleClick('설정')}>설정</button>
-        <hr />
-        <p className="blank2"> </p>
-      </div>
-
+      
       <div className="admin-top">
         <p className="office-name">회사명 : </p>
         <p className="person-name"> 님 안녕하세요!</p>
       </div>
-      <hr className="divider" />
-
       <div className="admin-middle">
+        <div className="user-info-box">
+          <p className="admin-middle1-title">사용자</p>
+          <div className="admin-middle1-content">
+
+            <p className="admin-middle1-text">전체</p>
+            <p className="admin-middle1-text">신규</p>
+            <p className="admin-middle1-text">사용중지</p>
+          </div>
+        </div>
+
+        <div className="vehicle-status-box">
+          <p className="admin-middle1-title">차량 현황</p>
+          <div className="admin-middle1-content">
+            <p className="admin-middle1-text">가용 차량</p>
+            <p className="admin-middle1-text">사용불가</p>
+            <p className="admin-middle1-text">리스/렌트 만기 차량</p>
+            <p className="admin-middle1-text">삭제</p>
+          </div>
+        </div>
+
+        <div className="vehicle-run-box">
+          <p className="admin-middle1-title">운행</p>
+          <div className="admin-middle1-content">
+            <p className="admin-middle1-text">금월 운행 건</p>
+            <p className="admin-middle1-text">수정기록</p>
+          </div>
+        </div>
+
         <div className="notice-box">
           <p className="notice-title">공지사항</p>
           <div className="notice-content">
@@ -42,7 +49,6 @@ function Admin() {
           </div>
         </div>
       </div>
-
     </div>
   );
 }

@@ -1,7 +1,7 @@
 .expense-management {
     display: flex;
     height: 100vh;
-    width: 100%;
+    width: calc(100% - 250px); /* 전체 너비에서 200px 사이드바 너비를 뺀 값 */
   }
   
   .sidebar {
