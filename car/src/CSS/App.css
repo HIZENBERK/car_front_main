@@ -77,6 +77,7 @@
   cursor: pointer; /* 커서 모양 변경 */
   border-radius: 4px; /* 버튼 모서리를 둥글게 */
   margin-left: 30px;
+  color: black;
 }
 
 .login-button:hover {
