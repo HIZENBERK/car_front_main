@@ -4,8 +4,9 @@ import Signup from './Signup';
 import Admin from './Admin';
 import React, { useState } from 'react';
 import axios from 'axios';
-import ExpenseManagement from './View/ExpenseManagement';
 import Sidebar from './View/Sidebar';
+import ExpenseManagement from './View/ExpenseManagement';
+import CarHistory from './View/CarHistory';
 
 function App() {
   const location = useLocation(); // 현재 경로 확인
@@ -20,6 +21,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/expensemanagement" element={<ExpenseManagement />} />
+        <Route path="/carhistory" element={<CarHistory />} />
       </Routes>
     </div>
   );

@@ -1,0 +1,130 @@
+/* 사이드바가 있을 경우 메인 컨텐츠가 가려지지 않도록 왼쪽에 마진 추가 */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0 auto;
+  width: 80%; /* 전체 화면 대비 폭 설정 */
+  padding: 20px;
+  box-sizing: border-box;
+  margin-left: 250px; /* 사이드바의 폭만큼 왼쪽 마진을 줍니다. */
+}
+
+/* 필터 섹션 */
+.filters {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.filter-row label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.filter-row input[type="radio"] {
+  margin-right: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* 테이블 스타일 */
+.car-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.car-history-table th, .car-history-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.car-history-table th {
+  background-color: #f2f2f2;
+}
+
+.car-history-table td {
+  vertical-align: middle;
+}
+
+.car-history-table button {
+  padding: 5px 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.car-history-table button:hover {
+  background-color: #218838;
+}
+
+/* Date picker 팝업을 가운데에 배치 */
+.date-picker-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 300px;
+  text-align: center;
+}
+
+.date-picker-popup h4 {
+  margin-bottom: 20px;
+}
+
+.date-picker-popup button {
+  display: block;
+  margin: 20px auto 0 auto;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.date-picker-popup button:hover {
+  background-color: #0056b3;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+    margin-left: 0; /* 작은 화면에서는 왼쪽 마진 제거 */
+  }
+
+  .car-history-table th, .car-history-table td {
+    padding: 5px;
+  }
+
+  .date-picker-popup {
+    width: 90%;
+  }
+}

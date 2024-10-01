@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import './CSS/Signup.css';
 
 function Signup() {
