@@ -37,7 +37,7 @@ function Login() {
     setError(''); // 이전 에러 메시지 초기화
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/login/', {
+      const response = await axios.post('http://hizenberk.pythonanywhere.com/api/login/', {
         email_or_phone: emailOrPhone,
         password: password,
       });
