@@ -365,3 +365,10 @@
   display: flex;
   padding: 5px;
 }
+
+.user-guide-box:hover,
+.user-info-box:hover,
+.vehicle-status-box:hover,
+.vehicle-run-box:hover {
+  background-color: #f0f0f0; /* 호버 시 배경색 변화 */
+}
