@@ -136,24 +136,24 @@ function Admin() {
               <div className="operation-status-top">
                 <p className="admin-bottom-title">운행 현황</p>
                 <select className="year-select" onChange={handleYearChange}>
-                  <option value="2024">2024</option>
-                  <option value="2023">2023</option>
-                  <option value="2022">2022</option>
-                  <option value="2021">2021</option>
+                  <option value="2024">2024년</option>
+                  <option value="2023">2023년</option>
+                  <option value="2022">2022년</option>
+                  <option value="2021">2021년</option>
                 </select>
                 <select className="month-select" onChange={handleMonthChange}>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                  <option value="11">11</option>
-                  <option value="12">12</option>
+                  <option value="1">1월</option>
+                  <option value="2">2월</option>
+                  <option value="3">3월</option>
+                  <option value="4">4월</option>
+                  <option value="5">5월</option>
+                  <option value="6">6월</option>
+                  <option value="7">7월</option>
+                  <option value="8">8월</option>
+                  <option value="9">9월</option>
+                  <option value="10">10월</option>
+                  <option value="11">11월</option>
+                  <option value="12">12월</option>
                 </select>
                 <p className="operation-status-top-title">{selectedMonth ? `${selectedMonth}월 운행비율` : '1월 운행비율'}</p>
                 <p className="month-distance-title">월간 운행비율</p>
