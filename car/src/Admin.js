@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './CSS/Admin.css';
 import {
   Chart as ChartJS,
@@ -22,6 +22,8 @@ function Admin() {
     console.log(`${item} 클릭됨`); // 클릭 이벤트 핸들러 (나중에 실제 로직으로 대체 가능)
   };
 
+  const [selectedMonth, setSelectedMonth] = useState('');
+
   const handleYearChange = (event) => {
     const selectedYear = event.target.value;
     // 선택된 년도에 따른 데이터를 불러오는 로직
@@ -37,7 +39,23 @@ function Admin() {
     console.log(`${year}년 데이터를 불러옵니다.`);
   };
 
+  //Month Select
+  const handleMonthChange = (event) => {
+    const selectedMonth = event.target.value;
+    // 선택된 달에 따른 데이터를 불러오는 로직
+    console.log(`선택된 달: ${selectedMonth}`);
+    setSelectedMonth(selectedMonth); // 선택된 달을 상태로 업데이트
+    fetchDataForMonth(selectedMonth);
+    
+    // API 호출 또는 로컬 데이터를 가져오는 부분
+    fetchDataForMonth(selectedMonth);
+  };
   
+  const fetchDataForMonth = (Month) => {
+    // 선택된 달에 맞는 데이터를 불러오는 로직 구현
+    // 예시: API 호출 또는 상태 업데이트
+    console.log(`${Month}월 데이터를 불러옵니다.`);
+  }; 
 
   return (
     <div className="admin-container">
@@ -123,8 +141,22 @@ function Admin() {
                   <option value="2022">2022</option>
                   <option value="2021">2021</option>
                 </select>
-                <p className="operation-status-top-title">운행비율</p>
-                <p className="month-distance-title">월간 운행거리</p>
+                <select className="month-select" onChange={handleMonthChange}>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                </select>
+                <p className="operation-status-top-title">{selectedMonth ? `${selectedMonth}월 운행비율` : '1월 운행비율'}</p>
+                <p className="month-distance-title">월간 운행비율</p>
                 <div className="b-label-box">
                     <div className="d-label" />
                     <p className="label-text">업무용</p>

@@ -8,7 +8,7 @@ const Sidebar = () => {
         setSelectedItem(index); // 클릭된 항목의 인덱스를 상태로 설정
     };
 
-    const menuItems = ['대시보드', '사용자 관리', '차량 관리', '차량 운행 내역', '지출관리']; // 메뉴 항목들
+    const menuItems = ['대시보드', '공지사항', '사용자 관리', '차량 관리', '차량 운행 내역', '지출관리']; // 메뉴 항목들
     const settingsMenuItems = ['설정']; // 설정 메뉴 항목들
 
     return (

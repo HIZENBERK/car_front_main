@@ -6,6 +6,7 @@
   top: 0;
   left: 0;
   height: 100%; /* 전체 높이 차지 */
+  z-index: 4;
 }
 
 .company-section {
