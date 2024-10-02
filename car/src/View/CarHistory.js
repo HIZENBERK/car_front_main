@@ -95,6 +95,14 @@ const CarHistory = () => {
 
   return (
     <div className="container">
+      <div className="carhistory">
+        <header className="header">
+          <div className="carhistory-name">차량 운행 내역</div>
+          <button className="download-btn">엑셀 다운로드</button>
+        </header>
+        <hr className="divider"/>    
+      </div>
+
       <div className="filters">
         <div className="filter-row">
           <label>운행기록 옵션:</label>
@@ -114,7 +122,8 @@ const CarHistory = () => {
           /> 삭제된 차량 제외
         </div>
 
-        <div className="filter-row">
+        <div className="1">
+        <div className="aa">
           <label>운행 용도:</label>
           <input
             type="radio"
@@ -145,6 +154,7 @@ const CarHistory = () => {
             onChange={handleUseTypeChange}
           /> 비업무용
         </div>
+      </div>
 
         <div className="filter-row">
           <label>거리 옵션:</label>
@@ -171,10 +181,15 @@ const CarHistory = () => {
           /> 3km 이하
         </div>
 
-        <div className="filter-row">
+        <div className="bb">
+          <label>기간 조회:</label>
           <button onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}>
             기간 조회
           </button>
+        </div>
+        <div className='cc'>
+          <label>통합검색:</label>
+          <input></input>
         </div>
       </div>
 
@@ -183,7 +198,8 @@ const CarHistory = () => {
         <div className="date-picker-popup">
           <h4>가는날을 선택하세요</h4>
 
-          {/* 세로로 두 개의 DatePicker 배치 */}
+    {/* 가로로 두 개의 DatePicker 배치 */}
+    <div className="date-picker-container">
           <DatePicker
             locale={ko} // 한국어 설정
             selected={startDate}
@@ -217,6 +233,7 @@ const CarHistory = () => {
             showYearDropdown
             dropdownMode="select"
           />
+    </div>
 
           <div className="date-display">
             <p>시작 날짜: {startDate ? startDate.toLocaleDateString('ko-KR') : '선택되지 않음'}</p>
@@ -226,6 +243,7 @@ const CarHistory = () => {
           <button onClick={() => setIsDatePickerOpen(false)}>확인</button>
         </div>
       )}
+
 
       <table className="car-history-table">
         <thead>

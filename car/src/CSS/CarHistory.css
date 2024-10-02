@@ -1,6 +1,5 @@
 /* 사이드바가 있을 경우 메인 컨텐츠가 가려지지 않도록 왼쪽에 마진 추가 */
 .container {
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
@@ -11,16 +10,44 @@
   margin-left: 250px; /* 사이드바의 폭만큼 왼쪽 마진을 줍니다. */
 }
 
-/* 필터 섹션 */
-.filters {
-  width: 100%;
-  margin-bottom: 20px;
+/* 맨위 */
+.header {
+  display: flex;
+  justify-content: space-between; /* 양쪽 끝으로 배치 */
+  align-items: center; /* 세로로 가운데 정렬 */
+  padding: 10px 0;
 }
 
+.carhistory-name {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.download-btn {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.download-btn:hover {
+  background-color: #45a049;
+}
+
+.divider {
+  margin-top: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+/* 필터 섹션 */
 .filter-row {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 70px;
+  margin-right: -324px;
 }
 
 .filter-row label {
@@ -30,6 +57,43 @@
 
 .filter-row input[type="radio"] {
   margin-right: 5px;
+}
+
+.aa {
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  margin-right: 610px;
+}
+
+.aa label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.aa input[type="radio"] {
+  margin-right: 5px;
+}
+
+.bb {
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  margin-right: -1190px;
+}
+
+.cc {
+  display: flex;
+  align-items: center;
+  margin-top: 70px;
+  margin-bottom: 10px;
+}
+
+.cc label {
+  margin-right: 10px;
+  font-weight: bold;
 }
 
 button {
@@ -89,27 +153,22 @@ button:hover {
   padding: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  width: 300px;
+  width: 600px; /* 너비를 더 넓게 설정 */
   text-align: center;
 }
 
-.date-picker-popup h4 {
-  margin-bottom: 20px;
+.date-picker-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px; /* 두 달력 사이에 간격 추가 */
 }
 
-.date-picker-popup button {
-  display: block;
-  margin: 20px auto 0 auto;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+.date-picker-container .react-datepicker {
+  flex-grow: 1; /* DatePicker의 너비가 적절히 늘어나도록 설정 */
 }
 
-.date-picker-popup button:hover {
-  background-color: #0056b3;
+.date-display {
+  margin-top: 20px;
 }
 
 /* 반응형 디자인 */
@@ -117,7 +176,7 @@ button:hover {
   .container {
     width: 100%;
     padding: 10px;
-    margin-left: 0; /* 작은 화면에서는 왼쪽 마진 제거 */
+    margin-left: 0;
   }
 
   .car-history-table th, .car-history-table td {
@@ -125,6 +184,10 @@ button:hover {
   }
 
   .date-picker-popup {
-    width: 90%;
+    width: 90%; /* 작은 화면에서는 전체 너비의 90%로 설정 */
+  }
+
+  .date-picker-container {
+    flex-direction: column; /* 작은 화면에서는 세로로 배치 */
   }
 }
