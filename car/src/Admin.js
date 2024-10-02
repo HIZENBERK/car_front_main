@@ -1,5 +1,21 @@
 import React from 'react';
 import './CSS/Admin.css';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement, // 만약 바 차트를 사용하는 경우
+  ArcElement // 만약 파이 차트를 사용하는 경우
+} from 'chart.js';
+import PieChart from './View/PieChart';  // PieChart 가져오기
+import BarChart from './View/BarChart';  // BarChart 가져오기
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement, // 바 차트일 경우
+  ArcElement // 파이 차트일 경우
+);
 
 function Admin() {
   const handleClick = (item) => {
@@ -20,6 +36,8 @@ function Admin() {
     // 예시: API 호출 또는 상태 업데이트
     console.log(`${year}년 데이터를 불러옵니다.`);
   };
+
+  
 
   return (
     <div className="admin-container">
@@ -105,23 +123,63 @@ function Admin() {
                   <option value="2022">2022</option>
                   <option value="2021">2021</option>
                 </select>
+                <p className="operation-status-top-title">운행비율</p>
                 <p className="month-distance-title">월간 운행거리</p>
+                <div className="b-label-box">
+                    <div className="d-label" />
+                    <p className="label-text">업무용</p>
+                    <div className="e-label" />
+                    <p className="label-text">출/퇴근용</p>
+                    <div className="f-label" />
+                    <p className="label-text">비업무용</p>
+                  </div>
               </div>
               <div className="operation-status-middle">
                 <div className="operation-number">
                   <p className="operation-status-middle-title">운행건수</p>
+                    <div className="op-box">
+                     <p className="operation-number-count">1,000</p>
+                     <p className="op-count"> 건</p>
+                    </div>
+                    <p className="daily-average">일 평균</p>
+                    <hr className="custom-line" />
+                    <p className="weekly-average">주 평균</p>
+                    <hr className="custom-line" />
+                    <p className="monthly-average">월 평균</p>
+                    <hr className="custom-line" />
                 </div>
                 <div className="operation-distance">
                   <p className="operation-status-middle-title">운행거리</p>
+                  <div className="op-box">
+                    <p className="operation-number-count">1,000</p>
+                    <p className="op-count"> km</p>
+                  </div>
+                  <p className="daily-average">일 평균</p>
+                  <hr className="custom-line" />
+                  <p className="weekly-average">주 평균</p>
+                  <hr className="custom-line" />
+                  <p className="monthly-average">월 평균</p>
+                  <hr className="custom-line" />
                 </div>
                 <div className="operation-percentage">
-                  <p className="operation-status-middle-title">운행비율</p>
+                  <div className="a-label-box">
+                    <div className="a-label" />
+                    <p className="label-text">업무용</p>
+                    <div className="b-label" />
+                    <p className="label-text">출/퇴근용</p>
+                    <div className="c-label" />
+                    <p className="label-text">비업무용</p>
+                  </div>
+                  <PieChart />
                 </div>
                 <div className="month-distance">
-
+                  <BarChart />
                 </div>
+
               </div>
+
             </div>
+
           </div>
           
         </div>

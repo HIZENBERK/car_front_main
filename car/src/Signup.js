@@ -11,6 +11,7 @@ function Signup() {
   const [managerContact, setManagerContact] = useState('');
   const [email, setEmail] = useState('');
   const [department, setDepartment] = useState('');
+  const [username, setUserName] = useState('');
 
   const [error, setError] = useState('');
 
