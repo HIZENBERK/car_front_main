@@ -7,7 +7,7 @@ import axios from 'axios';
 import Sidebar from './View/Sidebar';
 import ExpenseManagement from './View/ExpenseManagement';
 import CarHistory from './View/CarHistory';
-import UserManagement from './View/UserManagement';
+import CarManagement from './View/CarManagement';
 
 function App() {
   const location = useLocation(); // 현재 경로 확인
@@ -23,7 +23,7 @@ function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/expensemanagement" element={<ExpenseManagement />} />
         <Route path="/carhistory" element={<CarHistory />} />
-        <Route path="/usermanagement" element={<UserManagement />} />
+        <Route path="/carmanagement" element={<CarManagement />} />
       </Routes>
     </div>
   );
