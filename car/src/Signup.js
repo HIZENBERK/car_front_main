@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './CSS/Signup.css';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 function Signup() {
   const [id, setId] = useState('');
@@ -11,31 +12,45 @@ function Signup() {
   const [managerContact, setManagerContact] = useState('');
   const [email, setEmail] = useState('');
   const [department, setDepartment] = useState('');
-  const [username, setUserName] = useState('');
 
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const navigateToLogin = () => {
+    navigate("/");
+  };
+  const handRegister = async (e) => {
     e.preventDefault(); // 기본 폼 제출 이벤트 방지
     setError(''); // 이전 에러 메시지 초기화
-
+    console.log('로그인 정보:', "email : " , email, "\n",
+        "phone_number : ", managerContact,"\n",
+        "password2 :", password,"\n",
+        "device_uuid :", "abc123-def456-gh789" ,"\n",
+        "company_name :", companyName,"\n",
+        "business_registration_number :", businessNumber,"\n",
+        "department :", department,"\n",
+        "position:", "Developer","\n",
+        "name :", managerName
+    )
     try {
-      const response = await axios.post('http://hizenberk.pythonanywhere.com/api/register/', {
-        "email" : id,
+      const response = await axios.post('https://hizenberk.pythonanywhere.com/api/register/', {
+        "email" : email,
         "phone_number": managerContact,
+        "password": password,
         "password2": password,
-        "device_uuid": password ,
+        "device_uuid": "abc123-def456-gh789" ,
         "company_name": companyName,
         "business_registration_number": businessNumber,
         "department": department,
-        "position": password,
-        "name": username
+        "position": "Developer",
+        "name": managerName
       });
       // 로그인 성공 시 처리 (예: 토큰 저장, 리다이렉트 등)
-      console.log('로그인 성공:', response.data);
+      console.log('회원가입 성공:', response.data);
+      navigateToLogin();
     } catch (err) {
-      console.error('로그인 실패:', err.response?.data);
-      setError('로그인에 실패했습니다. 이메일 또는 비밀번호를 확인하세요.');
+      console.error('회원가입 실패:', err.response?.data);
+      setError('회원가입 실패했습니다. 입력된 정보를 확인하세요.');
     }
   };
 
@@ -49,35 +64,69 @@ function Signup() {
                  id="username"
                  name="username"
                  placeholder="아이디"
-                 onChange={(e) => setPassword(e.target.value)}
+                 onChange={(e) => setId(e.target.value)}
           />
         </div>
         <div className="form-group">
-          <input type="password" id="password" name="password" placeholder="비밀번호"/>
+          <input type="password"
+                 id="password"
+                 name="password"
+                 placeholder="비밀번호"
+                 onChange={(e) => setPassword(e.target.value)}
+          />
           <p className="password-info">영문, 숫자 6자리 이상</p>
         </div>
         <div className="form-group">
           <label className="company-info-label">회사정보</label>
         </div>
         <div className="form-group">
-          <input type="text" id="businessNumber" name="businessNumber" placeholder="사업자번호"/>
+          <input type="text"
+                 id="businessNumber"
+                 name="businessNumber"
+                 placeholder="사업자번호"onChange={(e) => setBusinessNumber(e.target.value)}
+          />
         </div>
         <div className="form-group">
-          <input type="text" id="companyName" name="companyName" placeholder="업체명"/>
+          <input type="text"
+                 id="companyName"
+                 name="companyName"
+                 placeholder="업체명"
+                 onChange={(e) => setCompanyName(e.target.value)}
+          />
         </div>
         <div className="form-group">
-          <input type="text" id="managerName" name="managerName" placeholder="담당자명"/>
+          <input type="text"
+                 id="managerName"
+                 name="managerName"
+                 placeholder="담당자명"
+                 onChange={(e) => setManagerName(e.target.value)}
+          />
         </div>
         <div className="form-group">
-          <input type="text" id="department" name="department" placeholder="담당자 연락처"/>
+          <input type="text"
+                 id="department"
+                 name="department"
+                 placeholder="담당자 연락처"
+                 onChange={(e) => setManagerContact(e.target.value)}
+          />
         </div>
         <div className="form-group">
-          <input type="text" id="managerName" name="managerName" placeholder="담당자 소속 부서"/>
+          <input type="text"
+                 id="managerDepartment"
+                 name="managerDepartment"
+                 placeholder="담당자 소속 부서"
+                 onChange={(e) => setDepartment(e.target.value)}
+          />
         </div>
         <div className="form-group">
-          <input type="email" id="email" name="email" placeholder="이메일"/>
+          <input type="email"
+                 id="email"
+                 name="email"
+                 placeholder="이메일"
+                 onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
-        <button type="submit" className="signup-button">가입하기</button>
+        <button type="submit" className="signup-button" onClick={handRegister}>가입하기</button>
         <p className="terms">
           가입하기 버튼을 누르면, <span className="blue-text">서비스 이용약관</span>, <span className="blue-text">위치정보 이용약관</span>, <span
             className="blue-text">개인정보 수집 및 이용</span>에 동의한 것으로 간주합니다.
