@@ -4,7 +4,6 @@ import Login from './login';
 import Register from './register';
 import ExpenseManagement from './ExpenseManagement';
 import Sidebar from './Sidebar';
-import CarManagement from '/CarManagement';
 import '../CSS/App.css'; // 스타일 파일
 
 const AppLayout = () => {
@@ -21,7 +20,6 @@ const AppLayout = () => {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/expensemanagement" element={<ExpenseManagement />} />
-          <Route path="/carmanagement" element={<CarManagement />} />
         </Routes>
       </div>
     </div>
