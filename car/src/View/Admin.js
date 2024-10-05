@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './CSS/Admin.css';
+import '../CSS/Admin.css';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -7,8 +7,9 @@ import {
   BarElement, // 만약 바 차트를 사용하는 경우
   ArcElement // 만약 파이 차트를 사용하는 경우
 } from 'chart.js';
-import PieChart from './View/PieChart';  // PieChart 가져오기
-import BarChart from './View/BarChart';  // BarChart 가져오기
+import PieChart from './PieChart';  // PieChart 가져오기
+import BarChart from './BarChart';
+import {useAuth} from "../Component/AuthContext";  // BarChart 가져오기
 
 ChartJS.register(
   CategoryScale,
@@ -50,19 +51,20 @@ function Admin() {
     // API 호출 또는 로컬 데이터를 가져오는 부분
     fetchDataForMonth(selectedMonth);
   };
+  const { authState } = useAuth();
   
   const fetchDataForMonth = (Month) => {
     // 선택된 달에 맞는 데이터를 불러오는 로직 구현
     // 예시: API 호출 또는 상태 업데이트
     console.log(`${Month}월 데이터를 불러옵니다.`);
-  }; 
+  };
 
   return (
     <div className="admin-container">
       
       <div className="admin-top">
-        <p className="office-name">회사명 : </p>
-        <p className="person-name"> 님 안녕하세요!</p>
+        <p className="office-name">회사명 : {authState.company_name}</p>
+        <p className="person-name"> {authState.name} 님 안녕하세요!</p>
       </div>
 
       <div className="a-box">
