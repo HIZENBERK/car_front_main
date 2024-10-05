@@ -119,13 +119,12 @@ function Admin() {
           </div>
 
           <div className="e-box">
-
-          <div className="notice-box">
-            <p className="notice-title">공지사항</p>
-            <div className="notice-content">
-              {/* 여기에 공지사항 내용이 들어갑니다 */}
+            <div className="notice-box">
+              <p className="notice-title">공지사항</p>
+              <div className="notice-content">
+                {/* 여기에 공지사항 내용이 들어갑니다 */}
+              </div>
             </div>
-          </div>
 
           </div>
           
@@ -160,11 +159,11 @@ function Admin() {
                 <p className="operation-status-top-title">{selectedMonth ? `${selectedMonth}월 운행비율` : '1월 운행비율'}</p>
                 <p className="month-distance-title">월간 운행비율</p>
                 <div className="b-label-box">
-                    <div className="d-label" />
+                    <div className="a-label" />
                     <p className="label-text">업무용</p>
-                    <div className="e-label" />
+                    <div className="b-label" />
                     <p className="label-text">출/퇴근용</p>
-                    <div className="f-label" />
+                    <div className="c-label" />
                     <p className="label-text">비업무용</p>
                   </div>
               </div>

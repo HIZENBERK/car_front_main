@@ -305,7 +305,7 @@
 
 .c-box {
   width: 100%;
-  height: 45%;
+  height: 40%;
   display: flex; /* Flexbox를 사용해 가로 정렬 */
   padding: 5px;
   margin-left: 20px;
