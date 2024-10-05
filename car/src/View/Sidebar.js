@@ -41,7 +41,7 @@ const Sidebar = () => {
         { name: '사용자 관리', path: '/usermanagement' },
         { name: '차량 관리', path: '/CarHistory' }, // 차량 관리 메뉴
         { name: '차량 운행 내역', path: '/trip-history' },
-        { name: '지출관리', path: '/expense-management' }
+        { name: '지출관리', path: '/expensemanagement' }
     ];
 
     const settingsMenuItems = [

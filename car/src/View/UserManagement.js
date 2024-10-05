@@ -53,15 +53,15 @@ const UserManagement = () =>{
             <p className="usermanagement-top-title">사용자 관리</p>
         </div>
 
-        <div className="a-box">
+        <div className="usermanagement-a-box">
 
-          <div className="b-box">
+          <div className="usermanagement-b-box">
 
-            <div className="d-box">
+            <div className="usermanagement-d-box">
               <button className="user-registration">사용자 등록</button>
             </div>
             
-            <div classname="e-box">
+            <div className="usermanagement-e-box">
                 <select className="select" onChange={handleChange}>
                   <option value="Department">부서</option>
                   <option value="name">이름</option>
@@ -76,7 +76,7 @@ const UserManagement = () =>{
 
           </div>
 
-          <div className="c-box">
+          <div className="usermanagement-c-box">
             <table className="table">
               <thead>
                 <tr>

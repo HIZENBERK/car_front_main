@@ -67,16 +67,16 @@ function Admin() {
         <p className="person-name"> {authState.name} 님 안녕하세요!</p>
       </div>
 
-      <div className="a-box">
+      <div className="admin-a-box">
 
-        <div className="b-box">
+        <div className="admin-b-box">
 
-          <div className="d-box">
+          <div className="admin-d-box">
 
-            <div className="f-box">
+            <div className="admin-f-box">
 
               <div className="admin-middle">
-                <div type="submit" className="user-info-box">
+                <div className="user-info-box">
                   <p className="admin-middle-title">사용자</p>
                   <div className="admin-middle-content">
                     <p className="admin-middle-text">전체</p>
@@ -85,7 +85,7 @@ function Admin() {
                   </div>
                 </div>
 
-                <div type="submit" className="vehicle-status-box">
+                <div className="vehicle-status-box">
                   <p className="admin-middle-title">차량 현황</p>
                   <div className="admin-middle-content">
                     <p className="admin-middle-text">가용 차량</p>
@@ -94,7 +94,7 @@ function Admin() {
                   </div>
                 </div>
 
-                <div type="submit" className="vehicle-run-box">
+                <div className="vehicle-run-box">
                   <p className="admin-middle-title">운행</p>
                   <div className="admin-middle-content">
                     <p className="admin-middle-text">금월 운행 건</p>
@@ -105,9 +105,9 @@ function Admin() {
 
             </div>
 
-            <div className="g-box">
+            <div className="admin-g-box">
 
-              <div type="submit" className="user-guide-box">
+              <div className="user-guide-box">
                 <p className="admin-middle-title">사용자 가이드</p>
                 <div className="user-guide-content">
                   {/* 여기에 사용자 가이드 내용이 들어갑니다 */}
@@ -118,19 +118,20 @@ function Admin() {
 
           </div>
 
-          <div className="e-box">
-            <div className="notice-box">
-              <p className="notice-title">공지사항</p>
-              <div className="notice-content">
-                {/* 여기에 공지사항 내용이 들어갑니다 */}
-              </div>
+          <div className="admin-e-box">
+
+          <div className="notice-box">
+            <p className="notice-title">공지사항</p>
+            <div className="notice-content">
+              {/* 여기에 공지사항 내용이 들어갑니다 */}
             </div>
+          </div>
 
           </div>
           
         </div>
 
-        <div className="c-box">
+        <div className="admin-c-box">
 
           <div className="admin-bottom">
             <div className="operation-status-box">
