@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../CSS/UserManagement.css';
 
-const UserManagement = () =>{
+const UserManagement = () => {
 
   const dummyData = [
     { id: 1, Department: '인사과', name: '박준석', num: '1', contact: '01012345678', power: '최강.', date: '11.15' },
@@ -11,6 +11,8 @@ const UserManagement = () =>{
   // 상태 관리
   const [rowsPerPage, setRowsPerPage] = useState(10);  // 페이지당 보여줄 행 수
   const [currentPage, setCurrentPage] = useState(1);   // 현재 페이지
+  const [selectedRow, setSelectedRow] = useState(null); // 선택된 row 데이터
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태
 
   // 페이지당 데이터를 나누기
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -25,114 +27,135 @@ const UserManagement = () =>{
     setCurrentPage(pageNumber);
   };
 
-  // 페이지당 행 수 변경 핸들러
-  const handleRowsPerPageChange = (e) => {
-    setRowsPerPage(parseInt(e.target.value));
-    setCurrentPage(1);  // 페이지 수 초기화
+  // 모달 열기
+  const handleRowClick = (row) => {
+    setSelectedRow(row);
+    setIsModalOpen(true); // 모달 열기
   };
 
-  const handleChange = (event) => {
-    const selected = event.target.value;
-    // 선택된 년도에 따른 데이터를 불러오는 로직
-    console.log(`선택된 년도: ${selected}`);
-    
-    // API 호출 또는 로컬 데이터를 가져오는 부분
-    fetchDataFor(selected);
-  };
-  
-  const fetchDataFor = (select) => {
-    // 선택된 년도에 맞는 데이터를 불러오는 로직 구현
-    // 예시: API 호출 또는 상태 업데이트
-    console.log(`${select}데이터를 불러옵니다.`);
+  // 모달 닫기
+  const closeModal = () => {
+    setIsModalOpen(false); // 모달 닫기
   };
 
   return (
-   <div className="usermanagement-container">
+    <div className="usermanagement-container">
 
-        <div className="usermanagement-top">
-            <p className="usermanagement-top-title">사용자 관리</p>
+      <div className="usermanagement-top">
+        <p className="usermanagement-top-title">사용자 관리</p>
+      </div>
+
+      <div className="usermanagement-a-box">
+
+        <div className="usermanagement-b-box">
+
+          <div className="usermanagement-d-box">
+            <button className="user-registration">사용자 등록</button>
+          </div>
+
+          <div className="usermanagement-e-box">
+            <select className="select">
+              <option value="Department">부서</option>
+              <option value="name">이름</option>
+              <option value="num">사번</option>
+              <option value="contact">연락처</option>
+              <option value="power">권한</option>
+              <option value="date">등록일</option>
+            </select>
+            <input type="text" className="search-box" placeholder="검색..." />
+            <button className="user-check">조회</button>
+          </div>
+
         </div>
 
-        <div className="usermanagement-a-box">
+        <div className="usermanagement-c-box">
+          <table className="table">
+            <thead>
+              <tr>
+                <th><input type="checkbox" /></th>
+                <th>부서</th>
+                <th>이름</th>
+                <th>사번</th>
+                <th>연락처</th>
+                <th>권한</th>
+                <th>등록일</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentRows.map((row) => (
+                <tr key={row.id} onClick={() => handleRowClick(row)}>
+                  <td><input type="checkbox" /></td>
+                  <td>{row.Department}</td>
+                  <td>{row.name}</td>
+                  <td>{row.num}</td>
+                  <td>{row.contact}</td>
+                  <td>{row.power}</td>
+                  <td>{row.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="pagination">
+            <button
+              className="page-btn"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              &lt;
+            </button>
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                className={`page-btn ${currentPage === index + 1 ? 'active' : ''}`}
+                onClick={() => handlePageChange(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              className="page-btn"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              &gt;
+            </button>
+          </div>
+        </div>
 
-          <div className="usermanagement-b-box">
+      </div>
 
-            <div className="usermanagement-d-box">
-              <button className="user-registration">사용자 등록</button>
+      {/* 모달 */}
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>사용자 정보</h2>
+            <div className="modal-content">
+              <label>부서:</label>
+              <input type="text" placeholder={selectedRow.Department} />
+
+              <label>이름:</label>
+              <input type="text" placeholder={selectedRow.name} />
+
+              <label>사번:</label>
+              <input type="text" placeholder={selectedRow.num} />
+
+              <label>연락처:</label>
+              <input type="text" placeholder={selectedRow.contact} />
+
+              <label>권한:</label>
+              <input type="text" placeholder={selectedRow.power} />
+
+              <label>등록일:</label>
+              <input type="text" placeholder={selectedRow.date} />
             </div>
             
-            <div className="usermanagement-e-box">
-                <select className="select" onChange={handleChange}>
-                  <option value="Department">부서</option>
-                  <option value="name">이름</option>
-                  <option value="num">사번</option>
-                  <option value="contact">연락처</option>
-                  <option value="power">권한</option>
-                  <option value="date">등록일</option>
-                </select>
-              <input type="text" className="search-box" placeholder="검색..." />
-              <button className="user-check">조회</button>
-            </div>
-
+            <button className="update-btn">변경</button>
+            <button className="close-btn" onClick={closeModal}>닫기</button>
           </div>
-
-          <div className="usermanagement-c-box">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th><input type="checkbox" /></th>
-                  <th>부서</th>
-                  <th>이름</th>
-                  <th>사번</th>
-                  <th>연락처</th>
-                  <th>권한</th>
-                  <th>등록일</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentRows.map((row) => (
-                  <tr key={row.id}>
-                    <td><input type="checkbox" /></td>
-                    <td>{row.Department}</td>
-                    <td>{row.name}</td>
-                    <td>{row.num}</td>
-                    <td>{row.contact}</td>
-                    <td>{row.power}</td>
-                    <td>{row.date}</td>
-                  </tr>
-                ))}
-              </tbody>
-           </table>
-           <div className="pagination">
-              <button
-                className="page-btn"
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                &lt;
-              </button>
-              {[...Array(totalPages)].map((_, index) => (
-                <button
-                  key={index}
-                  className={`page-btn ${currentPage === index + 1 ? 'active' : ''}`}
-                  onClick={() => handlePageChange(index + 1)}
-                >
-                  {index + 1}
-                </button>
-              ))}
-              <button
-                className="page-btn"
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
-                &gt;
-              </button>
-            </div>
-          </div>
-
         </div>
+      )}
 
-   </div>
+    </div>
   );
 };
 
