@@ -39,8 +39,8 @@ const Sidebar = () => {
     const menuItems = [
         { name: '대시보드', path: '/admin' },
         { name: '사용자 관리', path: '/usermanagement' },
-        { name: '차량 관리', path: '/CarHistory' }, // 차량 관리 메뉴
-        { name: '차량 운행 내역', path: '/trip-history' },
+        { name: '차량 관리', path: '/CarManagement' }, // 차량 관리 메뉴
+        { name: '차량 운행 내역', path: '/CarHistory' },
         { name: '지출관리', path: '/expensemanagement' }
     ];
 
