@@ -2,6 +2,10 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import ChartDataLabels from 'chartjs-plugin-datalabels'; // 데이터 라벨 플러그인 임포트
+import { Chart, Tooltip } from 'chart.js';
+
+// Chart.js의 Tooltip 플러그인 등록
+Chart.register(Tooltip);
 
 const PieChart = () => {
   const data = {
@@ -41,6 +45,16 @@ const PieChart = () => {
           const total = context.chart.data.datasets[0].data.reduce((acc, val) => acc + val, 0);
           const percentage = ((value / total) * 100).toFixed(1); // 비율 계산
           return `${percentage}%`; // 비율 문자열 반환
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: function (tooltipItem) {
+            const dataset = tooltipItem.dataset;
+            const value = dataset.data[tooltipItem.dataIndex]; // 원래 데이터 값
+            const label = data.labels[tooltipItem.dataIndex]; // 레이블
+            return `${label}: ${value}`; // 툴팁에서 원래 데이터 값 표시
+          },
         },
       },
     },
