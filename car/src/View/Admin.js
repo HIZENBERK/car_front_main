@@ -119,14 +119,12 @@ function Admin() {
           </div>
 
           <div className="admin-e-box">
-
-          <div className="notice-box">
-            <p className="notice-title">공지사항</p>
-            <div className="notice-content">
-              {/* 여기에 공지사항 내용이 들어갑니다 */}
+            <div className="notice-box">
+              <p className="notice-title">공지사항</p>
+              <div className="notice-content">
+                {/* 여기에 공지사항 내용이 들어갑니다 */}
+              </div>
             </div>
-          </div>
-
           </div>
           
         </div>

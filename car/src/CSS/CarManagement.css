@@ -114,7 +114,7 @@
 }
 
 .form-group input {
-  width: 30%; /* 입력창 너비를 30%로 설정 */
+  width: 100%; /* 입력창 너비를 30%로 설정 */
   padding: 8px; /* 입력창 패딩 추가 */
   box-sizing: border-box; /* 패딩 포함 너비 계산 */
 }
