@@ -59,6 +59,19 @@ function Admin() {
     console.log(`${Month}월 데이터를 불러옵니다.`);
   };
 
+   // 공지사항 데이터를 배열로 정의 (제목과 작성 날짜)
+   const notices = [
+    { title: '공지사항 1', date: '2024-09-30' },
+    { title: '공지사항 2', date: '2024-10-01' },
+    { title: '공지사항 3', date: '2024-10-02' },
+];
+
+// 클릭 핸들러 함수 (이벤트 로직은 비워둠)
+const handleNoticeClick = (notice) => {
+    console.log(`${notice.title} 클릭됨`);
+    // 여기에서 클릭 이벤트 처리 로직 추가 가능
+};
+
   return (
     <div className="admin-container">
       
@@ -122,7 +135,22 @@ function Admin() {
             <div className="notice-box">
               <p className="notice-title">공지사항</p>
               <div className="notice-content">
-                {/* 여기에 공지사항 내용이 들어갑니다 */}
+                <table>
+                  <thead>
+                    <tr>
+                        <th>제목</th>
+                        <th className="notice-date-th">작성 날짜</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {notices.map((notice, index) => (
+                        <tr key={index} onClick={() => handleNoticeClick(notice)} className="clickable-row">
+                            <td>{notice.title}</td>
+                            <td className="notice-date-td">{notice.date}</td>
+                        </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>

@@ -65,8 +65,35 @@
 
 /* 공지사항 내용 */
 .notice-content {
-  margin-top: 50px; /* 제목 아래 여백 */
+  margin-top: 20px; /* 제목 아래 여백 */
   font-size: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  text-align: left;
+}
+
+.notice-date-th {
+  text-align: end;
+}
+
+.notice-date-td {
+  text-align: end;
+}
+
+.clickable-row {
+  cursor: pointer; /* 클릭 가능한 행에 커서 변경 */
+}
+
+.clickable-row:hover {
+  background-color: #f0f0f0; /* 마우스 오버 시 배경색 변경 */
 }
 
 .user-info-box,
@@ -164,7 +191,7 @@
   height: 1px; /* 선의 두께 */
   background-color: black; /* 선의 색상 */
   width: 100%; /* 선의 너비 */
-  max-width: 245px; /* 선의 최대 너비 */
+  max-width: 280px; /* 선의 최대 너비 */
   margin: 0; /* 기본 마진 제거 */
   padding: 0; /* 기본 패딩 제거 */
   margin-left: 20px;
@@ -187,7 +214,6 @@
   justify-content: center; /* 수평 가운데 정렬 */
   margin: 0; /* 기본 마진 제거 */
   margin-top: 10px;
-  margin-right: 15px;
 }
 
 .operation-status-top-title {
@@ -202,7 +228,6 @@
   text-align: center; /* 텍스트 가운데 정렬 */
   margin: 0; /* 기본 마진 제거 */
   padding: 0; /* 기본 패딩 제거 */
-  margin-right: 15px;
 }
 
 .operation-number-count {
