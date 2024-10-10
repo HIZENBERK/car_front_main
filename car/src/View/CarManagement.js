@@ -4,7 +4,7 @@ import '../CSS/CarManagement.css'; // 스타일 파일 가져오기
 const CarManagement = () => {
     const [activeTab, setActiveTab] = useState('차량목록');
     const [isFormVisible, setFormVisible] = useState(false); // 차량 등록 양식의 가시성 상태
-    const [isSaleChecked, setIsSaleChecked] = useState(false); // 매매 체크 상태
+    const [saleType, setSaleType] = useState(''); // 매매, 리스, 렌트 선택 상태
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
@@ -20,8 +20,8 @@ const CarManagement = () => {
         // 여기서 추가적으로 양식 데이터를 처리할 수 있습니다.
     };
 
-    const handleSaleChange = () => {
-        setIsSaleChecked(!isSaleChecked); // 매매 체크박스 상태 토글
+    const handleSaleTypeChange = (type) => {
+        setSaleType(type); // 선택한 매매, 리스, 렌트 상태로 변경
     };
 
     return (
@@ -86,11 +86,8 @@ const CarManagement = () => {
                                 <span className="vehicle-model">올뉴K3</span> {/* 차량 모델 */}
                             </div>
                         </div>
-
-                        {/* 더 많은 차량 리스트 */}
                     </div>
 
-                    {/* 차량 정기 검사 섹션 */}
                     {/* 차량 정기 검사 섹션 */}
                     <div className="inspection-section">
                         <p><b>차량 정기 검사</b></p>
@@ -121,7 +118,6 @@ const CarManagement = () => {
                             </div>
                         </div>
                     </div>
-
 
                     <div className="year-selector">
                         <select>
@@ -175,37 +171,39 @@ const CarManagement = () => {
                                 <input 
                                     type="checkbox" 
                                     value="매매" 
-                                    checked={isSaleChecked} 
-                                    onChange={handleSaleChange} 
+                                    checked={saleType === '매매'} 
+                                    onChange={() => handleSaleTypeChange('매매')} 
                                 /> 매매
                             </label>
                             <label>
                                 <input 
                                     type="checkbox" 
                                     value="리스" 
-                                    onChange={handleSaleChange} 
+                                    checked={saleType === '리스'} 
+                                    onChange={() => handleSaleTypeChange('리스')} 
                                 /> 리스
                             </label>
                             <label>
                                 <input 
                                     type="checkbox" 
                                     value="렌트" 
-                                    onChange={handleSaleChange} 
+                                    checked={saleType === '렌트'} 
+                                    onChange={() => handleSaleTypeChange('렌트')} 
                                 /> 렌트
                             </label>
                         </div>
                     </div>
                     <div className="form-group">
                         <label>선수금:</label>
-                        <input type="number" disabled={isSaleChecked} />
+                        <input type="number" disabled={saleType !== '매매'} />
                     </div>
                     <div className="form-group">
                         <label>보증금:</label>
-                        <input type="number" disabled={isSaleChecked} />
+                        <input type="number" disabled={saleType !== '매매'} />
                     </div>
                     <div className="form-group">
                         <label>만기일:</label>
-                        <input type="date" disabled={isSaleChecked} />
+                        <input type="date" disabled={saleType !== '매매'} />
                     </div>
                     <button className="submit-button" onClick={handleSubmit}>확인</button> {/* 확인 버튼 */}
                 </div>

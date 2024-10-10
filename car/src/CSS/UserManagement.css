@@ -1,22 +1,19 @@
 .usermanagement-container {
-    width: 85%;
+    width: 95%;
     height: 100vh;
     display: flex;
     justify-content: flex-start; /* 왼쪽 정렬 */
     overflow: hidden; /* 이 컨테이너 안의 내용이 넘치면 숨김 */
+    margin-left: 80px;
 }
 
 .usermanagement-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 85%;
-    margin-left: 240px;
+    width: 95%;
     background-color: white;
     position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
   }
 
 .usermanagement-top-title {
@@ -32,7 +29,6 @@
   padding: 5px 10px; /* 버튼 안쪽 여백 */
   cursor: pointer; /* 커서 모양 변경 */
   border-radius: 4px; /* 버튼 모서리를 둥글게 */
-  margin-right: 20px;
   color: black;
 }
 
@@ -61,7 +57,6 @@
   cursor: pointer; /* 커서 모양 변경 */
   border-radius: 4px; /* 버튼 모서리를 둥글게 */
   margin-left: auto;
-  margin-right: 20px;
   color: black;
 }
 
@@ -75,7 +70,7 @@
 }
 
 .table {
-  width: 98%;
+  width: 100%;
   border-collapse: collapse;
 }
 
@@ -113,19 +108,18 @@
 }
 
 .usermanagement-a-box {
-  width: 99%; /* 100% 너비에서 250px을 뺌 */
+  width: 98%; /* 100% 너비에서 250px을 뺌 */
   height: calc(100vh - 100px); /* 100vh 높이에서 70px을 뺌 */
   display: flex;
   flex-direction: column; /* 세로 정렬 */
   margin-top: 70px;
+  margin-left: 15px;
 }
 
 .usermanagement-b-box {
   width: 100%;
   height: 5%; /* 부모 요소의 높이를 기준으로 100% */
   display: flex; /* Flexbox를 사용해 가로 정렬 */
-  padding: 5px;
-  margin-left: 10px;
 }
 
 .usermanagement-c-box {
@@ -133,20 +127,17 @@
   height: 85%;
   display: flex; /* Flexbox를 사용해 가로 정렬 */
   flex-direction: column; /* 세로 정렬 */
-  padding: 5px;
-  margin-left: 20px;
   margin-top: 10px;
 }
 
 .usermanagement-d-box {
-  width: 73%;
-  margin-left: 9px;
+  width: 70%;
   display: flex;
-  
 }
 
 .usermanagement-e-box {
   display: flex; /* Flexbox를 사용해 가로 정렬 */
+  margin-left: auto;
 }
 
 .modal-overlay {
