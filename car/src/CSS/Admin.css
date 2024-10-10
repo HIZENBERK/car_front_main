@@ -128,24 +128,11 @@
   align-self: flex-end;
 }
 
-.admin-bottom {
-  width: 100%;
-  height: 100%;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: white;
-  position: relative; /* 자식 요소가 이 요소를 기준으로 배치되도록 함 */
-  text-align: left; /* 텍스트를 왼쪽 정렬 */
-}
-
 .admin-bottom-title {
-  position: absolute; /* 부모 요소(.admin-bottom) 내에서 절대적 배치 */
-  top: 15px; /* 부모 요소의 상단에서 10px 떨어짐 */
-  left: 15px; /* 부모 요소의 왼쪽에서 10px 떨어짐 */
   font-size: 20px;
   font-weight: bold;
-  margin: 0;
+  margin-top: 5px;
+  margin-left: 5px;
 }
 
 .operation-status-top {
@@ -157,9 +144,9 @@
   font-size: 14px;
   border-radius: 4px;
   border: 1px solid #ccc;
-  margin-left: 110px;
-  margin-top: 10px;
   height: 30px; /* 원하는 높이로 설정 */
+  margin-left: 5px;
+  margin-top: 5px;
 }
 
 .month-select {
@@ -167,9 +154,9 @@
   font-size: 14px;
   border-radius: 4px;
   border: 1px solid #ccc;
-  margin-left: 10px;
-  margin-top: 10px;
   height: 30px; /* 원하는 높이로 설정 */
+  margin-left: 5px;
+  margin-top: 5px;
 }
 
 .custom-line {
@@ -177,7 +164,7 @@
   height: 1px; /* 선의 두께 */
   background-color: black; /* 선의 색상 */
   width: 100%; /* 선의 너비 */
-  max-width: 250px; /* 선의 최대 너비 */
+  max-width: 245px; /* 선의 최대 너비 */
   margin: 0; /* 기본 마진 제거 */
   padding: 0; /* 기본 패딩 제거 */
   margin-left: 20px;
@@ -187,12 +174,10 @@
   display: flex;
   justify-content: space-between; /* 자식 요소들 간의 간격을 동일하게 설정 */
 }
-
-.operation-number, 
-.operation-distance, 
-.operation-percentage, 
-.month-distance {
-  flex: 1; /* 각 요소가 동일한 너비를 차지하도록 설정 */
+ 
+.operation-percentage {
+  display: flex; /* Flexbox 사용 */
+  flex-direction: column; /* 세로 정렬 */
 }
 
 .operation-status-middle-title {
@@ -202,13 +187,12 @@
   justify-content: center; /* 수평 가운데 정렬 */
   margin: 0; /* 기본 마진 제거 */
   margin-top: 10px;
+  margin-right: 15px;
 }
 
 .operation-status-top-title {
   font-size: 16px;
   font-weight: bold;
-  margin-bottom: 10px;
-  margin-left: 400px;
 }
 
 .op-box {
@@ -218,6 +202,7 @@
   text-align: center; /* 텍스트 가운데 정렬 */
   margin: 0; /* 기본 마진 제거 */
   padding: 0; /* 기본 패딩 제거 */
+  margin-right: 15px;
 }
 
 .operation-number-count {
@@ -238,16 +223,13 @@
 .monthly-average {
   margin: 0; /* 기본 마진 제거 */
   padding: 0; /* 기본 패딩 제거 */
-  margin-top: 10px;
+  margin-top: 20px;
   margin-left: 20px;
 }
 
 .month-distance-title {
   font-size: 16px;
   font-weight: bold;
-  margin-bottom: 10px;
-  margin-left: auto;
-  margin-right: 50px;
 }
 
 .a-label-box {
@@ -256,7 +238,6 @@
   align-items: center; /* 수직 중앙 정렬 */
   height: 20px;
   padding: 5px;
-  margin-left: 10px;
 }
 
 .b-label-box {
@@ -265,7 +246,6 @@
   align-items: center; /* 수직 중앙 정렬 */
   height: 20px;
   padding: 5px;
-  margin-top: 10px;
 }
 
 .a-label{
@@ -300,12 +280,12 @@
 }
 
 .admin-a-box {
-  width: 100%; /* 100% 너비에서 250px을 뺌 */
+  width: 98%; /* 100% 너비에서 250px을 뺌 */
   height: calc(100vh - 70px); /* 100vh 높이에서 70px을 뺌 */
   display: flex;
   flex-direction: column; /* 세로 정렬 */
   margin-top: 60px;
-  margin-left: 15px;
+  margin-left: 20px;
 }
 
 .admin-b-box {
@@ -318,6 +298,47 @@
   width: 100%;
   height: 45%;
   margin-top: 10px;
+}
+
+.admin-bottom-a-box {
+  width: 100%;
+  height: 100%;
+  display: flex; /* Flexbox를 사용해 가로 정렬 */
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-bottom-b-box {
+  padding: 5px;
+  flex: 1; /* 각 요소가 동일한 너비를 차지하도록 설정 */
+}
+
+.admin-bottom-c-box {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.admin-bottom-d-box {
+  width: 100%;
+  height: 85%;
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  justify-content: flex-start;
+  text-align: left; /* 텍스트 가운데 정렬 */
+}
+
+.admin-bottom-e-box {
+  width: 100%;
+  height: 40%;
+  display: flex;
+  justify-content: center; /* 수평 가운데 정렬 */
+  flex-direction: column; /* 세로 정렬 */
+  align-items: center; /* 수직 가운데 정렬 */
+  text-align: center; /* 텍스트 가운데 정렬 */
 }
 
 .admin-d-box {

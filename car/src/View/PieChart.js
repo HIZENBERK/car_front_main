@@ -61,7 +61,7 @@ const PieChart = () => {
   };
 
   return (
-    <div style={{ width: '180px', height: '180px', marginTop: '10px', marginLeft: '45px' }}> {/* 원하는 크기로 조정 */}
+    <div style={{ width: '180px', height: '180px', marginTop: '25px', marginLeft: '45px' }}> {/* 원하는 크기로 조정 */}
       <Pie data={data} options={options} plugins={[ChartDataLabels]} />
     </div>
   );

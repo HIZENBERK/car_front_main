@@ -131,9 +131,11 @@ function Admin() {
 
         <div className="admin-c-box">
 
-          <div className="admin-bottom">
-            <div className="operation-status-box">
-              <div className="operation-status-top">
+          <div className="admin-bottom-a-box">
+
+            <div className="admin-bottom-b-box">
+
+              <div className="admin-bottom-c-box">
                 <p className="admin-bottom-title">운행 현황</p>
                 <select className="year-select" onChange={handleYearChange}>
                   <option value="2024">2024년</option>
@@ -155,44 +157,61 @@ function Admin() {
                   <option value="11">11월</option>
                   <option value="12">12월</option>
                 </select>
-                <p className="operation-status-top-title">{selectedMonth ? `${selectedMonth}월 운행비율` : '1월 운행비율'}</p>
-                <p className="month-distance-title">월간 운행비율</p>
-                <div className="b-label-box">
-                    <div className="a-label" />
-                    <p className="label-text">업무용</p>
-                    <div className="b-label" />
-                    <p className="label-text">출/퇴근용</p>
-                    <div className="c-label" />
-                    <p className="label-text">비업무용</p>
-                  </div>
               </div>
-              <div className="operation-status-middle">
-                <div className="operation-number">
+
+              <div className="admin-bottom-d-box">
+                
+                <div className="admin-bottom-e-box">
                   <p className="operation-status-middle-title">운행건수</p>
-                    <div className="op-box">
+                  <div className="op-box">
                      <p className="operation-number-count">1,000</p>
                      <p className="op-count"> 건</p>
-                    </div>
-                    <p className="daily-average">일 평균</p>
-                    <hr className="custom-line" />
-                    <p className="weekly-average">주 평균</p>
-                    <hr className="custom-line" />
-                    <p className="monthly-average">월 평균</p>
-                    <hr className="custom-line" />
+                  </div>
                 </div>
-                <div className="operation-distance">
+                <p className="daily-average">일 평균</p>
+                <hr className="custom-line" />
+                <p className="weekly-average">주 평균</p>
+                <hr className="custom-line" />
+                <p className="monthly-average">월 평균</p>
+                <hr className="custom-line" />
+
+              </div>
+
+            </div>
+
+            <div className="admin-bottom-b-box">
+
+              <div className="admin-bottom-c-box">
+
+              </div>
+
+              <div className="admin-bottom-d-box">
+
+                <div className="admin-bottom-e-box">
                   <p className="operation-status-middle-title">운행거리</p>
                   <div className="op-box">
                     <p className="operation-number-count">1,000</p>
                     <p className="op-count"> km</p>
                   </div>
-                  <p className="daily-average">일 평균</p>
-                  <hr className="custom-line" />
-                  <p className="weekly-average">주 평균</p>
-                  <hr className="custom-line" />
-                  <p className="monthly-average">월 평균</p>
-                  <hr className="custom-line" />
                 </div>
+                <p className="daily-average">일 평균</p>
+                <hr className="custom-line" />
+                <p className="weekly-average">주 평균</p>
+                <hr className="custom-line" />
+                <p className="monthly-average">월 평균</p>
+                <hr className="custom-line" />
+                
+              </div>
+
+            </div>
+
+            <div className="admin-bottom-b-box">
+
+              <div className="admin-bottom-c-box">
+               <p className="operation-status-top-title">{selectedMonth ? `${selectedMonth}월 운행비율` : '1월 운행비율'}</p>
+              </div>
+
+              <div className="admin-bottom-d-box">
                 <div className="operation-percentage">
                   <div className="a-label-box">
                     <div className="a-label" />
@@ -204,10 +223,29 @@ function Admin() {
                   </div>
                   <PieChart />
                 </div>
-                <div className="month-distance">
+              </div>
+
+            </div>
+
+            <div className="admin-bottom-b-box">
+
+              <div className="admin-bottom-c-box">
+                <p className="month-distance-title">월간 운행비율</p>
+                
+              </div>
+
+              <div className="admin-bottom-d-box">
+                <div className="operation-percentage">
+                  <div className="b-label-box">
+                    <div className="a-label" />
+                    <p className="label-text">업무용</p>
+                    <div className="b-label" />
+                    <p className="label-text">출/퇴근용</p>
+                    <div className="c-label" />
+                    <p className="label-text">비업무용</p>
+                  </div>
                   <BarChart />
                 </div>
-
               </div>
 
             </div>
