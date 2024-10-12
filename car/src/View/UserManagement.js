@@ -83,7 +83,7 @@ const UserManagement = () => {
             </thead>
             <tbody>
               {currentRows.map((row) => (
-                <tr key={row.id} onClick={() => handleRowClick(row)}>
+                <tr key={row.id} onClick={() => handleRowClick(row)} className="user-click-td">
                   <td><input type="checkbox" /></td>
                   <td>{row.Department}</td>
                   <td>{row.name}</td>
@@ -130,23 +130,30 @@ const UserManagement = () => {
           <div className="modal">
             <h2>사용자 정보</h2>
             <div className="modal-content">
-              <label>부서:</label>
-              <input type="text" placeholder={selectedRow.Department} />
-
-              <label>이름:</label>
-              <input type="text" placeholder={selectedRow.name} />
-
-              <label>사번:</label>
-              <input type="text" placeholder={selectedRow.num} />
-
-              <label>연락처:</label>
-              <input type="text" placeholder={selectedRow.contact} />
-
-              <label>권한:</label>
-              <input type="text" placeholder={selectedRow.power} />
-
-              <label>등록일:</label>
-              <input type="text" placeholder={selectedRow.date} />
+              <div className="user-label-box">
+                <label className="user-label-text">부서:</label>
+                <input type="text" className="user-label-input_two" placeholder={selectedRow.Department} />
+              </div>
+              <div className="user-label-box">
+                <label className="user-label-text">이름:</label>
+                <input type="text" className="user-label-input_two" placeholder={selectedRow.name} />
+              </div>
+              <div className="user-label-box">
+                <label className="user-label-text">사번:</label>
+                <input type="text" className="user-label-input_two" placeholder={selectedRow.num} />
+              </div>
+              <div className="user-label-box">
+                <label className="user-label-text">연락처:</label>
+                <input type="text" className="user-label-input-three" placeholder={selectedRow.contact} />
+              </div>
+              <div className="user-label-box">
+                <label className="user-label-text">권한:</label>
+                <input type="text" className="user-label-input_two" placeholder={selectedRow.power} />
+              </div>
+              <div className="user-label-box">
+                <label className="user-label-text">등록일:</label>
+                <input type="text" className="user-label-input-three" placeholder={selectedRow.date} />
+              </div>
             </div>
             
             <button className="update-btn">변경</button>

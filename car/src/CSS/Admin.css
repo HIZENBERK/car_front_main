@@ -107,6 +107,7 @@ th, td {
   display: flex;
   flex-direction: column;
   background-color: white;
+  z-index: 1;
 }
 .vehicle-status-box{
   width: 100%;
@@ -120,6 +121,7 @@ th, td {
   background-color: white;
   margin-left: 10px;
   margin-right: 10px;
+  z-index: 1;
 }
 
 .admin-middle-title {

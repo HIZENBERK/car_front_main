@@ -87,6 +87,10 @@
   text-align: center;
 }
 
+.user-click-td {
+  cursor: pointer;
+}
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -166,13 +170,39 @@
   gap: 10px;
 }
 
+.user-label-box {
+  display: flex;
+  padding: 10px;
+  margin-left: 15%;
+}
+
+.user-label-text {
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.user-label-input_two {
+  border: none; /* 전체 경계선을 제거 */
+  border-bottom: 1px solid black; /* 하단 경계선만 추가 */
+  padding: 5px; /* 입력 필드 내 여백 조정 */
+  margin-left: 7%;
+}
+
+.user-label-input-three {
+  border: none; /* 전체 경계선을 제거 */
+  border-bottom: 1px solid black; /* 하단 경계선만 추가 */
+  padding: 5px; /* 입력 필드 내 여백 조정 */
+  margin-left: 2%;
+}
+
+
 .close-btn {
   width: 100px;
   height: 36px;
   margin-top: 20px;
   background-color: red;
   color: white;
-  border: 1px solid red;
+  border: 1px solid #ccc;
   padding: 5px;
   cursor: pointer;
   border-radius: 50px;
