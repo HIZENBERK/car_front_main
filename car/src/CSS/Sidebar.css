@@ -56,11 +56,15 @@
   padding: 10px 20px; /* 확장된 상태에서 더 넓은 패딩 적용 */
 }
 
+.menu-item:hover {
+  background-color: #EAEAEA;
+}
+
 .menu-item.selected {
   background-color: #ddd;
   font-weight: bold;
 }
 
 .settings-menu {
-  margin-top: 150px;
+  margin-top: 35vh;
 }

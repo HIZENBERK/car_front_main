@@ -61,6 +61,7 @@ function Signup() {
       <form className="signup-form">
         <div className="form-group">
           <input type="text"
+                 className="input-field"
                  id="username"
                  name="username"
                  placeholder="아이디"
@@ -69,6 +70,7 @@ function Signup() {
         </div>
         <div className="form-group">
           <input type="password"
+                 className="input-field"
                  id="password"
                  name="password"
                  placeholder="비밀번호"
@@ -81,6 +83,7 @@ function Signup() {
         </div>
         <div className="form-group">
           <input type="text"
+                 className="input-field"
                  id="businessNumber"
                  name="businessNumber"
                  placeholder="사업자번호"onChange={(e) => setBusinessNumber(e.target.value)}
@@ -88,6 +91,7 @@ function Signup() {
         </div>
         <div className="form-group">
           <input type="text"
+                 className="input-field"
                  id="companyName"
                  name="companyName"
                  placeholder="업체명"
@@ -96,6 +100,7 @@ function Signup() {
         </div>
         <div className="form-group">
           <input type="text"
+                 className="input-field"
                  id="managerName"
                  name="managerName"
                  placeholder="담당자명"
@@ -104,6 +109,7 @@ function Signup() {
         </div>
         <div className="form-group">
           <input type="text"
+                 className="input-field"
                  id="department"
                  name="department"
                  placeholder="담당자 연락처"
@@ -112,6 +118,7 @@ function Signup() {
         </div>
         <div className="form-group">
           <input type="text"
+                 className="input-field"
                  id="managerDepartment"
                  name="managerDepartment"
                  placeholder="담당자 소속 부서"
@@ -120,6 +127,7 @@ function Signup() {
         </div>
         <div className="form-group">
           <input type="email"
+                 className="input-field"
                  id="email"
                  name="email"
                  placeholder="이메일"

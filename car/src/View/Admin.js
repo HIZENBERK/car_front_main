@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../CSS/Admin.css';
 import {
   Chart as ChartJS,
@@ -60,17 +61,18 @@ function Admin() {
   };
 
    // 공지사항 데이터를 배열로 정의 (제목과 작성 날짜)
-   const notices = [
+  const notices = [
     { title: '공지사항 1', date: '2024-09-30' },
     { title: '공지사항 2', date: '2024-10-01' },
     { title: '공지사항 3', date: '2024-10-02' },
-];
+  ];
+  const navigate = useNavigate(); // useNavigate 훅 호출
 
-// 클릭 핸들러 함수 (이벤트 로직은 비워둠)
-const handleNoticeClick = (notice) => {
-    console.log(`${notice.title} 클릭됨`);
-    // 여기에서 클릭 이벤트 처리 로직 추가 가능
-};
+  // 클릭 핸들러 함수
+  const handleNoticeClick = (notice) => {
+      console.log(`${notice.title} 클릭됨`);
+      navigate(`/notice/${notice.title}`); // 해당 공지 제목에 맞는 경로로 이동
+  };
 
   return (
     <div className="admin-container">
@@ -196,12 +198,11 @@ const handleNoticeClick = (notice) => {
                      <p className="op-count"> 건</p>
                   </div>
                 </div>
-                <p className="daily-average">일 평균</p>
-                <hr className="custom-line" />
-                <p className="weekly-average">주 평균</p>
-                <hr className="custom-line" />
-                <p className="monthly-average">월 평균</p>
-                <hr className="custom-line" />
+                <div className="user-average-box">
+                  <p className="daily-average">일 평균</p>
+                  <p className="weekly-average">주 평균</p>
+                  <p className="monthly-average">월 평균</p>
+                </div>
 
               </div>
 
@@ -222,12 +223,11 @@ const handleNoticeClick = (notice) => {
                     <p className="op-count"> km</p>
                   </div>
                 </div>
-                <p className="daily-average">일 평균</p>
-                <hr className="custom-line" />
-                <p className="weekly-average">주 평균</p>
-                <hr className="custom-line" />
-                <p className="monthly-average">월 평균</p>
-                <hr className="custom-line" />
+                <div className="user-average-box">
+                  <p className="daily-average">일 평균</p>
+                  <p className="weekly-average">주 평균</p>
+                  <p className="monthly-average">월 평균</p>
+                </div>
                 
               </div>
 

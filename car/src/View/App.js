@@ -9,6 +9,7 @@ import ExpenseManagement from './ExpenseManagement';
 import CarHistory from './CarHistory';
 import UserManagement from './UserManagement';
 import CarManagement from './CarManagement';
+import Notice from './Notice';
 import { useAuth ,AuthProvider } from '../Component/AuthContext';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/carhistory" element={<CarHistory />} />
         <Route path="/usermanagement" element={<UserManagement />} />
         <Route path="/carmanagement" element={<CarManagement />} />
+        <Route path="/notice" element={<Notice />} />
       </Routes>
     </div>
   );

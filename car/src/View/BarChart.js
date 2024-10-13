@@ -1,4 +1,3 @@
-// BarChart.js
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart, Tooltip } from 'chart.js';
@@ -8,7 +7,7 @@ Chart.register(Tooltip);
 
 const BarChart = () => {
   const rawData = {
-    labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'], // X축 레이블
+    labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'], // X축 레이블
     datasets: [
       {
         label: '업무용',
@@ -42,14 +41,11 @@ const BarChart = () => {
     });
 
     const percentageData = rawData.datasets.map((dataset) => ({
-        ...dataset,
-      data: dataset.data.map((value, index) => ((value / totalPerLabel[index]) * 100).toFixed(2)), // 각 값의 백분율 계산
+      ...dataset,
+      percentages: dataset.data.map((value, index) => ((value / totalPerLabel[index]) * 100).toFixed(2)), // 각 값의 백분율 계산
     }));
 
-    return {
-      labels: rawData.labels,
-      datasets: percentageData,
-    };
+    return percentageData;
   };
 
   const percentageData = calculatePercentage();
@@ -62,7 +58,6 @@ const BarChart = () => {
       },
       y: {
         beginAtZero: true,
-        max: 100, // y축 최대값 100으로 설정 (백분율 기준)
         stacked: true, // y축 스택 쌓기
       },
     },
@@ -72,15 +67,16 @@ const BarChart = () => {
       },
       title: {
         display: true,
-        text: '월간 운행비율 (백분율)',
+        text: '월간 운행비율',
       },
       tooltip: {
         callbacks: {
-          // 툴팁에 퍼센트 값을 그대로 표시
+          // 툴팁에 실제 값과 퍼센트 값을 함께 표시
           label: function (tooltipItem) {
-            const dataset = tooltipItem.dataset;
-            const value = dataset.data[tooltipItem.dataIndex]; // 선택된 값
-            return `${dataset.label}: ${value}%`; // 퍼센트 그대로 표시
+            const dataset = percentageData[tooltipItem.datasetIndex];
+            const value = rawData.datasets[tooltipItem.datasetIndex].data[tooltipItem.dataIndex]; // 실제 값
+            const percentage = dataset.percentages[tooltipItem.dataIndex]; // 백분율 값
+            return `${dataset.label}: ${value} ( ${percentage}% )`; // 실제 값과 퍼센트 모두 표시
           },
         },
       },
@@ -88,8 +84,8 @@ const BarChart = () => {
   };
 
   return (
-    <div style={{ width: '400px', height: '400px', marginTop: '10px', marginRight: '5px' }}>
-      <Bar data={percentageData} options={options} />
+    <div style={{ width: '400px', height: '400px', marginTop: '10px', marginRight: '10px' }}>
+      <Bar data={rawData} options={options} />
     </div>
   );
 };

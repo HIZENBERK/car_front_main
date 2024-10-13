@@ -6,55 +6,56 @@
     padding-right: 100px;
   }
   
-  .signup-form {
-    width: 300px;
-  }
-  
-  .input-field {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-  }
-  
-  .password-info {
-    font-size: 12px;
-    color: #666;
-    margin-top: 5px;
-    margin-right: 185px;
-  }
-  
-  .company-info {
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .signup-button {
-    width: 100%;
-    padding: 10px;
-    background-color: white;
-    color: black;
-    border: 1px solid black; /* 검은색 테두리 */
-    border-radius: 50px;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-  
-  .signup-button:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .terms {
-    font-size: 12px;
-    color: #666;
-    margin-top: 15px;
-    text-align: center;
-  }
-  
-  .blue-text {
-    color: #007BFF;
-    cursor: pointer;
-  }
-  
+.signup-form {
+  width: 50%;
+}
+
+.form-group {
+  width: 100% !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-field {
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.password-info {
+  font-size: 12px;
+  color: #666;
+}
+
+.company-info-label {
+  font-weight: bold;
+  margin-right: auto;
+}
+
+.signup-button {
+  width: 100%;
+  padding: 10px;
+  background-color: white;
+  color: black;
+  border: 1px solid black; /* 검은색 테두리 */
+  border-radius: 50px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.signup-button:hover {
+  background-color: #f0f0f0;
+}
+
+.terms {
+  font-size: 12px;
+  color: #666;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.blue-text {
+  color: #007BFF;
+  cursor: pointer;
+}
