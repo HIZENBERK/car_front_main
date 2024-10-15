@@ -106,8 +106,6 @@ function Login() {
             <input type="checkbox" id="autoLogin" name="autoLogin" />
             <label htmlFor="autoLogin">자동로그인</label>
           </div>
-          <Link to="/signup" className="signup-label">회원가입</Link>
-
           <button type="submit" className="login-button">로그인</button>
         </div>
       </form>
