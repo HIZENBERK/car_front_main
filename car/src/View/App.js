@@ -47,24 +47,23 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault(); // 기본 폼 제출 이벤트 방지
     setError(''); // 이전 에러 메시지 초기화
-    // console.log('로그인 정보:', "email_or_phone:" ,emailOrPhone,"\n",
-    //     "password:", password);
+    //console.log('로그인 정보:', "email_or_phone:" ,emailOrPhone,"\n", "password:", password);
     try {
-      const response = await axios.post('https://hizenberk.pythonanywhere.com/api/login/', {
+      const response = await axios.post('https://hizenberk.pythonanywhere.com/api/admin/login/', {
         "email_or_phone": emailOrPhone,
-        "password": password,
+        "password": password
       });
       setLogoutSuccess('');
       // 로그인 성공 시 처리 (예: 토큰 저장, 리다이렉트 등)
       console.log('데이터 체크:', response.data.refresh, "\n",
           response.data.access,"\n",
-          response.data.user_info.company_name,"\n",
+          response.data.user_info.company.name,"\n",
           response.data.user_info.department,"\n",
           response.data.user_info.name);
       login(
           response.data.refresh,
           response.data.access,
-          response.data.user_info.company_name,
+          response.data.user_info.company.name,
           response.data.user_info.department,
           response.data.user_info.name,
       )
