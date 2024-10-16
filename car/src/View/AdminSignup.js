@@ -12,6 +12,7 @@ function Signup() {
   const [managerContact, setManagerContact] = useState('');
   const [email, setEmail] = useState('');
   const [department, setDepartment] = useState('');
+  const [position, setPosition] = useState('');
 
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -22,27 +23,30 @@ function Signup() {
   const handRegister = async (e) => {
     e.preventDefault(); // 기본 폼 제출 이벤트 방지
     setError(''); // 이전 에러 메시지 초기화
-    console.log('로그인 정보:', "email : " , email, "\n",
-        "phone_number : ", managerContact,"\n",
-        "password2 :", password,"\n",
-        "device_uuid :", "abc123-def456-gh789" ,"\n",
-        "company_name :", companyName,"\n",
-        "business_registration_number :", businessNumber,"\n",
-        "department :", department,"\n",
-        "position:", "Developer","\n",
+    console.log('로그인 정보:', "email :",email,"\n",  
+        "phone_number :", managerContact,
+        "password :", password,
+        "password2 :", password,
+        "company :", {
+            "name": companyName,
+            "business_registration_number": businessNumber
+        },
+        "department :", department,
+        "position :", position,
         "name :", managerName
     )
     try {
-      const response = await axios.post('https://hizenberk.pythonanywhere.com/api/register/', {
-        "email" : email,
+      const response = await axios.post('https://hizenberk.pythonanywhere.com/api/admin/register/', {
+        "email":email,
         "phone_number": managerContact,
         "password": password,
         "password2": password,
-        "device_uuid": "abc123-def456-gh789" ,
-        "company_name": companyName,
-        "business_registration_number": businessNumber,
+        "company": {
+            "name": companyName,
+            "business_registration_number": businessNumber
+        },
         "department": department,
-        "position": "Developer",
+        "position": position,
         "name": managerName
       });
       // 로그인 성공 시 처리 (예: 토큰 저장, 리다이렉트 등)
@@ -83,11 +87,7 @@ function Signup() {
         </div>
         <div className="form-group">
           <input type="text"
-<<<<<<< .merge_file_A3Alr0
                  className="input-field"
-=======
-<<<<<<< Updated upstream
->>>>>>> .merge_file_xvESA6
                  id="businessNumber"
                  name="businessNumber"
                  placeholder="사업자번호"onChange={(e) => setBusinessNumber(e.target.value)}
@@ -95,13 +95,7 @@ function Signup() {
         </div>
         <div className="form-group">
           <input type="text"
-<<<<<<< .merge_file_A3Alr0
                  className="input-field"
-=======
-=======
-                 className="input-field"
->>>>>>> Stashed changes
->>>>>>> .merge_file_xvESA6
                  id="companyName"
                  name="companyName"
                  placeholder="업체명"
@@ -113,8 +107,17 @@ function Signup() {
                  className="input-field"
                  id="managerName"
                  name="managerName"
-                 placeholder="사용자명"
+                 placeholder="담당자명"
                  onChange={(e) => setManagerName(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <input type="text"
+                 className="input-field"
+                 id="position"
+                 name="position"
+                 placeholder="담당자 직급"
+                 onChange={(e) => setPosition(e.target.value)}
           />
         </div>
         <div className="form-group">
@@ -122,7 +125,7 @@ function Signup() {
                  className="input-field"
                  id="department"
                  name="department"
-                 placeholder="사용자 연락처"
+                 placeholder="담당자 연락처"
                  onChange={(e) => setManagerContact(e.target.value)}
           />
         </div>
@@ -131,7 +134,7 @@ function Signup() {
                  className="input-field"
                  id="managerDepartment"
                  name="managerDepartment"
-                 placeholder="시용자 소속 부서"
+                 placeholder="담당자 소속 부서"
                  onChange={(e) => setDepartment(e.target.value)}
           />
         </div>

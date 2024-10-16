@@ -9,13 +9,21 @@ import ExpenseManagement from './ExpenseManagement';
 import CarHistory from './CarHistory';
 import UserManagement from './UserManagement';
 import CarManagement from './CarManagement';
+<<<<<<< HEAD
 import Notice from './Notice';
+=======
+<<<<<<< Updated upstream
+=======
+import Notice from './Notice';
+import AdminSignup from './AdminSignup';
+>>>>>>> Stashed changes
+>>>>>>> feather/login
 import { useAuth ,AuthProvider } from '../Component/AuthContext';
 
 function App() {
   const location = useLocation(); // 현재 경로 확인
 
-  const showSidebar = location.pathname !== '/' && location.pathname !== '/signup'; // '/'와 '/signup'에서 사이드바 숨김
+  const showSidebar = location.pathname !== '/' && location.pathname !== '/adminsignup'; // '/'와 '/signup'에서 사이드바 숨김
 
   return (
     <div className="App">
@@ -28,7 +36,15 @@ function App() {
         <Route path="/carhistory" element={<CarHistory />} />
         <Route path="/usermanagement" element={<UserManagement />} />
         <Route path="/carmanagement" element={<CarManagement />} />
+<<<<<<< HEAD
         <Route path="/notice" element={<Notice />} />
+=======
+<<<<<<< Updated upstream
+=======
+        <Route path="/notice" element={<Notice />} />
+        <Route path="/adminsignup" element={<AdminSignup />} />
+>>>>>>> Stashed changes
+>>>>>>> feather/login
       </Routes>
     </div>
   );
@@ -102,6 +118,7 @@ function Login() {
           {error && <p style={{ color: 'red' }}>{error}</p>}
         </div>
         <div className="form-footer">
+        <Link to="/adminsignup" className="adminSignup-label">관리자 회원가입</Link>
           <div className="auto-login">
             <input type="checkbox" id="autoLogin" name="autoLogin" />
             <label htmlFor="autoLogin">자동로그인</label>
