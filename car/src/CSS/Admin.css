@@ -234,18 +234,26 @@ th, td {
   color: #6799FF;
 }
 
-.user-average-box {
-  margin-top: 10px;
+.daily-average-box,
+.weekly-average-box,
+.monthly-average-box {
+  width: 90%;
+  height: 18%;
+  display: flex;
+  border-bottom: 1px solid black;
+  padding: 5px;
+  margin-left: 20px;
 }
 
 .daily-average,
 .weekly-average,
 .monthly-average {
-  margin: 0; /* 기본 마진 제거 */
-  padding: 0; /* 기본 패딩 제거 */
-  margin-top: 20px;
-  margin-left: 20px;
-  border-bottom: 1px solid black;
+}
+
+.daily-average-text,
+.weekly-average-text,
+.monthly-average-text {
+  margin-left: auto;
 }
 
 .month-distance-title {

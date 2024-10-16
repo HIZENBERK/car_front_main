@@ -199,9 +199,18 @@ function Admin() {
                   </div>
                 </div>
                 <div className="user-average-box">
-                  <p className="daily-average">일 평균</p>
-                  <p className="weekly-average">주 평균</p>
-                  <p className="monthly-average">월 평균</p>
+                  <div className="daily-average-box">
+                    <p className="daily-average">일 평균</p>
+                    <p className="daily-average-text">30</p>
+                  </div>
+                  <div className="weekly-average-box">
+                    <p className="weekly-average">주 평균</p>
+                    <p className="weekly-average-text">60</p>
+                  </div>
+                  <div className="monthly-average-box">
+                    <p className="monthly-average">월 평균</p>
+                    <p className="monthly-average-text">280</p>
+                  </div>
                 </div>
 
               </div>
@@ -224,9 +233,18 @@ function Admin() {
                   </div>
                 </div>
                 <div className="user-average-box">
-                  <p className="daily-average">일 평균</p>
-                  <p className="weekly-average">주 평균</p>
-                  <p className="monthly-average">월 평균</p>
+                  <div className="daily-average-box">
+                    <p className="daily-average">일 평균</p>
+                    <p className="daily-average-text">30</p>
+                  </div>
+                  <div className="weekly-average-box">
+                    <p className="weekly-average">주 평균</p>
+                    <p className="weekly-average-text">60</p>
+                  </div>
+                  <div className="monthly-average-box">
+                    <p className="monthly-average">월 평균</p>
+                    <p className="monthly-average-text">280</p>
+                  </div>
                 </div>
                 
               </div>
