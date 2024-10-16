@@ -9,15 +9,9 @@ import ExpenseManagement from './ExpenseManagement';
 import CarHistory from './CarHistory';
 import UserManagement from './UserManagement';
 import CarManagement from './CarManagement';
-<<<<<<< HEAD
 import Notice from './Notice';
-=======
-<<<<<<< Updated upstream
-=======
-import Notice from './Notice';
+
 import AdminSignup from './AdminSignup';
->>>>>>> Stashed changes
->>>>>>> feather/login
 import { useAuth ,AuthProvider } from '../Component/AuthContext';
 
 function App() {
@@ -36,15 +30,8 @@ function App() {
         <Route path="/carhistory" element={<CarHistory />} />
         <Route path="/usermanagement" element={<UserManagement />} />
         <Route path="/carmanagement" element={<CarManagement />} />
-<<<<<<< HEAD
-        <Route path="/notice" element={<Notice />} />
-=======
-<<<<<<< Updated upstream
-=======
         <Route path="/notice" element={<Notice />} />
         <Route path="/adminsignup" element={<AdminSignup />} />
->>>>>>> Stashed changes
->>>>>>> feather/login
       </Routes>
     </div>
   );

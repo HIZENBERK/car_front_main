@@ -83,11 +83,7 @@ function Signup() {
         </div>
         <div className="form-group">
           <input type="text"
-<<<<<<< .merge_file_A3Alr0
                  className="input-field"
-=======
-<<<<<<< Updated upstream
->>>>>>> .merge_file_xvESA6
                  id="businessNumber"
                  name="businessNumber"
                  placeholder="사업자번호"onChange={(e) => setBusinessNumber(e.target.value)}
@@ -95,13 +91,7 @@ function Signup() {
         </div>
         <div className="form-group">
           <input type="text"
-<<<<<<< .merge_file_A3Alr0
                  className="input-field"
-=======
-=======
-                 className="input-field"
->>>>>>> Stashed changes
->>>>>>> .merge_file_xvESA6
                  id="companyName"
                  name="companyName"
                  placeholder="업체명"
