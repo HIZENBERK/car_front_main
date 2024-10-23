@@ -189,6 +189,74 @@ function Admin() {
               </div>
 
               <div className="admin-bottom-d-box">
+                
+                <div className="admin-bottom-e-box">
+                  <p className="operation-status-middle-title">운행건수</p>
+                  <div className="op-box">
+                     <p className="operation-number-count">1,000</p>
+                     <p className="op-count"> 건</p>
+                  </div>
+                </div>
+                <div className="user-average-box">
+                  <div className="daily-average-box">
+                    <p className="daily-average">일 평균</p>
+                    <p className="daily-average-text">30</p>
+                  </div>
+                  <div className="weekly-average-box">
+                    <p className="weekly-average">주 평균</p>
+                    <p className="weekly-average-text">60</p>
+                  </div>
+                  <div className="monthly-average-box">
+                    <p className="monthly-average">월 평균</p>
+                    <p className="monthly-average-text">280</p>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div className="admin-bottom-b-box">
+
+              <div className="admin-bottom-c-box">
+
+              </div>
+
+              <div className="admin-bottom-d-box">
+
+                <div className="admin-bottom-e-box">
+                  <p className="operation-status-middle-title">운행거리</p>
+                  <div className="op-box">
+                    <p className="operation-number-count">1,000</p>
+                    <p className="op-count"> km</p>
+                  </div>
+                </div>
+                <div className="user-average-box">
+                  <div className="daily-average-box">
+                    <p className="daily-average">일 평균</p>
+                    <p className="daily-average-text">30</p>
+                  </div>
+                  <div className="weekly-average-box">
+                    <p className="weekly-average">주 평균</p>
+                    <p className="weekly-average-text">60</p>
+                  </div>
+                  <div className="monthly-average-box">
+                    <p className="monthly-average">월 평균</p>
+                    <p className="monthly-average-text">280</p>
+                  </div>
+                </div>
+                
+              </div>
+
+            </div>
+
+            <div className="admin-bottom-b-box">
+
+              <div className="admin-bottom-c-box">
+               <p className="operation-status-top-title">{selectedMonth ? `${selectedMonth}월 운행비율` : '1월 운행비율'}</p>
+              </div>
+
+              <div className="admin-bottom-d-box">
                 <div className="operation-percentage">
                   <div className="a-label-box">
                     <div className="a-label" />
