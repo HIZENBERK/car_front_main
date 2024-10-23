@@ -17,7 +17,7 @@ function Signup() {
 
   // 로그인 페이지로 이동
   const navigateToLogin = () => {
-    navigate("/");
+    navigate("/usermanagement");
   };
 
   // 토큰이 만료되었는지 확인하는 함수
