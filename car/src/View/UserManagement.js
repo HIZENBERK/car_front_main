@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // useNavigate 훅 임포트
 import '../CSS/UserManagement.css';
 
 const UserManagement = () => {
+  const navigate = useNavigate(); // useNavigate 훅 사용
 
   const dummyData = [
     { id: 1, Department: '인사과', name: '박준석', num: '1', contact: '01012345678', power: '최강.', date: '11.15' },
@@ -9,48 +11,46 @@ const UserManagement = () => {
   ];
 
   // 상태 관리
-  const [rowsPerPage, setRowsPerPage] = useState(10);  // 페이지당 보여줄 행 수
-  const [currentPage, setCurrentPage] = useState(1);   // 현재 페이지
-  const [selectedRow, setSelectedRow] = useState(null); // 선택된 row 데이터
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 페이지당 데이터를 나누기
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = dummyData.slice(indexOfFirstRow, indexOfLastRow);
-
-  // 총 페이지 수 계산
   const totalPages = Math.ceil(dummyData.length / rowsPerPage);
 
-  // 페이지 변경 핸들러
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  // 모달 열기
   const handleRowClick = (row) => {
     setSelectedRow(row);
-    setIsModalOpen(true); // 모달 열기
+    setIsModalOpen(true);
   };
 
-  // 모달 닫기
   const closeModal = () => {
-    setIsModalOpen(false); // 모달 닫기
+    setIsModalOpen(false);
+  };
+
+  // 사용자 등록 버튼 클릭 시 signup.js로 이동
+  const handleUserRegistration = () => {
+    navigate('/signup'); // '/signup' 경로로 이동
   };
 
   return (
     <div className="usermanagement-container">
-
       <div className="usermanagement-top">
         <p className="usermanagement-top-title">사용자 관리</p>
       </div>
 
       <div className="usermanagement-a-box">
-
         <div className="usermanagement-b-box">
-
           <div className="usermanagement-d-box">
-            <button className="user-registration">사용자 등록</button>
+            <button className="user-registration" onClick={handleUserRegistration}>
+              사용자 등록
+            </button>
           </div>
 
           <div className="usermanagement-e-box">
@@ -65,7 +65,6 @@ const UserManagement = () => {
             <input type="text" className="search-box" placeholder="검색..." />
             <button className="user-check">조회</button>
           </div>
-
         </div>
 
         <div className="usermanagement-c-box">
@@ -95,6 +94,7 @@ const UserManagement = () => {
               ))}
             </tbody>
           </table>
+
           <div className="pagination">
             <button
               className="page-btn"
@@ -121,7 +121,6 @@ const UserManagement = () => {
             </button>
           </div>
         </div>
-
       </div>
 
       {/* 모달 */}
@@ -155,13 +154,12 @@ const UserManagement = () => {
                 <input type="text" className="user-label-input-three" placeholder={selectedRow.date} />
               </div>
             </div>
-            
+
             <button className="update-btn">변경</button>
             <button className="close-btn" onClick={closeModal}>닫기</button>
           </div>
         </div>
       )}
-
     </div>
   );
 };

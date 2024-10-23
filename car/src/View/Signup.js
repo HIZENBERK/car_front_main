@@ -9,7 +9,6 @@ function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phonenumber, setPhonenumber] = useState('');
-  const [companyName, setCompanyName] = useState('');
   const [department, setDepartment] = useState('');
   const [position, setPosition] = useState('');
   const [userName, setUserName] = useState('');
@@ -62,7 +61,6 @@ function Signup() {
         phone_number: phonenumber,
         password: password,
         password2: password,
-        company_name: companyName,
         department: department,
         position: position,
         name: userName
@@ -103,15 +101,6 @@ function Signup() {
         </div>
         <div className="form-group">
           <label className="company-info-label">회사정보</label>
-        </div>
-        <div className="form-group">
-          <input type="text"
-                 className="input-field"
-                 id="companyName"
-                 name="companyName"
-                 placeholder="업체명"
-                 onChange={(e) => setCompanyName(e.target.value)}
-          />
         </div>
         <div className="form-group">
           <input type="text"
