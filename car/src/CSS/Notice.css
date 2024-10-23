@@ -1,0 +1,179 @@
+.notice-management {
+    display: flex;
+    height: 100vh;
+    width: calc(100% - 250px); /* 전체 너비에서 200px 사이드바 너비를 뺀 값 */
+  }
+  
+  .sidebar {
+    width: 200px;
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+  
+  .company-name {
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .sidebar-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    text-align: left;
+    cursor: pointer;
+  }
+  
+  .sidebar-btn.active {
+    background-color: #ddd;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .filters {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .filter-btn {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    cursor: pointer;
+  }
+  
+  .download-btn {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .table-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .rows-per-page, .search-box {
+    padding: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .notice-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .notice-table th, .notice-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .page-btn {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 200px; /* 사이드바 너비를 고려한 left 값 */
+    width: calc(100% - 200px); /* 사이드바를 제외한 화면 너비 */
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 배경 투명도 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: white;
+    width: 100vw; /* 사이드바를 제외한 너비 */
+    height: 100vh; /* 모달 높이 조정 */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .close-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .modal-input, .modal-textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .modal-textarea {
+    flex: 1;  /* 높이를 자동으로 화면에 맞추기 위해 flex 사용 */
+    resize: none;  /* 사용자가 크기를 조정하지 못하게 */
+  }
+  
+  .modal-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .modal-delete-btn, .modal-save-btn, .modal-submit-btn {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
+  
+  .modal-delete-btn {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
+  
+  .right-buttons {
+    display: flex;
+    gap: 10px;  /* 수정과 등록 버튼 사이 간격 */
+  }
+  
+  .modal-save-btn, .modal-submit-btn {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
