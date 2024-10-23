@@ -1,6 +1,6 @@
 /* 기본 사이드바 스타일 */
 .sidebar {
-  width: 60px !important; /* 우선순위 강제 */
+  width: 200px !important; /* 우선순위 강제 */
   background-color: #f8f8f8 !important;
   padding: 20px 10px !important;
   position: fixed !important;
@@ -9,10 +9,6 @@
   height: 100% !important;
   z-index: 4 !important;
   transition: width 0.3s ease !important; /* 부드러운 애니메이션 */
-}
-
-.sidebar:hover {
-  width: 200px !important; /* 마우스 오버 시 확장 */
 }
 
 /* 회사명 숨기기 (사이드바가 좁을 때) */

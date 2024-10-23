@@ -1,23 +1,19 @@
 .admin-container {
-  width: 95%;
+  width: 85%;
   height: 100vh;
   display: flex;
   justify-content: flex-start; /* 왼쪽 정렬 */
   overflow: hidden; /* 이 컨테이너 안의 내용이 넘치면 숨김 */
-  margin-left: 80px;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .admin-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 95%;
+  width: 85%;
   background-color: white;
   position: fixed;
-  margin-left: 80px;
-  top: 0;
-  left: 0;
 }
 
 .office-name {
@@ -29,7 +25,7 @@
 .person-name {
   font-size: 18px; /* 글씨 크기 */
   color: #000; /* 글씨 색상 */
-  padding-right: 50px;
+  margin-right: 10px;
 }
 
 .admin-middle {

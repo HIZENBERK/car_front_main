@@ -1,8 +1,91 @@
 .car-management {
-  padding: 20px;
-  width: 100%; /* 전체 화면을 사용 */
-  max-width: 1200px; /* 최대 너비 설정 */
-  margin: 0 auto; /* 중앙 정렬 */
+  width: 85%; /* 전체 화면을 사용 */
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  flex-direction: column; /* 세로 정렬 */
+  margin-right: 10px;
+}
+
+.car-management-a-box {
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  width: 100%;
+  height: 100%;
+  border: 1px solid gray;
+}
+
+.car-management-b-box {
+  width: 100%;
+  height: 5%;
+  border: 1px solid green;
+}
+
+.car-management-c-box {
+  width: 100%;
+  height: 100%;
+  border: 1px solid red;
+}
+
+.car-management-d-box {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border: 1px solid blue;
+  overflow: hidden; /* 이 컨테이너 안의 내용이 넘치면 숨김 */
+}
+
+.car-management-e-box {
+  display: flex;
+  width: 30%;
+  height: 100%;
+  border: 1px solid yellow;
+  padding: 1px;
+}
+
+.car-management-f-box {
+  display: flex;
+  width: 70%;
+  height: 100%;
+  border: 1px solid pink;
+}
+
+.car-management-g-box {
+  width: 50%;
+  height: 100%;
+  border: 1px solid purple;
+  padding: 1px;
+}
+
+.car-management-h-box {
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  width: 50%;
+  height: 100%;
+  border: 1px solid magenta;
+}
+
+.car-management-i-box {
+  width: 100%;
+  height: 10%;
+  border: 1px solid orange;
+}
+
+.car-management-j-box {
+  width: 100%;
+  height: 90%;
+  border: 1px solid brown;
+}
+
+.car-management-top {
+  display: flex;
+  width: 100%;
+  border: 1px solid black;
+}
+
+.car-management-top-text {
+  font-weight: bold;
+  font-size: 18px; /* 글씨 크기 */
 }
 
 .tab-menu {
@@ -47,7 +130,6 @@
 .register-section {
   display: flex; /* 플렉스 박스 사용 */
   justify-content: flex-start; /* 좌측 정렬 */
-  margin: 20px 0; /* 상하 간격 */
 }
 
 .register-section .register-button {
@@ -139,10 +221,11 @@
 }
 
 .vehicle-list {
-  width: 25%; /* 너비를 늘리기 */
+  width: 100%; /* 너비를 늘리기 */
   border: 1px solid #ccc;
+  border-radius: 4px;
   padding: 10px;
-  background-color: #f9f9f9;
+  background-color: white;
 }
 
 .vehicle-list p {
@@ -224,7 +307,7 @@
 /* 차량 목록 테이블 스타일 */
 .car-table {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 10px;
   border-collapse: collapse;
 }
 
@@ -246,7 +329,7 @@
 
 /* 기타 스타일 */
 .register-section {
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   justify-content: flex-start;
   gap: 10px;
@@ -254,17 +337,17 @@
 
 .register-button,
 .search-button {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
+  padding: 5px 10px; /* 버튼 안쪽 여백 */
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
   cursor: pointer;
-  font-size: 16px;
+  border-radius: 4px; /* 버튼 모서리를 둥글게 */
 }
 
 .register-button:hover,
 .search-button:hover {
-  background-color: #0056b3;
+  background-color: #ddd;
 }
 
 .dropdown-input {
@@ -291,11 +374,11 @@
 
 /* 정비 이력 섹션 내 차량 정보 스타일 */
 .inspection-section {
-  margin-top: 20px; /* 구역 간격 */
+  height: 100%;
   padding: 20px; /* 패딩 추가로 넓게 */
   border: 1px solid #ccc; /* 테두리 추가 */
-  border-radius: 8px; /* 모서리 둥글게 */
-  background-color: #f9f9f9; /* 배경색 추가 */
+  border-radius: 4px; /* 모서리 둥글게 */
+  background-color: white; /* 배경색 추가 */
 }
 
 .inspection-details,

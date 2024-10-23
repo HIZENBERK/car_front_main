@@ -1,10 +1,10 @@
 .usermanagement-container {
-    width: 95%;
+    width: 85%;
     height: 100vh;
     display: flex;
     justify-content: flex-start; /* 왼쪽 정렬 */
     overflow: hidden; /* 이 컨테이너 안의 내용이 넘치면 숨김 */
-    margin-left: 80px;
+    margin-right: 5px;
 }
 
 .usermanagement-top {
