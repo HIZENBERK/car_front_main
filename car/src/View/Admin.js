@@ -23,7 +23,6 @@ ChartJS.register(
 function Admin() {
   const { authState } = useAuth(); // useAuth 훅에서 authState 가져오기
   const [userCount, setUserCount] = useState(0);
-  const [availableVehicles, setAvailableVehicles] = useState(0);
   const [selectedMonth, setSelectedMonth] = useState('');
   const navigate = useNavigate();  // 경로 이동을 위한 useNavigate 훅
 
@@ -207,6 +206,74 @@ function Admin() {
                   <option value="11">11월</option>
                   <option value="12">12월</option>
                 </select>
+              </div>
+
+              <div className="admin-bottom-d-box">
+                
+                <div className="admin-bottom-e-box">
+                  <p className="operation-status-middle-title">운행건수</p>
+                  <div className="op-box">
+                     <p className="operation-number-count">1,000</p>
+                     <p className="op-count"> 건</p>
+                  </div>
+                </div>
+                <div className="user-average-box">
+                  <div className="daily-average-box">
+                    <p className="daily-average">일 평균</p>
+                    <p className="daily-average-text">30</p>
+                  </div>
+                  <div className="weekly-average-box">
+                    <p className="weekly-average">주 평균</p>
+                    <p className="weekly-average-text">60</p>
+                  </div>
+                  <div className="monthly-average-box">
+                    <p className="monthly-average">월 평균</p>
+                    <p className="monthly-average-text">280</p>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div className="admin-bottom-b-box">
+
+              <div className="admin-bottom-c-box">
+
+              </div>
+
+              <div className="admin-bottom-d-box">
+
+                <div className="admin-bottom-e-box">
+                  <p className="operation-status-middle-title">운행거리</p>
+                  <div className="op-box">
+                    <p className="operation-number-count">1,000</p>
+                    <p className="op-count"> km</p>
+                  </div>
+                </div>
+                <div className="user-average-box">
+                  <div className="daily-average-box">
+                    <p className="daily-average">일 평균</p>
+                    <p className="daily-average-text">30</p>
+                  </div>
+                  <div className="weekly-average-box">
+                    <p className="weekly-average">주 평균</p>
+                    <p className="weekly-average-text">60</p>
+                  </div>
+                  <div className="monthly-average-box">
+                    <p className="monthly-average">월 평균</p>
+                    <p className="monthly-average-text">280</p>
+                  </div>
+                </div>
+                
+              </div>
+
+            </div>
+
+            <div className="admin-bottom-b-box">
+
+              <div className="admin-bottom-c-box">
+               <p className="operation-status-top-title">{selectedMonth ? `${selectedMonth}월 운행비율` : '1월 운행비율'}</p>
               </div>
 
               <div className="admin-bottom-d-box">

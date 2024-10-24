@@ -4,7 +4,7 @@
   display: flex;
   justify-content: flex-start; /* 왼쪽 정렬 */
   overflow: hidden; /* 이 컨테이너 안의 내용이 넘치면 숨김 */
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .admin-top {
@@ -19,7 +19,7 @@
 .office-name {
   font-size: 18px; /* 글씨 크기 */
   font-weight: bold; /* 회사명을 굵게 */
-  padding-left: 30px;
+  padding-left: 20px;
 }
 
 .person-name {
@@ -201,6 +201,7 @@ th, td {
   justify-content: center; /* 수평 가운데 정렬 */
   margin: 0; /* 기본 마진 제거 */
   margin-top: 10px;
+  margin-left: 10px;
 }
 
 .operation-status-top-title {
@@ -215,6 +216,7 @@ th, td {
   text-align: center; /* 텍스트 가운데 정렬 */
   margin: 0; /* 기본 마진 제거 */
   padding: 0; /* 기본 패딩 제거 */
+  margin-left: 10px;
 }
 
 .operation-number-count {
@@ -310,7 +312,7 @@ th, td {
   display: flex;
   flex-direction: column; /* 세로 정렬 */
   margin-top: 60px;
-  margin-left: 20px;
+  margin-left: 15px;
 }
 
 .admin-b-box {

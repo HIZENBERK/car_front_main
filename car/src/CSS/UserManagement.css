@@ -11,7 +11,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 95%;
+    width: 85%;
     background-color: white;
     position: fixed;
   }
@@ -19,7 +19,7 @@
 .usermanagement-top-title {
   font-size: 18px; /* 글씨 크기 */
   font-weight: bold; /* 회사명을 굵게 */
-  padding-left: 30px;
+  padding-left: 20px;
 }
 
 .user-registration {

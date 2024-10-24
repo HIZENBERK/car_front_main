@@ -41,10 +41,6 @@
   background-color: #f8f8f8;
   cursor: pointer;
   text-align: center;
-  white-space: nowrap; /* 텍스트가 한 줄로 유지되게 함 */
-  overflow: hidden;
-  text-overflow: ellipsis; /* 텍스트가 넘칠 때 ... 표시 */
-  transition: padding 0.3s ease; /* 패딩이 부드럽게 변경되도록 애니메이션 추가 */
 }
 
 /* 마우스 오버 시 메뉴 아이템의 패딩을 확장 */
