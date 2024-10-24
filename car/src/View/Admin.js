@@ -23,6 +23,7 @@ ChartJS.register(
 function Admin() {
   const { authState } = useAuth(); // useAuth 훅에서 authState 가져오기
   const [userCount, setUserCount] = useState(0);
+  const [availableVehicles, setAvailableVehicles] = useState(0);
   const [selectedMonth, setSelectedMonth] = useState('');
   const navigate = useNavigate();  // 경로 이동을 위한 useNavigate 훅
 
@@ -42,10 +43,30 @@ function Admin() {
     }
   };
 
+  const getVehicleInfo = async () => {
+    try {
+      const response = await axios.get('https://hizenberk.pythonanywhere.com/api/vehicles/', {
+        headers: {
+          Authorization: `Bearer ${authState.access}`
+        },
+      });
+  
+      // 차량 데이터를 가져와서 가용 차량 수를 계산
+      const vehicles = response.data.vehicle; // API 응답 구조에 맞춰 vehicle 객체 접근
+  
+      // 예시: 마지막 사용일이 없거나 주행거리가 일정 이하인 차량을 가용 차량으로 간주
+      const available = vehicles.filter(vehicle => !vehicle.last_used_date || vehicle.total_mileage < 100000);
+      
+      setAvailableVehicles(available.length); // 가용 차량 수 상태 업데이트
+    } catch (err) {
+      console.error('차량 정보 조회 실패:', err.response?.data);
+    }
+  };
   useEffect(() => {
     // 사용자가 로그인 상태일 때 데이터를 가져오기
     if (authState?.access) {
       getUserInfo();
+      getVehicleInfo();
     }
   }, [authState]);
 
@@ -110,7 +131,7 @@ function Admin() {
                 <div className="vehicle-status-box">
                   <p className="admin-middle-title">차량 현황</p>
                   <div className="admin-middle-content">
-                    <p className="admin-middle-text">가용 차량</p>
+                    <p className="admin-middle-text">가용 차량: {availableVehicles}대</p>
                     <p className="admin-middle-text">사용불가</p>
                     <p className="admin-middle-text">리스/렌트 만기 차량</p>
                   </div>
