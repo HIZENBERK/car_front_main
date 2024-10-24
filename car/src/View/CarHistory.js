@@ -1,18 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale'; // 한국어 설정
 import '../CSS/CarHistory.css';
+import api_key from '../map_key.json';
+import usemMap, {useMap} from '../Component/UseMap'
+
 
 const CarHistory = () => {
+  const [tmapKey, setTmapKey] = useState('');
+  const [markers, setMarkers] = useState([]);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [recordOption, setRecordOption] = useState('전체');
   const [useType, setUseType] = useState('전체');
-  const [distanceOption, setDistanceOption] = useState('전체'); // 거리 옵션 추가
+  const [distanceOption, setDistanceOption] = useState('전체');
+  const mapRef = useRef(null); // 지도를 저장할 ref
+  const [map, setMap] = useState(null); // Tmap 객체 관리
 
-  // 운행 기록 데이터 (기본 샘플 데이터)
   const carData = [
     {
       id: 1,
@@ -52,9 +58,62 @@ const CarHistory = () => {
     },
   ];
 
+  const coordinates = [
+    {longitude  : 37.3967, latitude : 126.9074},
+    {longitude  : 37.396708, latitude : 126.907916},
+    {longitude  : 37.396630, latitude : 126.908587},
+    {longitude  : 37.396204, latitude : 126.909412},
+    {longitude  : 37.396261, latitude : 126.911446}
+  ];
+
   // km를 숫자로 변환하는 함수
   const getKmValue = (distance) => {
     return parseFloat(distance.split(' km')[0]);
+  };
+
+  // JSON 파일에서 TMAP API 키 가져오기
+  useEffect(() => {
+    //console.log(api_key)
+    setTmapKey(api_key.TMAP_APP_KEY);
+  }, []);
+
+  // 지도 초기화 함수
+  // useEffect(() => {
+  //   if (tmapKey) {
+  //     console.log("키저장 완료")
+  //     const script = document.createElement('script');
+  //     script.src = "https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=${tmapKey}";
+  //     console.log("주소 전달 완료")
+  //     script.onload = () => {
+  //       const mapInstance = new window.Tmapv3.Map('map_div', {
+  //         center: new window.Tmapv2.LatLng(37.5652045, 126.98702028),
+  //         width: '100%',
+  //         height: '400px',
+  //         zoom: 17,
+  //       });
+  //       console.log("응답완료")
+  //       setMap(mapInstance);
+  //       console.log("지도 초기화 완료")
+  //     };
+  //     document.head.appendChild(script);
+  //   }
+  // }, [tmapKey]);
+
+  // 마커 추가 함수
+  const addMarkers = () => {
+    // if (!map) {
+    //   console.error('지도 객체가 아직 초기화되지 않았습니다.');
+    //   return;
+    // }
+    // markers.forEach((marker) => marker.setMap(null));
+    // const newMarkers = coordinates.map((coord) => {
+    //   return new window.Tmapv2.Marker({
+    //     position: new window.Tmapv2.LatLng(coord.latitude, coord.longitude),
+    //     map,
+    //   });
+    // });
+    // setMarkers(newMarkers);
+    //useMap();
   };
 
   // 운행 기록과 용도 및 거리 옵션에 따른 필터링 함수
@@ -66,7 +125,7 @@ const CarHistory = () => {
       if (useType !== '전체' && car.purpose !== useType) return false;
       // 거리 옵션 필터링
       const carKm = getKmValue(car.distance);
-      if (distanceOption === '3km 이상' && carKm < 3) return false;
+      //if (distanceOption === '3km 이상' && carKm < 3) return false;
       if (distanceOption === '3km 이하' && carKm > 3) return false;
       return true;
     });
@@ -165,13 +224,13 @@ const CarHistory = () => {
             checked={distanceOption === '전체'}
             onChange={handleDistanceOptionChange}
           /> 전체
-          <input
-            type="radio"
-            name="distance-option"
-            value="3km 이상"
-            checked={distanceOption === '3km 이상'}
-            onChange={handleDistanceOptionChange}
-          /> 3km 이상
+          {/*<input*/}
+          {/*  type="radio"*/}
+          {/*  name="distance-option"*/}
+          {/*  value="3km 이상"*/}
+          {/*  checked={distanceOption === '3km 이상'}*/}
+          {/*  onChange={handleDistanceOptionChange}*/}
+          {/*/> 3km 이상*/}
           <input
             type="radio"
             name="distance-option"
@@ -267,7 +326,7 @@ const CarHistory = () => {
               <td>{car.distance}</td>
               <td>출발: {car.start}<br />도착: {car.end}</td>
               <td>{car.totalDistance}</td>
-              <td><button>지도보기</button></td>
+              <td><button >지도보기</button></td>
               <td><button>관리자 생성</button></td>
             </tr>
           ))}
