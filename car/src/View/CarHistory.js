@@ -3,12 +3,10 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale'; // 한국어 설정
 import '../CSS/CarHistory.css';
-import api_key from '../map_key.json';
-import usemMap, {useMap} from '../Component/UseMap'
+import {useMap} from '../Component/UseMap'
 
 
 const CarHistory = () => {
-  const [tmapKey, setTmapKey] = useState('');
   const [markers, setMarkers] = useState([]);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [startDate, setStartDate] = useState(null);
@@ -71,11 +69,6 @@ const CarHistory = () => {
     return parseFloat(distance.split(' km')[0]);
   };
 
-  // JSON 파일에서 TMAP API 키 가져오기
-  useEffect(() => {
-    //console.log(api_key)
-    setTmapKey(api_key.TMAP_APP_KEY);
-  }, []);
 
   // 지도 초기화 함수
   // useEffect(() => {

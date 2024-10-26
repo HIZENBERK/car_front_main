@@ -8,6 +8,7 @@ function Signup() {
   const [password, setPassword] = useState('');
   const [businessNumber, setBusinessNumber] = useState('');
   const [companyName, setCompanyName] = useState('');
+  const [companyAddress, setCompanyAddress] = useState('');
   const [managerName, setManagerName] = useState('');
   const [managerContact, setManagerContact] = useState('');
   const [email, setEmail] = useState('');
@@ -23,17 +24,17 @@ function Signup() {
   const handRegister = async (e) => {
     e.preventDefault(); // 기본 폼 제출 이벤트 방지
     setError(''); // 이전 에러 메시지 초기화
-    console.log('로그인 정보:', "email :",email,"\n",  
-        "phone_number :", managerContact,
-        "password :", password,
-        "password2 :", password,
-        "company :", {
-            "name": companyName,
-            "business_registration_number": businessNumber
-        },
-        "department :", department,
-        "position :", position,
-        "name :", managerName
+    console.log('회원가입 정보:', "email :",email,"\n",
+        "email : " ,email,
+        "phone_number : " ,managerContact,
+        "password : " ,password,
+        "password2 : " ,password,
+        "company_name : " ,companyName,
+        "company_address : " ,companyAddress,
+        "business_registration_number : " ,businessNumber,
+        "department : " , department,
+        "position : " ,position,
+        "name : " , managerName
     )
     try {
       const response = await axios.post('https://hizenberk.pythonanywhere.com/api/admin/register/', {
@@ -41,10 +42,9 @@ function Signup() {
         "phone_number": managerContact,
         "password": password,
         "password2": password,
-        "company": {
-            "name": companyName,
-            "business_registration_number": businessNumber
-        },
+        "company_name": companyName,
+        "company_address": companyAddress,
+        "business_registration_number": businessNumber,
         "department": department,
         "position": position,
         "name": managerName
@@ -90,7 +90,7 @@ function Signup() {
                  className="input-field"
                  id="businessNumber"
                  name="businessNumber"
-                 placeholder="사업자번호"onChange={(e) => setBusinessNumber(e.target.value)}
+                 placeholder="사업자번호" onChange={(e) => setBusinessNumber(e.target.value)}
           />
         </div>
         <div className="form-group">
@@ -100,6 +100,15 @@ function Signup() {
                  name="companyName"
                  placeholder="업체명"
                  onChange={(e) => setCompanyName(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <input type="text"
+                 className="input-field"
+                 id="companyAddress"
+                 name="companyAddress"
+                 placeholder="업체주소"
+                 onChange={(e) => setCompanyAddress(e.target.value)}
           />
         </div>
         <div className="form-group">

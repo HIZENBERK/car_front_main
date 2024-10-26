@@ -1,1 +1,3 @@
 /car/node_modules/
+/car/src/map_key.json
+.env
