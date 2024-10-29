@@ -292,7 +292,7 @@ const CarHistory = () => {
           </tbody>
         </table>
       {/* 지도 모달 */}
-      <Modal isOpen={isMapOpen} onRequestClose={closeMapModal} ariaHideApp={false}>
+      <Modal isOpen={isMapOpen} onRequestClose={closeMapModal} shouldCloseOnOverlayClick={true} ariaHideApp={false}>
         <UseMap onClose={closeMapModal} isOpen={isMapOpen} />
       </Modal>
       </div>

@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const { Tmapv2 } = window;
 
-const UseMap = ({ onClose , isOpen }) => {
-    const mapRef = useRef(null); // 지도를 그릴 div에 대한 ref
+function UseMap({ onClose, isOpen }) {
+    const mapRef = useRef(); // 지도를 그릴 div에 대한 ref
     const [map, setMap] = useState(null); // Tmap 인스턴스 저장
+
     const initTmap = () => {
         if (mapRef.current && !map) {
             console.log("맵 객체 초기화 진행");
@@ -23,7 +24,6 @@ const UseMap = ({ onClose , isOpen }) => {
             initTmap();  // 모달이 열릴 때만 초기화
         } else if (map) {
             console.log("맵 객체 해제");
-            mapRef.current.destroy();  // 기존 맵 인스턴스 해제
             mapRef.current = null;
             setMap(null);
         }
@@ -37,6 +37,6 @@ const UseMap = ({ onClose , isOpen }) => {
             </button>
         </div>
     );
-};
+}
 
 export default UseMap;

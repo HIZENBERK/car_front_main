@@ -4,8 +4,8 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
 function Signup() {
-  const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
   const [businessNumber, setBusinessNumber] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [companyAddress, setCompanyAddress] = useState('');
@@ -28,7 +28,7 @@ function Signup() {
         "email : " ,email,
         "phone_number : " ,managerContact,
         "password : " ,password,
-        "password2 : " ,password,
+        "password2 : " ,password2,
         "company_name : " ,companyName,
         "company_address : " ,companyAddress,
         "business_registration_number : " ,businessNumber,
@@ -41,7 +41,7 @@ function Signup() {
         "email":email,
         "phone_number": managerContact,
         "password": password,
-        "password2": password,
+        "password2": password2,
         "company_name": companyName,
         "company_address": companyAddress,
         "business_registration_number": businessNumber,
@@ -64,12 +64,12 @@ function Signup() {
     <div className="signup-container">
       <form className="signup-form">
         <div className="form-group">
-          <input type="text"
+          <input type="password"
                  className="input-field"
-                 id="username"
-                 name="username"
-                 placeholder="아이디"
-                 onChange={(e) => setId(e.target.value)}
+                 id="password"
+                 name="password"
+                 placeholder="비밀번호"
+                 onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div className="form-group">
@@ -77,8 +77,8 @@ function Signup() {
                  className="input-field"
                  id="password"
                  name="password"
-                 placeholder="비밀번호"
-                 onChange={(e) => setPassword(e.target.value)}
+                 placeholder="비밀번호 확인"
+                 onChange={(e) => setPassword2(e.target.value)}
           />
           <p className="password-info">영문, 숫자 6자리 이상</p>
         </div>
