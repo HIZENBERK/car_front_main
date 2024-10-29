@@ -56,11 +56,11 @@ const CarHistory = () => {
   ];
 
   const coordinates = [
-    {longitude  : 37.3967, latitude : 126.9074},
-    {longitude  : 37.396708, latitude : 126.907916},
-    {longitude  : 37.396630, latitude : 126.908587},
-    {longitude  : 37.396204, latitude : 126.909412},
-    {longitude  : 37.396261, latitude : 126.911446}
+    {latitude: 37.3967, longitude: 126.9074},
+    {latitude: 37.396708, longitude: 126.907916},
+    {latitude: 37.396630, longitude: 126.908587},
+    {latitude: 37.396204, longitude: 126.909412},
+    {latitude: 37.396261, longitude: 126.911446}
   ];
 
   // km를 숫자로 변환하는 함수
@@ -105,6 +105,12 @@ const CarHistory = () => {
   const handleReset = () => {
     setStartDate(null);
     setEndDate(null);
+  };
+
+  const customModalStyles = {
+    content: {
+      marginLeft: '200px'// 왼쪽 마진 200px
+    },
   };
 
   return (
@@ -292,8 +298,14 @@ const CarHistory = () => {
           </tbody>
         </table>
       {/* 지도 모달 */}
-      <Modal isOpen={isMapOpen} onRequestClose={closeMapModal} shouldCloseOnOverlayClick={true} ariaHideApp={false}>
-        <UseMap onClose={closeMapModal} isOpen={isMapOpen} />
+      <Modal
+          isOpen={isMapOpen}
+          onRequestClose={closeMapModal}
+          shouldCloseOnOverlayClick={true}
+          ariaHideApp={false}
+          style={customModalStyles}
+      >
+        <UseMap onClose={closeMapModal} coord = {coordinates}/>
       </Modal>
       </div>
   );

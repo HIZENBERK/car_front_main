@@ -1,40 +1,88 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
 const { Tmapv2 } = window;
 
-function UseMap({ onClose, isOpen }) {
-    const mapRef = useRef(); // 지도를 그릴 div에 대한 ref
-    const [map, setMap] = useState(null); // Tmap 인스턴스 저장
+function UseMap({ onClose, coord }) {
 
+    //const [currentMarker, setCurrentMarker] = useState(null);
+    //const [mapInstance, setMapInstance] = useState(null);
+    //let markers = [];
+
+    // 평균 좌표 계산 함수
+    const calculateAverageCoordinate = (coords) => {
+        const total = coords.reduce(
+            (acc, { longitude, latitude }) => {
+                acc.longitude += longitude;
+                acc.latitude += latitude;
+                return acc;
+            },
+            { longitude: 0, latitude: 0 }
+        );
+
+        const count = coords.length;
+        return {
+            longitude: total.longitude / count,
+            latitude: total.latitude / count,
+        };
+    };
     const initTmap = () => {
-        if (mapRef.current && !map) {
-            console.log("맵 객체 초기화 진행");
-            const mapInstance = new Tmapv2.Map(mapRef.current, {
-                center: new Tmapv2.LatLng(37.566481622437934, 126.98502302169841),
+        const mapDiv = document.getElementById('map_div');
+        if (!mapDiv.firstChild) {
+            //console.log("맵 객체 초기화 진행");
+            const avgCoord = calculateAverageCoordinate(coord);
+            //console.log(avgCoord)
+            const map = new Tmapv2.Map("map_div", {
+                //center: new Tmapv2.LatLng(avgCoord.latitude, avgCoord.longitude),
+                center: new Tmapv2.LatLng(coord[1].latitude, coord[1].longitude),
                 width: "100%",
                 height: "400px",
                 zoom: 15,
             });
-            setMap(mapInstance);
+            //setMapInstance(map);
+            // 지도 객체 생성 후 마커를 등록하는 함수를 수행합니다.
+            addMarkersTooMuch(map, coord);
+
+            // const marker = new Tmapv2.Marker({
+            //     position: new Tmapv2.LatLng(avgCoord.latitude, avgCoord.longitude), //Marker의 중심좌표 설정.
+            //     map: map
+            // });
         }
+        // else {
+        //     console.log("초기화 필요없음")
+        // }
     };
 
-    useEffect(() => {
-        if (isOpen) {
-            initTmap();  // 모달이 열릴 때만 초기화
-        } else if (map) {
-            console.log("맵 객체 해제");
-            mapRef.current = null;
-            setMap(null);
+    // 100개의 마커를 추가하는 함수입니다.
+    const addMarkersTooMuch = (mapInst, coord) => {
+        //removeMarkers(coord);
+        for (let i = 0; i < coord.length; i++) {
+            //console.log(i)
+            const marker = new Tmapv2.Marker({
+                position: new Tmapv2.LatLng(coord[i].latitude, coord[i].longitude), //Marker의 중심좌표 설정.
+                map: mapInst
+            });
         }
-    }, [isOpen]);
+    }
+
+    // 모든 마커를 제거하는 함수입니다.
+    const removeMarkers = (coord) => {
+        // for (let i = 0; i < coord.length; i++) {
+        //     markers[i].set(null);
+        // }
+        //markers = [];
+    }
+
+
+    useEffect(() => {
+        initTmap();
+    }, []);
 
     return (
         <div className="map-container" id="map-container">
-            <div ref={mapRef} style={{ width: '80%', height: '400px' }} />
             <button onClick={onClose} className="close-button">
                 닫기
             </button>
+            <div id='map_div' style={{width: '100%', height: '400px'}}/>
         </div>
     );
 }
