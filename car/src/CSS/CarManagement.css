@@ -139,7 +139,7 @@
   border-collapse: collapse; /* 경계 중복 제거 */
 }
 
-.car-table th{
+.car-table th {
   background-color: #F6F6F6;
 }
 
@@ -201,7 +201,8 @@
   display: flex; /* 플렉스 박스 사용 */
   flex-direction: column; /* 세로 방향 정렬 */
   align-items: center; /* 가로 가운데 정렬 */
-  justify-content: center; /* 세로 가운데 정렬 */
+  justify-content: flex-start; /* 세로 상단 정렬 */
+  overflow-y: auto; /* 세로 스크롤 추가 */
 }
 
 .submit-button {
@@ -211,6 +212,7 @@
   padding: 10px; /* 패딩 */
   cursor: pointer; /* 포인터 커서 */
   margin-top: 10px; /* 상단 여백 */
+  align-self: center; /* 버튼 가운데 정렬 */
 }
 
 .form-group {
