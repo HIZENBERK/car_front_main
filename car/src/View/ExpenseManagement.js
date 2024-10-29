@@ -11,6 +11,8 @@ const ExpenseManagement = () => {
   // 상태 관리
   const [rowsPerPage, setRowsPerPage] = useState(10);  // 페이지당 보여줄 행 수
   const [currentPage, setCurrentPage] = useState(1);   // 현재 페이지
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
 
   // 페이지당 데이터를 나누기
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -29,6 +31,17 @@ const ExpenseManagement = () => {
   const handleRowsPerPageChange = (e) => {
     setRowsPerPage(parseInt(e.target.value));
     setCurrentPage(1);  // 페이지 수 초기화
+  };
+
+  // 모달 열기/닫기 핸들러
+  const openModal = (row) => {
+    setSelectedRow(row);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedRow(null);
+    setIsModalOpen(false);
   };
 
   return (
@@ -72,7 +85,7 @@ const ExpenseManagement = () => {
           </thead>
           <tbody>
             {currentRows.map((row) => (
-              <tr key={row.id}>
+              <tr key={row.id} onClick={() => openModal(row)}>
                 <td><input type="checkbox" /></td>
                 <td>{row.type}</td>
                 <td>{row.date}</td>
@@ -114,8 +127,31 @@ const ExpenseManagement = () => {
             &gt;
           </button>
         </div>
-      </main>
-    </div>
+  </main>
+  
+        {selectedRow && (
+        <div className="expensemanagement-modal-overlay" onClick={closeModal}>
+          <div className="expensemanagement-modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2>차량번호 ({selectedRow.vehicle})</h2>
+            <div className="expensemanagement-modal-fields">
+              <label>지출항목:</label> <input type="text" value={selectedRow.detail} readOnly />
+              <label>상태:</label> <input type="text" value={selectedRow.status} readOnly />
+              <label>지출일자:</label> <input type="text" value={selectedRow.date} readOnly />
+              <label>사용자:</label> <input type="text" value={selectedRow.user} readOnly />
+              <label>사용처:</label> <input type="text" value={selectedRow.detail} readOnly />
+              <label>결제수단:</label> <input type="text" value={selectedRow.payment} readOnly />
+              <label>사업자번호:</label> <input type="text" readOnly />
+              <label>주소:</label> <input type="text" readOnly />
+            </div>
+            <div className="expensemanagement-modal-receipt-box"></div>
+            <div className="expensemanagement-modal-buttons">
+              <button className="reject-btn">반려</button>
+              <button className="approve-btn">승인</button>
+            </div>
+          </div>
+        </div>
+      )}
+  </div>
   );
 };
 
