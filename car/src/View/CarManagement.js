@@ -1,66 +1,121 @@
-import React, { useState } from 'react';
-import '../CSS/CarManagement.css'; // 스타일 파일 가져오기
+import React, { useState, useEffect } from 'react';
+import '../CSS/CarManagement.css';
+import axios from 'axios';
+import { useAuth } from "../Component/AuthContext";
 
 const CarManagement = () => {
+    const { authState, refreshAccessToken } = useAuth();
     const [activeTab, setActiveTab] = useState('차량목록');
-    const [isFormVisible, setFormVisible] = useState(false); // 차량 등록 양식의 가시성 상태
-    const [saleType, setSaleType] = useState(''); // 매매, 리스, 렌트 선택 상태
-    const [selectedCar, setSelectedCar] = useState(null); // 선택된 차량 데이터
+    const [isFormVisible, setIsFormVisible] = useState(false);
+    const [vehicles, setVehicles] = useState([]);
+
+    // 차량 등록 필드 상태
+    const [vehicleCategory, setVehicleCategory] = useState('');
+    const [vehicleType, setVehicleType] = useState('');
+    const [carRegistrationNumber, setCarRegistrationNumber] = useState('');
+    const [licensePlateNumber, setLicensePlateNumber] = useState('');
+    const [purchaseDate, setPurchaseDate] = useState('');
+    const [purchasePrice, setPurchasePrice] = useState('');
+    const [totalMileage, setTotalMileage] = useState('');
+    const [chassisNumber, setChassisNumber] = useState('');
+    const [purchaseType, setPurchaseType] = useState('');
+    const [downPayment, setDownPayment] = useState('');
+    const [deposit, setDeposit] = useState('');
+    const [expirationDate, setExpirationDate] = useState('');
+    const [currentStatus, setCurrentStatus] = useState('');
+
+    // 차량 목록을 서버에서 가져오는 함수
+    const getVehicles = async () => {
+        try {
+            const response = await axios.get('https://hizenberk.pythonanywhere.com/api/vehicles/', {
+                headers: {
+                    Authorization: `Bearer ${authState.access}`
+                }
+            });
+            setVehicles(response.data.vehicles);
+        } catch (error) {
+            if (error.response?.data?.code === 'token_not_valid') {
+                const newAccessToken = await refreshAccessToken();
+                if (newAccessToken) {
+                    // 새 토큰으로 요청 재시도
+                    getVehicles();
+                }
+            } else {
+                console.error('차량 목록 조회 실패:', error);
+            }
+        }
+    };
+
+    useEffect(() => {
+        getVehicles();
+    }, []);
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
-        setFormVisible(false); // 탭 변경 시 양식 닫기
+        setIsFormVisible(false);
     };
 
     const handleRegisterClick = () => {
-        setFormVisible(true); // 등록 버튼 클릭 시 양식 보이기
+        setIsFormVisible(true);
     };
 
-    const handleSubmit = () => {
-        setFormVisible(false); // 확인 버튼 클릭 시 양식 닫기
-        // 여기서 추가적으로 양식 데이터를 처리할 수 있습니다.
-    };
+    const handleRegisterVehicle = async (e) => {
+        e.preventDefault();
 
-    const handleSaleTypeChange = (type) => {
-        setSaleType(type); // 선택한 매매, 리스, 렌트 상태로 변경
-    };
+        const vehicleData = {
+            vehicle_category: vehicleCategory,
+            vehicle_type: vehicleType,
+            car_registration_number: carRegistrationNumber,
+            license_plate_number: licensePlateNumber,
+            purchase_date: purchaseDate || null,
+            purchase_price: purchasePrice ? parseFloat(purchasePrice) : null,
+            total_mileage: totalMileage ? parseInt(totalMileage, 10) : 0,
+            chassis_number: chassisNumber,
+            purchase_type: purchaseType,
+            down_payment: downPayment ? parseFloat(downPayment) : null,
+            deposit: deposit ? parseFloat(deposit) : null,
+            expiration_date: expirationDate || null,
+            current_status: currentStatus
+        };
 
-    const car_list = [
-        { state: '리스', car: '제네시스', cumulative_distance: '123km', distance: '20km', date: '10-23' },
-        { state: '리스', car: '포터', cumulative_distance: '123km', distance: '20km', date: '10-23' },
-        { state: '리스', car: '람보르기니', cumulative_distance: '123km', distance: '20km', date: '10-23' },
-    ];
-
-    const car_data = [
-        { img: '이미지', num: '123가 4567', expiration_date: '10/12', cumulative_distance: '123km', engine: '1234', ac: '3333', break: '555', tire: '4213' },
-        { img: '이미지', num: '125나 8545' },
-        { img: '이미지', num: '254허 2554' },
-        { img: '이미지', num: '224경 4653' },
-    ];
-
-    // 차량 테이블의 행을 클릭했을 때
-    const handleCarTableClick = (car) => {
-        setSelectedCar(car); // 선택된 차량 데이터를 상태에 저장
+        try {
+            const response = await axios.post(
+                'https://hizenberk.pythonanywhere.com/api/vehicles/create/',
+                vehicleData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${authState.access}`
+                    }
+                }
+            );
+            console.log('차량 등록 성공:', response.data);
+            setIsFormVisible(false);
+            getVehicles();
+        } catch (error) {
+            if (error.response?.data?.code === 'token_not_valid') {
+                const newAccessToken = await refreshAccessToken();
+                if (newAccessToken) {
+                    // 새 토큰으로 등록 요청 재시도
+                    handleRegisterVehicle(e);
+                }
+            } else {
+                console.error('차량 등록 실패:', error.response?.data);
+            }
+        }
     };
 
     return (
         <div className="car-management">
-
-            <div className="car-management-top">
-                <p className="car-management-top-text">차량 관리</p>
-            </div>
-            
             <div className="car-management-a-box">
-
                 <div className="car-management-b-box">
                     <div className="tab-menu">
-                        <span 
+                        <span
                             className={`tab ${activeTab === '차량목록' ? 'active' : ''}`}
                             onClick={() => handleTabClick('차량목록')}
                         >
                             차량목록
                         </span>
-                        <span 
+                        <span
                             className={`tab ${activeTab === '정비이력' ? 'active' : ''}`}
                             onClick={() => handleTabClick('정비이력')}
                         >
@@ -71,30 +126,29 @@ const CarManagement = () => {
 
                 {activeTab === '차량목록' && (
                     <div className="car-management-c-box">
-                            <div className="register-section">
-                                <button className="register-button" onClick={handleRegisterClick}>차량등록</button>
-                                <input className="dropdown-input" type="text" placeholder="▼" />
-                                <button className="search-button">조회</button>
-                            </div>
-                    
+                        <div className="register-section">
+                            <button className="register-button" onClick={handleRegisterClick}>차량등록</button>
+                        </div>
+
+                        {/* 차량 목록 표시 */}
                         <table className="car-table">
                             <thead>
                                 <tr>
+                                    <th>차종</th>
+                                    <th>차량 번호</th>
+                                    <th>구매 날짜</th>
+                                    <th>총 주행 거리</th>
                                     <th>상태</th>
-                                    <th>차량</th>
-                                    <th>전체 누적거리</th>
-                                    <th>이번달 운행 거리</th>
-                                    <th>등록일</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {car_list.map((car_list, index) => (
-                                    <tr key={index} className="clickable-row">
-                                        <td>{car_list.state}</td>
-                                        <td>{car_list.car}</td>
-                                        <td>{car_list.cumulative_distance}</td>
-                                        <td>{car_list.distance}</td>
-                                        <td>{car_list.date}</td>
+                                {vehicles.map((vehicle) => (
+                                    <tr key={vehicle.id}>
+                                        <td>{vehicle.vehicle_type}</td>
+                                        <td>{vehicle.license_plate_number}</td>
+                                        <td>{vehicle.purchase_date}</td>
+                                        <td>{vehicle.total_mileage} km</td>
+                                        <td>{vehicle.current_status}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -102,27 +156,29 @@ const CarManagement = () => {
                     </div>
                 )}
 
-                {activeTab === '정비이력' && (
-                    <div className="car-management-d-box">
-                        <div className="car-management-e-box">
-                            <table className="car-management-car-table">
-                                <thead>
-                                    <tr>
-                                        <th className="car-management-car-table-car">차량</th>
-                                        <th className="car-management-car-table-car-num">차량 번호</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {car_data.map((car, index) => (
-                                        <tr key={index} onClick={() => handleCarTableClick(car)} className="car-management-clickable-row">
-                                            <td className="car-management-car-table-td-img">{car.img}</td>
-                                            <td className="car-management-car-table-td-num">{car.num}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                {isFormVisible && (
+                    <form className="registration-form" onSubmit={handleRegisterVehicle}>
+                        <div className="form-group">
+                            <label>차량 카테고리</label>
+                            <input
+                                type="text"
+                                value={vehicleCategory}
+                                onChange={(e) => setVehicleCategory(e.target.value)}
+                                placeholder="차량 카테고리를 입력하세요"
+                            />
                         </div>
-
+                        <div className="form-group">
+                            <label>차종</label>
+                            <input type="text" value={vehicleType} onChange={(e) => setVehicleType(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label>자동차 등록번호</label>
+                            <input type="text" value={carRegistrationNumber} onChange={(e) => setCarRegistrationNumber(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label>차량 번호</label>
+                            <input type="text" value={licensePlateNumber} onChange={(e) => setLicensePlateNumber(e.target.value)} />
+                        </div>
                         <div className="car-management-f-box">
                             {/* 선택된 차량 데이터 표시 */}
                             {selectedCar ? (
@@ -150,72 +206,56 @@ const CarManagement = () => {
                                 <p>차량을 선택하세요.</p>
                             )}
                         </div>
-
-                    </div>
-                )}
-
-            </div>
-            
-            {/* 차량 등록 양식 */}
-            {isFormVisible && (
-                <div className="registration-form active">
-                    <div className="form-group">
-                        <label>등록일:</label>
-                        <input type="date" defaultValue={new Date().toISOString().split("T")[0]} />
-                    </div>
-                    <div className="form-group">
-                        <label>차량 등록번호:</label>
-                        <input type="text" />
-                    </div>
-                    <div className="form-group">
-                        <label>차대번호:</label>
-                        <input type="text" />
-                    </div>
-                    <div className="form-group">
-                        <label>유형:</label>
-                        <div className="checkbox-group">
-                            <label>
-                                <input 
-                                    type="checkbox" 
-                                    value="매매" 
-                                    checked={saleType === '매매'} 
-                                    onChange={() => handleSaleTypeChange('매매')} 
-                                /> 매매
-                            </label>
-                            <label>
-                                <input 
-                                    type="checkbox" 
-                                    value="리스" 
-                                    checked={saleType === '리스'} 
-                                    onChange={() => handleSaleTypeChange('리스')} 
-                                /> 리스
-                            </label>
-                            <label>
-                                <input 
-                                    type="checkbox" 
-                                    value="렌트" 
-                                    checked={saleType === '렌트'} 
-                                    onChange={() => handleSaleTypeChange('렌트')} 
-                                /> 렌트
-                            </label>
+                        <div className="form-group">
+                            <label>구매 날짜</label>
+                            <input type="date" value={purchaseDate} onChange={(e) => setPurchaseDate(e.target.value)} />
                         </div>
-                    </div>
-                    <div className="form-group">
-                        <label>선수금:</label>
-                        <input type="number" disabled={saleType !== '매매'} />
-                    </div>
-                    <div className="form-group">
-                        <label>보증금:</label>
-                        <input type="number" disabled={saleType !== '매매'} />
-                    </div>
-                    <div className="form-group">
-                        <label>만기일:</label>
-                        <input type="date" disabled={saleType !== '매매'} />
-                    </div>
-                    <button className="submit-button" onClick={handleSubmit}>확인</button> {/* 확인 버튼 */}
-                </div>
-            )}
-            
+                        <div className="form-group">
+                            <label>구매 가격</label>
+                            <input type="number" value={purchasePrice} onChange={(e) => setPurchasePrice(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label>총 주행 거리</label>
+                            <input type="number" value={totalMileage} onChange={(e) => setTotalMileage(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label>차대 번호</label>
+                            <input type="text" value={chassisNumber} onChange={(e) => setChassisNumber(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label>구매 유형</label>
+                            <select value={purchaseType} onChange={(e) => setPurchaseType(e.target.value)}>
+                                <option value="">선택</option>
+                                <option value="매매">매매</option>
+                                <option value="리스">리스</option>
+                                <option value="렌트">렌트</option>
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label>선수금</label>
+                            <input type="number" value={downPayment} onChange={(e) => setDownPayment(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label>보증금</label>
+                            <input type="number" value={deposit} onChange={(e) => setDeposit(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label>만기일</label>
+                            <input type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
+                        </div>
+                        <div className="form-group">
+                            <label>차량 현재 상황</label>
+                            <select value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)}>
+                                <option value="">선택</option>
+                                <option value="가용차량">가용차량</option>
+                                <option value="사용불가">사용불가</option>
+                                <option value="삭제">삭제</option>
+                            </select>
+                        </div>
+                        <button type="submit" className="submit-button">등록</button>
+                    </form>
+                )}
+            </div>
         </div>
     );
 };

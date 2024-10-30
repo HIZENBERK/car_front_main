@@ -26,7 +26,7 @@ function Admin() {
   const [selectedMonth, setSelectedMonth] = useState('');
   const [availableVehicles,  setAvailableVehicles] = useState('');
   const navigate = useNavigate();  // 경로 이동을 위한 useNavigate 훅
-
+  const [availableVehicles, setAvailableVehicles] = useState('');
   const getUserInfo = async () => {
     try {
       const response = await axios.get('https://hizenberk.pythonanywhere.com/api/users/', {
