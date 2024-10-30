@@ -124,36 +124,31 @@ const CarManagement = () => {
                         </div>
 
                         <div className="car-management-f-box">
-
-                            <div className="car-management-g-box">
-                                {/* 선택된 차량 데이터 표시 */}
-                                {selectedCar ? (
-                                    <div className="regular-vehicle-inspection">
-                                        <p>선택된 차량 번호: {selectedCar.num}</p>
-                                        <p>정기검사 만료일: {selectedCar.expiration_date}</p>
-                                        <p>누적 주행거리: {selectedCar.cumulative_distance}</p>
-                                        <p>엔진오일: {selectedCar.engine}</p>
-                                        <p>에어컨: {selectedCar.ac}</p>
-                                        <p>브레이크: {selectedCar.break}</p>
-                                        <p>타이어: {selectedCar.tire}</p>
+                            {/* 선택된 차량 데이터 표시 */}
+                            {selectedCar ? (
+                                <>
+                                    <div className="car-management-g-box">
+                                        <div className="car-management-g-box-top">
+                                            <p className="car-management-g-box-top-text">차량 정기 검사</p>
+                                        </div>
+                                        <div className="regular-vehicle-inspection">
+                                            <p>선택된 차량 번호: {selectedCar.num}</p>
+                                            <p>정기검사 만료일: {selectedCar.expiration_date}</p>
+                                            <p>누적 주행거리: {selectedCar.cumulative_distance}</p>
+                                            <p>엔진오일: {selectedCar.engine}</p>
+                                            <p>에어컨: {selectedCar.ac}</p>
+                                            <p>브레이크: {selectedCar.break}</p>
+                                            <p>타이어: {selectedCar.tire}</p>
+                                        </div>
                                     </div>
-                                ) : (
-                                    <p>차량을 선택하세요.</p>
-                                )}
-                            </div>
-
-                            <div className="car-management-h-box">
-
-                                <div className="car-management-i-box">
-                                    {/* 추가적으로 원하는 내용 여기에 표시 */}
-                                </div>
-
-                                <div className="car-management-j-box">
-                                    {/* 추가적으로 원하는 내용 여기에 표시 */}
-                                </div>
-
-                            </div>
-
+                                    <div className="car-management-h-box">
+                                        <div className="car-management-i-box"></div>
+                                        <div className="car-management-j-box"></div>
+                                    </div>
+                                </>
+                            ) : (
+                                <p>차량을 선택하세요.</p>
+                            )}
                         </div>
 
                     </div>

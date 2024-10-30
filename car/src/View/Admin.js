@@ -24,6 +24,7 @@ function Admin() {
   const { authState } = useAuth(); // useAuth 훅에서 authState 가져오기
   const [userCount, setUserCount] = useState(0);
   const [selectedMonth, setSelectedMonth] = useState('');
+  const [availableVehicles,  setAvailableVehicles] = useState('');
   const navigate = useNavigate();  // 경로 이동을 위한 useNavigate 훅
 
   const getUserInfo = async () => {

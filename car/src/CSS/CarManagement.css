@@ -187,6 +187,19 @@
   background-color: #f0f0f0; /* 마우스 오버 시 배경색 변경 */
 }
 
+.car-management-g-box-top {
+  width: 100%;
+  height: 5%;
+  border: 1px solid green;
+  display: flex;
+  justify-content: flex-start; /* 좌측 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+}
+
+.car-management-g-box-top-text {
+  font-weight: bold;
+}
+
 /* 차량 등록 양식 스타일 */
 .registration-form {
   position: fixed; /* 화면을 덮도록 설정 */
