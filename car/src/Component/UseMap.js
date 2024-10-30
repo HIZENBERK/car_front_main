@@ -32,10 +32,10 @@ function UseMap({ onClose, coord }) {
             const avgCoord = calculateAverageCoordinate(coord);
             //console.log(avgCoord)
             const map = new Tmapv2.Map("map_div", {
-                //center: new Tmapv2.LatLng(avgCoord.latitude, avgCoord.longitude),
-                center: new Tmapv2.LatLng(coord[1].latitude, coord[1].longitude),
+                center: new Tmapv2.LatLng(avgCoord.latitude, avgCoord.longitude),
+                //center: new Tmapv2.LatLng(coord[1].latitude, coord[1].longitude),
                 width: "100%",
-                height: "400px",
+                height: "550px",
                 zoom: 15,
             });
             //setMapInstance(map);
@@ -82,7 +82,7 @@ function UseMap({ onClose, coord }) {
             <button onClick={onClose} className="close-button">
                 닫기
             </button>
-            <div id='map_div' style={{width: '100%', height: '400px'}}/>
+            <div id='map_div' style={{width: '100%', height: '100%'}}/>
         </div>
     );
 }
