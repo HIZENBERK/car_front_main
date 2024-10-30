@@ -198,6 +198,26 @@
 
 .car-management-g-box-top-text {
   font-weight: bold;
+  font-size: 15px;
+}
+
+.car-management-g-box-middle-text-box {
+  width: 100%;
+  height: 10%;
+  border: 1px solid blue;
+  display: flex;
+  align-items: center; /* 세로 중앙 정렬 */
+}
+
+.car-management-g-box-middle-title {
+  font-weight: bold;
+  font-size: 14px;
+  padding-right: 20px;
+  padding-left: 30px;
+}
+
+.car-management-g-box-middle-text-distance {
+  padding-left: 18px;
 }
 
 /* 차량 등록 양식 스타일 */

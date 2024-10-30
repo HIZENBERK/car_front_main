@@ -104,8 +104,32 @@ const CarManagement = () => {
         }
     };
 
+    const [selectedCar, setSelectedCar] = useState(null); // 선택된 차량 데이터 상태
+
+    // 차량 목록 예시 데이터
+    const carDataList = [
+        { num: '123가 4567', expiration_date: '2023-12-31', cumulative_distance: '123,000 km', engine: '양호', ac: '정상', break: '정상', tire: '교체 필요' },
+        { num: '125나 8545', expiration_date: '2024-06-15', cumulative_distance: '87,000 km', engine: '교체 필요', ac: '정상', break: '정상', tire: '양호' },
+    ];
+    const car_data = [
+        { img: '이미지', num: '123가 4567', expiration_date: '10/12', cumulative_distance: '123km', engine: '1234', ac: '3333', break: '555', tire: '4213' },
+        { img: '이미지', num: '125나 8545' },
+        { img: '이미지', num: '254허 2554' },
+        { img: '이미지', num: '224경 4653' },
+    ];
+
+    // 차량 테이블의 행을 클릭했을 때
+    const handleCarTableClick = (car) => {
+        setSelectedCar(car); // 선택된 차량 데이터를 상태에 저장
+    };
+
     return (
         <div className="car-management">
+
+            <div className="car-management-top">
+                <p className="car-management-top-text">차량 관리</p>
+            </div>
+            
             <div className="car-management-a-box">
                 <div className="car-management-b-box">
                     <div className="tab-menu">
@@ -179,33 +203,6 @@ const CarManagement = () => {
                             <label>차량 번호</label>
                             <input type="text" value={licensePlateNumber} onChange={(e) => setLicensePlateNumber(e.target.value)} />
                         </div>
-                        <div className="car-management-f-box">
-                            {/* 선택된 차량 데이터 표시 */}
-                            {selectedCar ? (
-                                <>
-                                    <div className="car-management-g-box">
-                                        <div className="car-management-g-box-top">
-                                            <p className="car-management-g-box-top-text">차량 정기 검사</p>
-                                        </div>
-                                        <div className="regular-vehicle-inspection">
-                                            <p>선택된 차량 번호: {selectedCar.num}</p>
-                                            <p>정기검사 만료일: {selectedCar.expiration_date}</p>
-                                            <p>누적 주행거리: {selectedCar.cumulative_distance}</p>
-                                            <p>엔진오일: {selectedCar.engine}</p>
-                                            <p>에어컨: {selectedCar.ac}</p>
-                                            <p>브레이크: {selectedCar.break}</p>
-                                            <p>타이어: {selectedCar.tire}</p>
-                                        </div>
-                                    </div>
-                                    <div className="car-management-h-box">
-                                        <div className="car-management-i-box"></div>
-                                        <div className="car-management-j-box"></div>
-                                    </div>
-                                </>
-                            ) : (
-                                <p>차량을 선택하세요.</p>
-                            )}
-                        </div>
                         <div className="form-group">
                             <label>구매 날짜</label>
                             <input type="date" value={purchaseDate} onChange={(e) => setPurchaseDate(e.target.value)} />
@@ -223,16 +220,11 @@ const CarManagement = () => {
                             <input type="text" value={chassisNumber} onChange={(e) => setChassisNumber(e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label>구매 유형</label>
-                            <select value={purchaseType} onChange={(e) => setPurchaseType(e.target.value)}>
-                                <option value="">선택</option>
-                                <option value="매매">매매</option>
-                                <option value="리스">리스</option>
-                                <option value="렌트">렌트</option>
-                            </select>
+                            <label>구매 방법</label>
+                            <input type="text" value={purchaseType} onChange={(e) => setPurchaseType(e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label>선수금</label>
+                            <label>선납금</label>
                             <input type="number" value={downPayment} onChange={(e) => setDownPayment(e.target.value)} />
                         </div>
                         <div className="form-group">
@@ -240,21 +232,70 @@ const CarManagement = () => {
                             <input type="number" value={deposit} onChange={(e) => setDeposit(e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label>만기일</label>
+                            <label>유효 기간</label>
                             <input type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label>차량 현재 상황</label>
-                            <select value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)}>
-                                <option value="">선택</option>
-                                <option value="가용차량">가용차량</option>
-                                <option value="사용불가">사용불가</option>
-                                <option value="삭제">삭제</option>
-                            </select>
+                            <label>현재 상태</label>
+                            <input type="text" value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)} />
                         </div>
-                        <button type="submit" className="submit-button">등록</button>
+                        <button type="submit">등록하기</button>
                     </form>
                 )}
+
+                {activeTab === '정비이력' && (
+                    <div className="car-management-d-box">
+                        <div className="car-management-e-box">
+                            <table className="car-management-car-table">
+                                <thead>
+                                    <tr>
+                                        <th className="car-management-car-table-car">차량</th>
+                                        <th className="car-management-car-table-car-num">차량 번호</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {car_data.map((car, index) => (
+                                        <tr key={index} onClick={() => handleCarTableClick(car)} className="car-management-clickable-row">
+                                            <td className="car-management-car-table-td-img">{car.img}</td>
+                                            <td className="car-management-car-table-td-num">{car.num}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className="car-management-f-box">
+                            {/* 선택된 차량 데이터 표시 */}
+                            {selectedCar ? (
+                                <>
+                                    <div className="car-management-g-box">
+                                        <div className="car-management-g-box-top">
+                                            <p className="car-management-g-box-top-text">차량 정기 검사</p>
+                                        </div>
+                                            <div className="car-management-g-box-middle-text-box">
+                                                <p className="car-management-g-box-middle-title">정기검사 만료일</p>
+                                                <p className="car-management-g-box-middle-text">{selectedCar.expiration_date}</p>
+                                            </div>
+                                            <div className="car-management-g-box-middle-text-box">
+                                                <p className="car-management-g-box-middle-title">누적주행거리</p>
+                                                <p className="car-management-g-box-middle-text-distance">{selectedCar.cumulative_distance}</p>
+                                            </div>
+
+                                        <p className="car-management-g-box-top-text">소모품 현황</p>
+                                    </div>
+                                    <div className="car-management-h-box">
+                                        <div className="car-management-i-box"></div>
+                                        <div className="car-management-j-box"></div>
+                                    </div>
+                                </>
+                            ) : (
+                                <p>차량을 선택하세요.</p>
+                            )}
+                        </div>
+
+                    </div>
+                )}
+
             </div>
         </div>
     );
