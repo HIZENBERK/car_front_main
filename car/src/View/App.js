@@ -82,8 +82,8 @@ function Login() {
     <div className="login-container">
       <form className="login-form" onSubmit={handleLogin}>
         <div>
-          <p>프론트 버전 1.2.1 / 24.10.30</p>
-          <p>서버 버전 1.1.2 / 24.10.30</p>
+          <p>프론트 버전 0.2.2 / 24.10.31</p>
+          <p>서버 버전 0.1.3 / 24.10.31</p>
         </div>
         <div className="form-group">
           <input
