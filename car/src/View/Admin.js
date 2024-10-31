@@ -21,11 +21,14 @@ ChartJS.register(
 );
 
 function Admin() {
-  const { authState } = useAuth(); // useAuth 훅에서 authState 가져오기
+  const { authState } = useAuth();
   const [userCount, setUserCount] = useState(0);
-  const [selectedMonth, setSelectedMonth] = useState('');
-  const [availableVehicles,  setAvailableVehicles] = useState('');
-  const navigate = useNavigate();  // 경로 이동을 위한 useNavigate 훅
+  const [selectedMonth, setSelectedMonth] = useState(''); // selectedMonth 상태 추가
+  const [availableVehicles, setAvailableVehicles] = useState(0);
+  const [totalVehicles, setTotalVehicles] = useState(0);
+  const [notices, setNotices] = useState([]);
+  const navigate = useNavigate();
+  
   const getUserInfo = async () => {
     try {
       const response = await axios.get('https://hizenberk.pythonanywhere.com/api/users/', {
@@ -33,8 +36,6 @@ function Admin() {
           Authorization: `Bearer ${authState.access}` 
         },
       });
-
-      // is_admin이 false인 유저만 필터링하여 사용자 수 저장
       const nonAdmins = response.data.users.filter((user) => !user.is_admin);
       setUserCount(nonAdmins.length);
     } catch (err) {
@@ -49,23 +50,39 @@ function Admin() {
           Authorization: `Bearer ${authState.access}`
         },
       });
-  
-      // 차량 데이터를 가져와서 가용 차량 수를 계산
-      const vehicles = response.data.vehicle; // API 응답 구조에 맞춰 vehicle 객체 접근
-  
-      // 예시: 마지막 사용일이 없거나 주행거리가 일정 이하인 차량을 가용 차량으로 간주
-      const available = vehicles.filter(vehicle => !vehicle.last_used_date || vehicle.total_mileage < 100000);
-      
-      setAvailableVehicles(available.length); // 가용 차량 수 상태 업데이트
+      const vehicles = response.data.vehicles;
+
+      setTotalVehicles(vehicles.length);
+
+      const available = vehicles.filter(vehicle => vehicle.current_status === '가용차량');
+      setAvailableVehicles(available.length);
     } catch (err) {
       console.error('차량 정보 조회 실패:', err.response?.data);
     }
   };
+
+  const getNotices = async () => {
+    try {
+      const response = await axios.get('https://hizenberk.pythonanywhere.com/api/notices/all/', {
+        headers: {
+          Authorization: `Bearer ${authState.access}`
+        },
+      });
+      const fetchedNotices = response.data.notices.map((notice) => ({
+        title: notice.title,
+        date: notice.created_at,
+      }));
+      setNotices(fetchedNotices);
+    } catch (err) {
+      console.error('공지사항 조회 실패:', err.response?.data);
+    }
+  };
+
   useEffect(() => {
-    // 사용자가 로그인 상태일 때 데이터를 가져오기
     if (authState?.access) {
       getUserInfo();
       getVehicleInfo();
+      getNotices();
     }
   }, [authState]);
 
@@ -80,7 +97,7 @@ function Admin() {
 
   const handleMonthChange = (event) => {
     const selectedMonth = event.target.value;
-    setSelectedMonth(selectedMonth);  // 선택된 달을 상태로 업데이트
+    setSelectedMonth(selectedMonth);
     fetchDataForMonth(selectedMonth);
   };
 
@@ -88,20 +105,11 @@ function Admin() {
     console.log(`${month}월 데이터를 불러옵니다.`);
   };
 
-  // 공지사항 데이터를 배열로 정의 (제목과 작성 날짜)
-  const notices = [
-    { title: '공지사항 1', date: '2024-09-30' },
-    { title: '공지사항 2', date: '2024-10-01' },
-    { title: '공지사항 3', date: '2024-10-02' },
-  ];
-
-  // 공지사항 클릭 핸들러 함수
   const handleNoticeClick = (notice) => {
     console.log(`${notice.title} 클릭됨`);
-    navigate(`/notice/${notice.title}`);  // 공지사항 제목에 맞는 경로로 이동
+    navigate(`/notice/${notice.title}`);
   };
 
-  // authState가 아직 로딩 중일 때 로딩 메시지 표시
   if (!authState) {
     return <div>Loading...</div>;
   }
@@ -150,7 +158,7 @@ function Admin() {
               <div className="user-guide-box">
                 <p className="admin-middle-title">사용자 가이드</p>
                 <div className="user-guide-content">
-                  {/* 여기에 사용자 가이드 내용이 들어갑니다 */}
+                  {/* 사용자 가이드 내용이 들어갑니다 */}
                 </div>
               </div>
             </div>
@@ -209,106 +217,11 @@ function Admin() {
               </div>
 
               <div className="admin-bottom-d-box">
-                
-                <div className="admin-bottom-e-box">
-                  <p className="operation-status-middle-title">운행건수</p>
-                  <div className="op-box">
-                     <p className="operation-number-count">1,000</p>
-                     <p className="op-count"> 건</p>
-                  </div>
-                </div>
-                <div className="user-average-box">
-                  <div className="daily-average-box">
-                    <p className="daily-average">일 평균</p>
-                    <p className="daily-average-text">30</p>
-                  </div>
-                  <div className="weekly-average-box">
-                    <p className="weekly-average">주 평균</p>
-                    <p className="weekly-average-text">60</p>
-                  </div>
-                  <div className="monthly-average-box">
-                    <p className="monthly-average">월 평균</p>
-                    <p className="monthly-average-text">280</p>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-
-            <div className="admin-bottom-b-box">
-
-              <div className="admin-bottom-c-box">
-
-              </div>
-
-              <div className="admin-bottom-d-box">
-
-                <div className="admin-bottom-e-box">
-                  <p className="operation-status-middle-title">운행거리</p>
-                  <div className="op-box">
-                    <p className="operation-number-count">1,000</p>
-                    <p className="op-count"> km</p>
-                  </div>
-                </div>
-                <div className="user-average-box">
-                  <div className="daily-average-box">
-                    <p className="daily-average">일 평균</p>
-                    <p className="daily-average-text">30</p>
-                  </div>
-                  <div className="weekly-average-box">
-                    <p className="weekly-average">주 평균</p>
-                    <p className="weekly-average-text">60</p>
-                  </div>
-                  <div className="monthly-average-box">
-                    <p className="monthly-average">월 평균</p>
-                    <p className="monthly-average-text">280</p>
-                  </div>
-                </div>
-                
-              </div>
-
-            </div>
-
-            <div className="admin-bottom-b-box">
-
-              <div className="admin-bottom-c-box">
-               <p className="operation-status-top-title">{selectedMonth ? `${selectedMonth}월 운행비율` : '1월 운행비율'}</p>
-              </div>
-
-              <div className="admin-bottom-d-box">
-                <div className="operation-percentage">
-                  <div className="a-label-box">
-                    <div className="a-label" />
-                    <p className="label-text">업무용</p>
-                    <div className="b-label" />
-                    <p className="label-text">출/퇴근용</p>
-                    <div className="c-label" />
-                    <p className="label-text">비업무용</p>
-                  </div>
-                  <PieChart />
-                </div>
+                <PieChart />
               </div>
             </div>
-
             <div className="admin-bottom-b-box">
-              <div className="admin-bottom-c-box">
-                <p className="month-distance-title">월간 운행비율</p>
-              </div>
-
-              <div className="admin-bottom-d-box">
-                <div className="operation-percentage">
-                  <div className="b-label-box">
-                    <div className="a-label" />
-                    <p className="label-text">업무용</p>
-                    <div className="b-label" />
-                    <p className="label-text">출/퇴근용</p>
-                    <div className="c-label" />
-                    <p className="label-text">비업무용</p>
-                  </div>
-                  <BarChart />
-                </div>
-              </div>
+              <BarChart />
             </div>
           </div>
         </div>

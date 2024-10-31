@@ -180,7 +180,7 @@ const CarManagement = () => {
                     </div>
                 )}
 
-                {isFormVisible && (
+{isFormVisible && (
                     <form className="registration-form" onSubmit={handleRegisterVehicle}>
                         <div className="form-group">
                             <label>차량 카테고리</label>
@@ -220,11 +220,16 @@ const CarManagement = () => {
                             <input type="text" value={chassisNumber} onChange={(e) => setChassisNumber(e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label>구매 방법</label>
-                            <input type="text" value={purchaseType} onChange={(e) => setPurchaseType(e.target.value)} />
+                            <label>구매 유형</label>
+                            <select value={purchaseType} onChange={(e) => setPurchaseType(e.target.value)}>
+                                <option value="">선택</option>
+                                <option value="매매">매매</option>
+                                <option value="리스">리스</option>
+                                <option value="렌트">렌트</option>
+                            </select>
                         </div>
                         <div className="form-group">
-                            <label>선납금</label>
+                            <label>선수금</label>
                             <input type="number" value={downPayment} onChange={(e) => setDownPayment(e.target.value)} />
                         </div>
                         <div className="form-group">
@@ -232,14 +237,19 @@ const CarManagement = () => {
                             <input type="number" value={deposit} onChange={(e) => setDeposit(e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label>유효 기간</label>
+                            <label>만기일</label>
                             <input type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label>현재 상태</label>
-                            <input type="text" value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)} />
+                            <label>차량 현재 상황</label>
+                            <select value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)}>
+                                <option value="">선택</option>
+                                <option value="가용차량">가용차량</option>
+                                <option value="사용불가">사용불가</option>
+                                <option value="삭제">삭제</option>
+                            </select>
                         </div>
-                        <button type="submit">등록하기</button>
+                        <button type="submit" className="submit-button">등록</button>
                     </form>
                 )}
 

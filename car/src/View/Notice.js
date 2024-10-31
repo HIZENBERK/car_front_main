@@ -1,34 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import '../CSS/Notice.css';
+import { useAuth } from "../Component/AuthContext";
 
-const Modal = ({ isOpen, onClose }) => {
+const Modal = ({ isOpen, onClose, onSubmit, notice, isEdit }) => {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+
+  // 수정 모드일 때 공지사항의 제목과 내용을 초기화합니다.
+  useEffect(() => {
+    if (notice && isEdit) {
+      setTitle(notice.name);  // 선택된 공지사항의 제목 설정
+      setContent(notice.content);  // 선택된 공지사항의 내용 설정
+    }
+  }, [notice, isEdit]);
+
   if (!isOpen) return null;
 
   const handleSubmit = () => {
-    // 등록 처리 로직을 여기에 추가 (예: 서버로 데이터 전송)
-    onClose();  // 모달 창 닫기
+    onSubmit(title, content);
+    onClose(); // 모달 창 닫기
   };
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
         <div className="modal-header">
-          <h2>1</h2>
-          <h2>관리자</h2>
+          <h2>{isEdit ? "공지사항 수정" : "공지사항 생성"}</h2>
           <button onClick={onClose} className="close-btn">X</button>
         </div>
         <div className="modal-body">
           <label>제목</label>
-          <input type="text" className="modal-input" />
+          <input
+            type="text"
+            className="modal-input"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
           <label>내용</label>
-          <textarea className="modal-textarea"></textarea>
+          <textarea
+            className="modal-textarea"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          ></textarea>
         </div>
         <div className="modal-footer">
-          <button className="modal-delete-btn">삭제</button>
-          <div className="right-buttons">
-            <button className="modal-save-btn">수정</button>
-            <button className="modal-submit-btn" onClick={handleSubmit}>등록</button>
-          </div>
+          <button className="modal-submit-btn" onClick={handleSubmit}>
+            {isEdit ? "수정" : "등록"}
+          </button>
         </div>
       </div>
     </div>
@@ -36,33 +55,119 @@ const Modal = ({ isOpen, onClose }) => {
 };
 
 const Notice = () => {
-  // 더미 데이터
-  const dummyData = [
-    { id: 1, number: '1', name: '9.19', user: '승인', date: '2024/10/23' },
-    { id: 2, number: '2', name: '9.20', user: '승인', date: '2024/10/23' },
-  ];
+  const { authState } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [selectedNotice, setSelectedNotice] = useState(null);
+  const [notices, setNotices] = useState([]);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // 상태 관리
-  const [rowsPerPage, setRowsPerPage] = useState(10);  // 페이지당 보여줄 행 수
-  const [currentPage, setCurrentPage] = useState(1);   // 현재 페이지
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 창 상태
-
-  // 페이지당 데이터를 나누기
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentRows = dummyData.slice(indexOfFirstRow, indexOfLastRow);
+  const currentRows = notices.slice(indexOfFirstRow, indexOfLastRow);
+  const totalPages = Math.ceil(notices.length / rowsPerPage);
 
-  // 총 페이지 수 계산
-  const totalPages = Math.ceil(dummyData.length / rowsPerPage);
+  useEffect(() => {
+    const fetchNotices = async () => {
+      try {
+        const response = await axios.get(
+          'https://hizenberk.pythonanywhere.com/api/notices/all/',
+          {
+            headers: {
+              Authorization: `Bearer ${authState.access}`
+            }
+          }
+        );
+        const fetchedNotices = response.data.notices.map((notice, index) => ({
+          id: index + 1,
+          number: index + 1,
+          name: notice.title,
+          user: notice.created_by__name,
+          date: notice.created_at,
+          content: notice.content
+        }));
+        setNotices(fetchedNotices);
+      } catch (error) {
+        console.error('공지사항 목록 조회 실패:', error.response?.data);
+      }
+    };
 
-  // 페이지 변경 핸들러
+    fetchNotices();
+  }, [authState.access]);
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  // 행 클릭 핸들러
-  const handleRowClick = () => {
-    setIsModalOpen(true);  // 모달 창 열기
+  const handleRowClick = (notice) => {
+    setSelectedNotice(notice);
+    setIsEditMode(true);
+    setIsModalOpen(true);
+  };
+
+  const handleCreateNotice = async (title, content) => {
+    try {
+      const response = await axios.post(
+        'https://hizenberk.pythonanywhere.com/api/notices/create/',
+        { title, content },
+        {
+          headers: {
+            Authorization: `Bearer ${authState.access}`
+          }
+        }
+      );
+      const newNotice = {
+        id: response.data.notice.id,
+        number: notices.length + 1,
+        name: title,
+        user: authState.name,
+        date: new Date().toISOString().slice(0, 10),
+        content: content,
+      };
+      setNotices([newNotice, ...notices]);
+    } catch (error) {
+      console.error('공지사항 생성 실패:', error.response?.data);
+    }
+  };
+
+  const handleEditNotice = async (title, content) => {
+    try {
+      await axios.put(
+        `https://hizenberk.pythonanywhere.com/api/notices/${selectedNotice.id}/update/`,
+        { title, content },
+        {
+          headers: {
+            Authorization: `Bearer ${authState.access}`
+          }
+        }
+      );
+      setNotices(notices.map((notice) =>
+        notice.id === selectedNotice.id
+          ? { ...notice, name: title, content: content }
+          : notice
+      ));
+      setIsModalOpen(false);
+      setSelectedNotice(null);
+    } catch (error) {
+      console.error('공지사항 수정 실패:', error.response?.data);
+    }
+  };
+
+  const handleDeleteNotice = async (noticeId) => {
+    try {
+      await axios.delete(
+        `https://hizenberk.pythonanywhere.com/api/notices/${noticeId}/delete/`,
+        {
+          headers: {
+            Authorization: `Bearer ${authState.access}`
+          }
+        }
+      );
+      setNotices(notices.filter((notice) => notice.id !== noticeId));
+    } catch (error) {
+      console.error('공지사항 삭제 실패:', error.response?.data);
+    }
   };
 
   return (
@@ -70,6 +175,16 @@ const Notice = () => {
       <main className="main-content">
         <div className="header">
           <h2>공지 사항</h2>
+          <button
+            className="create-notice-btn"
+            onClick={() => {
+              setIsEditMode(false);
+              setIsModalOpen(true);
+              setSelectedNotice(null);
+            }}
+          >
+            공지 생성
+          </button>
         </div>
 
         <table className="notice-table">
@@ -79,15 +194,27 @@ const Notice = () => {
               <th>제목</th>
               <th>작성자</th>
               <th>등록일</th>
+              <th>삭제</th>
             </tr>
           </thead>
           <tbody>
             {currentRows.map((row) => (
-              <tr key={row.id} onClick={handleRowClick}>
+              <tr key={row.id} onClick={() => handleRowClick(row)}>
                 <td>{row.number}</td>
                 <td>{row.name}</td>
                 <td>{row.user}</td>
                 <td>{row.date}</td>
+                <td>
+                  <button
+                    className="delete-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteNotice(row.id);
+                    }}
+                  >
+                    삭제
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -119,8 +246,14 @@ const Notice = () => {
           </button>
         </div>
 
-        {/* 모달 컴포넌트 사용 */}
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        {/* 공지 생성 및 수정 모달 */}
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={isEditMode ? handleEditNotice : handleCreateNotice}
+          notice={selectedNotice}
+          isEdit={isEditMode}
+        />
       </main>
     </div>
   );
