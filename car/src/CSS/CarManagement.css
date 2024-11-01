@@ -45,23 +45,34 @@
 }
 
 .car-management-g-box {
-  width: 50%;
-  height: 100%;
+  width: 49%;
+  height: 80%;
   padding: 1px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  margin-left: 10px;
 }
 
 .car-management-h-box {
   display: flex;
   flex-direction: column; /* 세로 정렬 */
-  width: 50%;
-  height: 100%;
-  border: 1px solid magenta;
+  width: 49%;
+  height: 80%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  margin-left: 10px;
 }
 
 .car-management-i-box {
+  display: flex;
   width: 100%;
   height: 10%;
-  border: 1px solid orange;
+  justify-content: space-between;
+  padding: 5px;
 }
 
 .car-management-j-box {
@@ -160,6 +171,9 @@
 .car-management-car-table {
   width: 100%;
   border-collapse: collapse;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
 }
 
 .car-management-car-table-car {
@@ -195,6 +209,7 @@
 }
 
 .car-management-g-box-top {
+  padding-top: 30px;
   width: 100%;
   height: 5%;
   display: flex;
@@ -209,6 +224,7 @@
 }
 
 .car-management-g-box-middle-top-text {
+  padding-top: 20px;
   font-weight: bold;
   font-size: 18px;
 }
@@ -225,16 +241,26 @@
   font-size: 14px;
   padding-right: 20px;
   padding-left: 30px;
+  color: black;
+}
+
+.car-management-g-box-middle-text-box {
+  margin-top: 20px;
+}
+
+.car-management-g-box-middle-text {
+  padding-top: 9px;
 }
 
 .car-management-g-box-middle-text-distance {
   padding-left: 18px;
+  padding-bottom: 5px;
 }
 
 .car-management-progressbar-box {
   display: flex;
   width: 100%;
-  height: 10%;
+  height: 12%;
   flex-direction: column;
   align-items: center;
 }
@@ -244,10 +270,36 @@
   display: flex;
   width: 80%;
   justify-content: space-between;
+  margin-bottom: 5px;
+  margin-top: 15px;
 }
 
 .car-management-progressbar-title {
   font-weight: bold;
+}
+
+.car-management-year-select {
+  padding: 1px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  height: 30px;
+}
+
+.car-management-registration-maintenance {
+  width: 28%;
+  height: 90%;
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  padding: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.car-management-registration-maintenance:hover {
+  background-color: #f0f0f0;
 }
 
 /* 차량 등록 양식 스타일 */
