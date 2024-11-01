@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // axios 추가
-import { useNavigate } from 'react-router-dom'; // useNavigate 훅 임포트
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import '../CSS/UserManagement.css';
 import { useAuth } from "../Component/AuthContext";
 
 const UserManagement = () => {
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]); // 사용자 목록을 저장할 상태
-  const { authState } = useAuth(); 
+  const [users, setUsers] = useState([]);
+  const { authState } = useAuth();
   
-  const [searchField, setSearchField] = useState("Department"); // 검색 필드
-  const [searchQuery, setSearchQuery] = useState(""); // 검색어
+  const [searchField, setSearchField] = useState("Department");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const getUserInfo = async (filter = {}) => {
     try {
       const response = await axios.get('https://hizenberk.pythonanywhere.com/api/users/', {
         headers: {
-          Authorization: `Bearer ${authState.access}` 
+          Authorization: `Bearer ${authState.access}`
         },
       });
       console.log('서버 응답 데이터:', response.data);
@@ -24,18 +24,17 @@ const UserManagement = () => {
       if (Array.isArray(response.data.users)) {
         let filteredUsers = response.data.users;
         
-        // 필터링 적용
         if (filter.field && filter.query) {
           filteredUsers = filteredUsers.filter((user) => {
-            const userValue = user[filter.field]?.toString().toLowerCase(); // 사용자의 필드 값 (예: 부서, 이름 등)
-            return userValue && userValue.includes(filter.query.toLowerCase()); // 대소문자 구분 없이 검색
+            const userValue = user[filter.field]?.toString().toLowerCase();
+            return userValue && userValue.includes(filter.query.toLowerCase());
           });
         }
         
         setUsers(filteredUsers);
       } else {
         console.error("Unexpected response data format:", response.data);
-        setUsers([]); // 데이터가 배열이 아니면 빈 배열로 설정
+        setUsers([]);
       }
     } catch (err) {
       console.error('조회 실패:', err.response?.status, err.response?.data);
@@ -44,7 +43,7 @@ const UserManagement = () => {
 
   useEffect(() => {
     if (authState?.access) {
-      getUserInfo(); // 초기 사용자 목록 불러오기
+      getUserInfo();
     }
   }, [authState]);
 
@@ -55,7 +54,7 @@ const UserManagement = () => {
 
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const currentRows = users.slice(indexOfFirstRow, indexOfLastRow); // 사용자 데이터로 수정
+  const currentRows = users.slice(indexOfFirstRow, indexOfLastRow);
   const totalPages = Math.ceil(users.length / rowsPerPage);
 
   const handlePageChange = (pageNumber) => {
@@ -63,7 +62,7 @@ const UserManagement = () => {
   };
 
   const handleRowClick = (user) => {
-    setSelectedRow(user); // 선택된 사용자의 데이터를 설정
+    setSelectedRow(user);
     setIsModalOpen(true);
   };
 
@@ -76,7 +75,6 @@ const UserManagement = () => {
   };
 
   const handleSearch = () => {
-    // 검색 버튼 클릭 시, 선택된 필드와 검색어로 필터링하여 getUserInfo 호출
     getUserInfo({ field: searchField, query: searchQuery });
   };
 
@@ -105,7 +103,7 @@ const UserManagement = () => {
               <option value="id">사번</option>
               <option value="phone_number">연락처</option>
               <option value="is_admin">권한</option>
-              <option value="date">등록일</option>
+              <option value="date">날짜</option>
             </select>
             <input
               type="text"
@@ -128,7 +126,7 @@ const UserManagement = () => {
                 <th>등록번호</th>
                 <th>연락처</th>
                 <th>권한</th> 
-                <th>등록일</th>
+                <th>날짜</th>
               </tr>
             </thead>
             <tbody>
@@ -140,7 +138,7 @@ const UserManagement = () => {
                   <td>{user.id}</td>
                   <td>{user.phone_number}</td>
                   <td>{user.is_admin ? '관리자' : '사용자'}</td>
-                  <td>{user.date}</td>
+                  <td>{new Date(user.date).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>
@@ -200,8 +198,8 @@ const UserManagement = () => {
                 <input type="text" className="user-label-input_two" value={selectedRow.is_admin ? '관리자' : '사용자'} readOnly />
               </div>
               <div className="user-label-box">
-                <label className="user-label-text">등록일:</label>
-                <input type="text" className="user-label-input-three" value={selectedRow.date} readOnly />
+                <label className="user-label-text">날짜:</label>
+                <input type="text" className="user-label-input-three" value={new Date(selectedRow.date).toLocaleDateString()} readOnly />
               </div>
             </div>
 

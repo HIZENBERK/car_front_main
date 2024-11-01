@@ -9,7 +9,7 @@ const CarManagement = () => {
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [vehicles, setVehicles] = useState([]);
 
-    // 차량 등록 필드 상태
+    // 차량 등록 및 수정 필드 상태
     const [vehicleCategory, setVehicleCategory] = useState('');
     const [vehicleType, setVehicleType] = useState('');
     const [carRegistrationNumber, setCarRegistrationNumber] = useState('');
@@ -23,6 +23,10 @@ const CarManagement = () => {
     const [deposit, setDeposit] = useState('');
     const [expirationDate, setExpirationDate] = useState('');
     const [currentStatus, setCurrentStatus] = useState('');
+    const [editingVehicleId, setEditingVehicleId] = useState(null); // 수정 중인 차량 ID 상태
+
+    // 정비 이력 관련 상태
+    const [selectedCar, setSelectedCar] = useState(null); // 선택된 차량 데이터 상태
 
     // 차량 목록을 서버에서 가져오는 함수
     const getVehicles = async () => {
@@ -37,8 +41,7 @@ const CarManagement = () => {
             if (error.response?.data?.code === 'token_not_valid') {
                 const newAccessToken = await refreshAccessToken();
                 if (newAccessToken) {
-                    // 새 토큰으로 요청 재시도
-                    getVehicles();
+                    getVehicles(); // 새 토큰으로 요청 재시도
                 }
             } else {
                 console.error('차량 목록 조회 실패:', error);
@@ -57,11 +60,11 @@ const CarManagement = () => {
 
     const handleRegisterClick = () => {
         setIsFormVisible(true);
+        setEditingVehicleId(null); // 차량 등록 시 기존 데이터 초기화
     };
 
-    const handleRegisterVehicle = async (e) => {
+    const handleRegisterOrUpdateVehicle = async (e) => {
         e.preventDefault();
-
         const vehicleData = {
             vehicle_category: vehicleCategory,
             vehicle_type: vehicleType,
@@ -79,49 +82,88 @@ const CarManagement = () => {
         };
 
         try {
-            const response = await axios.post(
-                'https://hizenberk.pythonanywhere.com/api/vehicles/create/',
-                vehicleData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${authState.access}`
-                    }
-                }
-            );
-            console.log('차량 등록 성공:', response.data);
+            if (editingVehicleId) {
+                // 차량 정보 수정 요청
+                await axios.patch(
+                    `https://hizenberk.pythonanywhere.com/api/vehicles/${licensePlateNumber}`,
+                    vehicleData,
+                    { headers: { Authorization: `Bearer ${authState.access}` } }
+                );
+                console.log('차량 정보 수정 성공');
+            } else {
+                // 차량 등록 요청
+                await axios.post(
+                    'https://hizenberk.pythonanywhere.com/api/vehicles/create/',
+                    vehicleData,
+                    { headers: { Authorization: `Bearer ${authState.access}` } }
+                );
+                console.log('차량 등록 성공');
+            }
             setIsFormVisible(false);
             getVehicles();
         } catch (error) {
             if (error.response?.data?.code === 'token_not_valid') {
                 const newAccessToken = await refreshAccessToken();
                 if (newAccessToken) {
-                    // 새 토큰으로 등록 요청 재시도
-                    handleRegisterVehicle(e);
+                    handleRegisterOrUpdateVehicle(e); // 새 토큰으로 등록/수정 요청 재시도
                 }
             } else {
-                console.error('차량 등록 실패:', error.response?.data);
+                console.error('차량 등록/수정 실패:', error.response?.data);
             }
         }
     };
 
-    const [selectedCar, setSelectedCar] = useState(null); // 선택된 차량 데이터 상태
+    // 차량 수정 버튼 클릭 시 차량 데이터 로드 및 폼 표시
+    const handleEditVehicle = (vehicle) => {
+        setVehicleCategory(vehicle.vehicle_category);
+        setVehicleType(vehicle.vehicle_type);
+        setCarRegistrationNumber(vehicle.car_registration_number);
+        setLicensePlateNumber(vehicle.license_plate_number);
+        setPurchaseDate(vehicle.purchase_date);
+        setPurchasePrice(vehicle.purchase_price);
+        setTotalMileage(vehicle.total_mileage);
+        setChassisNumber(vehicle.chassis_number);
+        setPurchaseType(vehicle.purchase_type);
+        setDownPayment(vehicle.down_payment);
+        setDeposit(vehicle.deposit);
+        setExpirationDate(vehicle.expiration_date);
+        setCurrentStatus(vehicle.current_status);
+        setEditingVehicleId(vehicle.id);
+        setIsFormVisible(true);
+    };
 
-    // 차량 목록 예시 데이터
-    const carDataList = [
-        { num: '123가 4567', expiration_date: '2023-12-31', cumulative_distance: '123,000 km', engine: '양호', ac: '정상', break: '정상', tire: '교체 필요' },
-        { num: '125나 8545', expiration_date: '2024-06-15', cumulative_distance: '87,000 km', engine: '교체 필요', ac: '정상', break: '정상', tire: '양호' },
-    ];
-    const car_data = [
-        { img: '이미지', num: '123가 4567', expiration_date: '10/12', cumulative_distance: '123km', engine: '1234', ac: '3333', break: '555', tire: '4213' },
-        { img: '이미지', num: '125나 8545' },
-        { img: '이미지', num: '254허 2554' },
-        { img: '이미지', num: '224경 4653' },
-    ];
+    // 차량 삭제 요청
+    const handleDeleteVehicle = async (licensePlateNumber) => {
+        try {
+            await axios.delete(`https://hizenberk.pythonanywhere.com/api/vehicles/${licensePlateNumber}`, {
+                headers: { Authorization: `Bearer ${authState.access}` }
+            });
+            console.log('차량 삭제 성공');
+            getVehicles();
+        } catch (error) {
+            if (error.response?.data?.code === 'token_not_valid') {
+                const newAccessToken = await refreshAccessToken();
+                if (newAccessToken) {
+                    handleDeleteVehicle(licensePlateNumber); // 새 토큰으로 삭제 요청 재시도
+                }
+            } else {
+                console.error('차량 삭제 실패:', error.response?.data);
+            }
+        }
+    };
 
     // 차량 테이블의 행을 클릭했을 때
     const handleCarTableClick = (car) => {
         setSelectedCar(car); // 선택된 차량 데이터를 상태에 저장
     };
+
+    // 예시 데이터 (정비 이력 탭용)
+    const car_data = [
+        { img: '이미지', num: '123가 4567', expiration_date: '10/12', cumulative_distance: '123km', engine: '양호', ac: '정상', break: '정상', tire: '교체 필요' },
+        { img: '이미지', num: '125나 8545' },
+        { img: '이미지', num: '254허 2554' },
+        { img: '이미지', num: '224경 4653' },
+    ];
 
     return (
         <div className="car-management">
@@ -163,6 +205,8 @@ const CarManagement = () => {
                                     <th>구매 날짜</th>
                                     <th>총 주행 거리</th>
                                     <th>상태</th>
+                                    <th>수정</th>
+                                    <th>삭제</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -173,6 +217,12 @@ const CarManagement = () => {
                                         <td>{vehicle.purchase_date}</td>
                                         <td>{vehicle.total_mileage} km</td>
                                         <td>{vehicle.current_status}</td>
+                                        <td>
+                                            <button onClick={() => handleEditVehicle(vehicle)}>수정</button>
+                                        </td>
+                                        <td>
+                                            <button onClick={() => handleDeleteVehicle(vehicle.license_plate_number)}>삭제</button>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -180,8 +230,9 @@ const CarManagement = () => {
                     </div>
                 )}
 
-{isFormVisible && (
-                    <form className="registration-form" onSubmit={handleRegisterVehicle}>
+                {isFormVisible && (
+                    <form className="registration-form" onSubmit={handleRegisterOrUpdateVehicle}>
+                        <button type="button" onClick={() => setIsFormVisible(false)}>뒤로가기</button>
                         <div className="form-group">
                             <label>차량 카테고리</label>
                             <input
@@ -249,7 +300,9 @@ const CarManagement = () => {
                                 <option value="삭제">삭제</option>
                             </select>
                         </div>
-                        <button type="submit" className="submit-button">등록</button>
+                        <button type="submit" className="submit-button">
+                            {editingVehicleId ? "수정" : "등록"}
+                        </button>
                     </form>
                 )}
 
@@ -282,15 +335,14 @@ const CarManagement = () => {
                                         <div className="car-management-g-box-top">
                                             <p className="car-management-g-box-top-text">차량 정기 검사</p>
                                         </div>
-                                            <div className="car-management-g-box-middle-text-box">
-                                                <p className="car-management-g-box-middle-title">정기검사 만료일</p>
-                                                <p className="car-management-g-box-middle-text">{selectedCar.expiration_date}</p>
-                                            </div>
-                                            <div className="car-management-g-box-middle-text-box">
-                                                <p className="car-management-g-box-middle-title">누적주행거리</p>
-                                                <p className="car-management-g-box-middle-text-distance">{selectedCar.cumulative_distance}</p>
-                                            </div>
-
+                                        <div className="car-management-g-box-middle-text-box">
+                                            <p className="car-management-g-box-middle-title">정기검사 만료일</p>
+                                            <p className="car-management-g-box-middle-text">{selectedCar.expiration_date}</p>
+                                        </div>
+                                        <div className="car-management-g-box-middle-text-box">
+                                            <p className="car-management-g-box-middle-title">누적주행거리</p>
+                                            <p className="car-management-g-box-middle-text-distance">{selectedCar.cumulative_distance}</p>
+                                        </div>
                                         <p className="car-management-g-box-top-text">소모품 현황</p>
                                     </div>
                                     <div className="car-management-h-box">
@@ -302,10 +354,8 @@ const CarManagement = () => {
                                 <p>차량을 선택하세요.</p>
                             )}
                         </div>
-
                     </div>
                 )}
-
             </div>
         </div>
     );
