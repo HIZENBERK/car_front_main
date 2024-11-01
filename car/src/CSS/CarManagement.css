@@ -12,34 +12,29 @@
   flex-direction: column; /* 세로 정렬 */
   width: 98%;
   height: 100%;
-  border: 1px solid gray;
   margin-left: 15px;
 }
 
 .car-management-b-box {
   width: 100%;
   height: 5%;
-  border: 1px solid green;
 }
 
 .car-management-c-box {
   width: 100%;
   height: 100%;
-  border: 1px solid red;
 }
 
 .car-management-d-box {
   display: flex;
   width: 100%;
   height: 100%;
-  border: 1px solid blue;
   overflow: hidden; /* 이 컨테이너 안의 내용이 넘치면 숨김 */
 }
 
 .car-management-e-box {
   width: 30%;
   height: 100%;
-  border: 1px solid yellow;
   padding: 1px;
 }
 
@@ -47,13 +42,11 @@
   display: flex;
   width: 70%;
   height: 100%;
-  border: 1px solid pink;
 }
 
 .car-management-g-box {
   width: 50%;
   height: 100%;
-  border: 1px solid purple;
   padding: 1px;
 }
 
@@ -80,12 +73,26 @@
 .car-management-top {
   display: flex;
   width: 100%;
+  margin-top: 10px;
 }
 
 .car-management-top-text {
   font-weight: bold;
   font-size: 18px; /* 글씨 크기 */
   padding-left: 20px;
+}
+
+.car-management-select-car-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.car-management-select-car {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  margin-left: 20px;
 }
 
 .tab-menu {
@@ -190,7 +197,6 @@
 .car-management-g-box-top {
   width: 100%;
   height: 5%;
-  border: 1px solid green;
   display: flex;
   justify-content: flex-start; /* 좌측 정렬 */
   align-items: center; /* 세로 중앙 정렬 */
@@ -198,13 +204,18 @@
 
 .car-management-g-box-top-text {
   font-weight: bold;
-  font-size: 15px;
+  font-size: 18px;
+  padding-left: 10px;
+}
+
+.car-management-g-box-middle-top-text {
+  font-weight: bold;
+  font-size: 18px;
 }
 
 .car-management-g-box-middle-text-box {
   width: 100%;
   height: 10%;
-  border: 1px solid blue;
   display: flex;
   align-items: center; /* 세로 중앙 정렬 */
 }
@@ -218,6 +229,25 @@
 
 .car-management-g-box-middle-text-distance {
   padding-left: 18px;
+}
+
+.car-management-progressbar-box {
+  display: flex;
+  width: 100%;
+  height: 10%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.car-management-progressbar-title-box {
+  height: 40%;
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+}
+
+.car-management-progressbar-title {
+  font-weight: bold;
 }
 
 /* 차량 등록 양식 스타일 */
