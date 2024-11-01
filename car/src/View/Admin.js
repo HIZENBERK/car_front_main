@@ -23,9 +23,11 @@ ChartJS.register(
 function Admin() {
   const { authState } = useAuth();
   const [userCount, setUserCount] = useState(0);
-  const [selectedMonth, setSelectedMonth] = useState(''); // selectedMonth 상태 추가
+  const [selectedMonth, setSelectedMonth] = useState('');
   const [availableVehicles, setAvailableVehicles] = useState(0);
   const [totalVehicles, setTotalVehicles] = useState(0);
+  const [unavailableVehicles, setUnavailableVehicles] = useState(0);
+  const [expiredLeaseRentVehicles, setExpiredLeaseRentVehicles] = useState(0);
   const [notices, setNotices] = useState([]);
   const navigate = useNavigate();
   
@@ -56,8 +58,40 @@ function Admin() {
 
       const available = vehicles.filter(vehicle => vehicle.current_status === '가용차량');
       setAvailableVehicles(available.length);
+
+      const unavailable = vehicles.filter(vehicle => vehicle.current_status === '사용불가');
+      setUnavailableVehicles(unavailable.length);
+
+      const today = new Date();
+      const expiredLeaseRent = vehicles.filter(vehicle => 
+        vehicle.purchase_type && ['리스', '렌트'].includes(vehicle.purchase_type) &&
+        vehicle.expiration_date && new Date(vehicle.expiration_date) < today
+      );
+
+      setExpiredLeaseRentVehicles(expiredLeaseRent.length);
+
+      // 만기 차량 상태를 "사용불가"로 업데이트
+      for (const vehicle of expiredLeaseRent) {
+        if (vehicle.current_status !== '사용불가') {
+          await updateVehicleStatus(vehicle.license_plate_number, '사용불가');
+        }
+      }
     } catch (err) {
       console.error('차량 정보 조회 실패:', err.response?.data);
+    }
+  };
+
+  const updateVehicleStatus = async (licensePlateNumber, status) => {
+    try {
+      await axios.patch(`https://hizenberk.pythonanywhere.com/api/vehicles/${licensePlateNumber}`, 
+      {
+        current_status: status
+      }, {
+        headers: { Authorization: `Bearer ${authState.access}` }
+      });
+      console.log(`차량 ${licensePlateNumber}의 상태가 "${status}"로 업데이트되었습니다.`);
+    } catch (err) {
+      console.error('차량 상태 업데이트 실패:', err.response?.data);
     }
   };
 
@@ -139,8 +173,8 @@ function Admin() {
                   <p className="admin-middle-title">차량 현황</p>
                   <div className="admin-middle-content">
                     <p className="admin-middle-text">가용 차량: {availableVehicles}대</p>
-                    <p className="admin-middle-text">사용불가</p>
-                    <p className="admin-middle-text">리스/렌트 만기 차량</p>
+                    <p className="admin-middle-text">사용불가: {unavailableVehicles}대</p>
+                    <p className="admin-middle-text">리스/렌트 만기 차량: {expiredLeaseRentVehicles}대</p>
                   </div>
                 </div>
 

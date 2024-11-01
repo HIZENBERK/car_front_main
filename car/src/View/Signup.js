@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import '../CSS/Signup.css';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../Component/AuthContext"; // 이 부분은 프로젝트 구조에 맞게 조정하세요.
+import { useAuth } from "../Component/AuthContext";
 
 function Signup() {
-  const { authState, setAuthState } = useAuth(); // authState와 setAuthState 사용
+  const { authState, setAuthState } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phonenumber, setPhonenumber] = useState('');
@@ -15,42 +15,35 @@ function Signup() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // 로그인 페이지로 이동
   const navigateToLogin = () => {
     navigate("/usermanagement");
   };
 
-  // 토큰이 만료되었는지 확인하는 함수
   const tokenHasExpired = (token) => {
     const decodedToken = JSON.parse(atob(token.split('.')[1]));
     const currentTime = Date.now() / 1000;
-    return decodedToken.exp < currentTime; // 현재 시간보다 만료 시간이 이르면 true 반환
+    return decodedToken.exp < currentTime;
   };
 
-  // 토큰을 갱신하는 함수
   const refreshAccessToken = async () => {
     try {
       const response = await axios.post('https://hizenberk.pythonanywhere.com/api/token/refresh/', {
         refresh: authState.refresh
       });
-      // 새로운 access token을 authState에 저장
       setAuthState((prevState) => ({
         ...prevState,
         access: response.data.access
       }));
     } catch (error) {
       console.error('토큰 갱신 실패', error);
-      // 리프레시 토큰도 만료되었을 경우, 로그인 페이지로 리디렉션
       navigate('/login');
     }
   };
 
-  // 회원가입 처리 함수
   const handRegister = async (e) => {
     e.preventDefault();
     setError('');
 
-    // 토큰이 만료되었으면 갱신 시도
     if (tokenHasExpired(authState.access)) {
       await refreshAccessToken();
     }
@@ -66,7 +59,7 @@ function Signup() {
         name: userName
       }, {
         headers: {
-          Authorization: `Bearer ${authState.access}` // 갱신된 토큰 사용
+          Authorization: `Bearer ${authState.access}`
         }
       });
       console.log('회원가입 성공:', response.data);
@@ -79,6 +72,8 @@ function Signup() {
 
   return (
     <div className="signup-container">
+      <button className="back-button" onClick={() => navigate(-1)}>뒤로가기</button>
+      
       <form className="signup-form">
         <div className="form-group">
           <input type="email"
