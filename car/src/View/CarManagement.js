@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../CSS/CarManagement.css';
 import axios from 'axios';
 import { useAuth } from "../Component/AuthContext";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CarManagement = () => {
     const { authState, refreshAccessToken } = useAuth();
@@ -157,12 +158,31 @@ const CarManagement = () => {
         setSelectedCar(car); // 선택된 차량 데이터를 상태에 저장
     };
 
-    // 예시 데이터 (정비 이력 탭용)
+    const carStatus = () => {
+        const maxLimit = 5000;
+
+        // 각 부품의 진행률을 계산합니다.
+        const calculatePercentage = (value) => (value / maxLimit) * 100;
+
+        // selectedCar가 null이 아닐 때만 진행률을 계산합니다.
+        return {
+            engine: selectedCar ? calculatePercentage(selectedCar.engine) : 0,
+            ac: selectedCar ? calculatePercentage(selectedCar.ac) : 0,
+            break: selectedCar ? calculatePercentage(selectedCar.break) : 0,
+            tire: selectedCar ? calculatePercentage(selectedCar.tire) : 0,
+        };
+    };
+
+    // 차량 목록 예시 데이터
+    const carDataList = [
+        { num: '123가 4567', expiration_date: '2023-12-31', cumulative_distance: '123,000 km', engine: '양호', ac: '정상', break: '정상', tire: '교체 필요' },
+        { num: '125나 8545', expiration_date: '2024-06-15', cumulative_distance: '87,000 km', engine: '교체 필요', ac: '정상', break: '정상', tire: '양호' },
+    ];
     const car_data = [
-        { img: '이미지', num: '123가 4567', expiration_date: '10/12', cumulative_distance: '123km', engine: '양호', ac: '정상', break: '정상', tire: '교체 필요' },
-        { img: '이미지', num: '125나 8545' },
-        { img: '이미지', num: '254허 2554' },
-        { img: '이미지', num: '224경 4653' },
+        { img: '이미지', num: '123가 4567', expiration_date: '10/12', cumulative_distance: '123km', engine: '1234', ac: '3333', break: '555', tire: '4213' },
+        { img: '이미지', num: '125나 8545', expiration_date: '10/30', cumulative_distance: '144km', engine: '4850', ac: '2341', break: '3411', tire: '5000' },
+        { img: '이미지', num: '254허 2554', expiration_date: '9/15', cumulative_distance: '200km', engine: '1000', ac: '4000', break: '3500', tire: '3332' },
+        { img: '이미지', num: '224경 4653', expiration_date: '10/15', cumulative_distance: '300km', engine: '2000', ac: '2000', break: '4192', tire: '3214' },
     ];
 
     return (
@@ -171,7 +191,7 @@ const CarManagement = () => {
             <div className="car-management-top">
                 <p className="car-management-top-text">차량 관리</p>
             </div>
-            
+
             <div className="car-management-a-box">
                 <div className="car-management-b-box">
                     <div className="tab-menu">
@@ -335,15 +355,104 @@ const CarManagement = () => {
                                         <div className="car-management-g-box-top">
                                             <p className="car-management-g-box-top-text">차량 정기 검사</p>
                                         </div>
-                                        <div className="car-management-g-box-middle-text-box">
-                                            <p className="car-management-g-box-middle-title">정기검사 만료일</p>
-                                            <p className="car-management-g-box-middle-text">{selectedCar.expiration_date}</p>
+                                            <div className="car-management-g-box-middle-text-box">
+                                                <p className="car-management-g-box-middle-title">정기검사 만료일</p>
+                                                <p className="car-management-g-box-middle-text">{selectedCar.expiration_date}</p>
+                                            </div>
+                                            <div className="car-management-g-box-middle-text-box">
+                                                <p className="car-management-g-box-middle-title">누적주행거리</p>
+                                                <p className="car-management-g-box-middle-text-distance">{selectedCar.cumulative_distance}</p>
+                                            </div>
+
+                                        <p className="car-management-g-box-middle-top-text">소모품 현황</p>
+                                        {/* 엔진 진행률 */}
+                                        <div className="car-management-progressbar-box">
+                                            <div className="car-management-progressbar-title-box">
+                                                <p className="car-management-progressbar-title">엔진오일 및 필터</p>
+                                                <p className="car-management-progressbar-text">{selectedCar ? `${selectedCar.engine} / 5000Km` : '데이터 없음'}</p>
+                                            </div>
+                                            <div
+                                                className="progress"
+                                                role="progressbar"
+                                                aria-label="Animated striped example"
+                                                aria-valuenow={carStatus().engine} // 엔진 진행률
+                                                aria-valuemin="0"
+                                                aria-valuemax="100"
+                                                style={{ width: '80%' }} // 전체 너비 조정
+                                            >
+                                                <div
+                                                    className="progress-bar progress-bar-striped progress-bar-animated"
+                                                    style={{ width: `${carStatus().engine}%` }} // 진행률 너비 설정
+                                                >
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="car-management-g-box-middle-text-box">
-                                            <p className="car-management-g-box-middle-title">누적주행거리</p>
-                                            <p className="car-management-g-box-middle-text-distance">{selectedCar.cumulative_distance}</p>
+                                        {/* 에어컨 진행률 */}
+                                        <div className="car-management-progressbar-box">
+                                            <div className="car-management-progressbar-title-box">
+                                                <p className="car-management-progressbar-title">에어컨 상태</p>
+                                                <p className="car-management-progressbar-text">{selectedCar ? `${selectedCar.ac} / 5000Km` : '데이터 없음'}</p>
+                                             </div>
+                                            <div
+                                                className="progress"
+                                                role="progressbar"
+                                                aria-label="Animated striped example"
+                                                aria-valuenow={carStatus().ac} // 에어컨 진행률
+                                                aria-valuemin="0"
+                                                aria-valuemax="100"
+                                                style={{ width: '80%' }} // 전체 너비 조정
+                                            >
+                                                <div
+                                                    className="progress-bar progress-bar-striped progress-bar-animated bg-info"
+                                                    style={{ width: `${carStatus().ac}%` }} // 진행률 너비 설정
+                                                >
+                                                </div>
+                                            </div>
                                         </div>
-                                        <p className="car-management-g-box-top-text">소모품 현황</p>
+                                        {/* 브레이크 진행률 */}
+                                        <div className="car-management-progressbar-box">
+                                            <div className="car-management-progressbar-title-box">
+                                                <p className="car-management-progressbar-title">브레이크 상태</p>
+                                                <p className="car-management-progressbar-text">{selectedCar ? `${selectedCar.break} / 5000Km` : '데이터 없음'}</p>
+                                            </div>
+                                            <div
+                                                className="progress"
+                                                role="progressbar"
+                                                aria-label="Animated striped example"
+                                                aria-valuenow={carStatus().break} // 브레이크 진행률
+                                                aria-valuemin="0"
+                                                aria-valuemax="100"
+                                                style={{ width: '80%' }} // 전체 너비 조정
+                                            >
+                                                <div
+                                                    className="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                                                    style={{ width: `${carStatus().break}%` }} // 진행률 너비 설정
+                                                >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* 타이어 진행률 */}
+                                        <div className="car-management-progressbar-box">
+                                            <div className="car-management-progressbar-title-box">
+                                                <p className="car-management-progressbar-title">타이어 상태</p>
+                                                <p className="car-management-progressbar-text">{selectedCar ? `${selectedCar.tire} / 5000Km` : '데이터 없음'}</p>
+                                            </div>
+                                            <div
+                                                className="progress"
+                                                role="progressbar"
+                                                aria-label="Animated striped example"
+                                                aria-valuenow={carStatus().tire} // 타이어 진행률
+                                                aria-valuemin="0"
+                                                aria-valuemax="100"
+                                                style={{ width: '80%' }} // 전체 너비 조정
+                                            >
+                                                <div
+                                                    className="progress-bar progress-bar-striped progress-bar-animated bg-warning"
+                                                    style={{ width: `${carStatus().tire}%` }} // 진행률 너비 설정
+                                                >
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className="car-management-h-box">
                                         <div className="car-management-i-box"></div>
@@ -351,11 +460,15 @@ const CarManagement = () => {
                                     </div>
                                 </>
                             ) : (
-                                <p>차량을 선택하세요.</p>
+                                <div className="car-management-select-car-box">
+                                    <p className="car-management-select-car">차량을 선택하세요.</p>
+                                </div>
                             )}
                         </div>
+
                     </div>
                 )}
+
             </div>
         </div>
     );
