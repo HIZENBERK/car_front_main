@@ -145,7 +145,7 @@
   margin-left: auto;
 }
 
-.modal-overlay {
+.user-management-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -157,7 +157,7 @@
   align-items: center;
 }
 
-.modal {
+.user-management-modal {
   background: white;
   padding: 20px;
   border-radius: 10px;
@@ -165,7 +165,7 @@
   max-width: 80%;
 }
 
-.modal-content {
+.user-management-modal-content {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -174,7 +174,7 @@
 .user-label-box {
   display: flex;
   padding: 10px;
-  margin-left: 15%;
+  margin-left: 10%;
 }
 
 .user-label-text {
@@ -186,10 +186,17 @@
   border: none; /* 전체 경계선을 제거 */
   border-bottom: 1px solid black; /* 하단 경계선만 추가 */
   padding: 5px; /* 입력 필드 내 여백 조정 */
-  margin-left: 7%;
+  margin-left: 12%;
 }
 
 .user-label-input-three {
+  border: none; /* 전체 경계선을 제거 */
+  border-bottom: 1px solid black; /* 하단 경계선만 추가 */
+  padding: 5px; /* 입력 필드 내 여백 조정 */
+  margin-left: 7%;
+}
+
+.user-label-input-four {
   border: none; /* 전체 경계선을 제거 */
   border-bottom: 1px solid black; /* 하단 경계선만 추가 */
   padding: 5px; /* 입력 필드 내 여백 조정 */
@@ -197,8 +204,8 @@
 }
 
 
-.close-btn {
-  width: 100px;
+.user-management-close-btn {
+  width: 40%;
   height: 36px;
   margin-top: 20px;
   background-color: red;
@@ -208,11 +215,11 @@
   cursor: pointer;
   border-radius: 50px;
   font-weight: bold;
-  margin-left: 30px;
+  margin-left: 20px;
 }
 
-.update-btn {
-  width: 100px;
+.user-management-update-btn {
+  width: 40%;
   height: 36px;
   margin-top: 20px;
   background-color: white;
@@ -222,13 +229,13 @@
   cursor: pointer;
   border-radius: 50px;
   font-weight: bold;
-  margin-right: 30px;
+  margin-right: 20px;
 }
 
-.close-btn:hover {
+.user-management-close-btn:hover {
   background-color: #ED0000;
 }
 
-.update-btn:hover {
+.user-management-update-btn:hover {
   background-color: #f0f0f0;
 }
