@@ -227,6 +227,20 @@ const CarManagement = () => {
         { img: '이미지', num: '224경 4653', expiration_date: '10/15', cumulative_distance: '300km', engine: '2000', ac: '2000', break: '8000', tire: '3214' },
     ];
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleModalOpen = () => {
+        setIsModalOpen(true);
+    }
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+      };
+    
+      const updateModal = () => {
+        setIsModalOpen(false);
+      }
+
     return (
         <div className="car-management">
 
@@ -511,7 +525,7 @@ const CarManagement = () => {
                                                 <option value="2022">2022년</option>
                                                 <option value="2021">2021년</option>
                                             </select>
-                                            <button className="car-management-registration-maintenance">정비 등록</button>
+                                            <button className="car-management-registration-maintenance" onClick={handleModalOpen}>정비 등록</button>
                                         </div>
                                         <div className="car-management-j-box"></div>
                                     </div>
@@ -523,6 +537,43 @@ const CarManagement = () => {
                             )}
                         </div>
 
+                    </div>
+                )}
+
+                {isModalOpen && (
+                    <div className="car-management-modal-overlay">
+                    <div className="car-management-modal">
+                        <h2>정비 등록</h2>
+                        <div className="car-management-modal-content">
+                            <div className="car-label-box">
+                                <label className="car-label-text">차량 번호: {selectedCar.num}</label>
+                            </div>
+                            <div className="car-label-box">
+                                <label className="car-label-text">누적 주행 거리:</label>
+                                <input type="text" className="car-label-input"/>
+                            </div>
+                            <div className="car-label-box">
+                                <label className="car-label-text">정비 일자:</label>
+                                <input type="text" className="car-label-input"/>
+                            </div>
+                            <div className="car-label-box">
+                                <label className="car-label-text">금액:</label>
+                                <input type="text" className="car-label-input"/>
+                            </div>
+                            <select className="car-management-year-select" onChange={handleYearChange}>
+                                <option value="2024">2024년</option>
+                                <option value="2023">2023년</option>
+                                <option value="2022">2022년</option>
+                                <option value="2021">2021년</option>
+                             </select>
+                            <div className="car-label-box">
+                                <label className="car-label-text">정비 내용:</label>
+                                <input type="text" className="car-label-input-maintenance"/>
+                            </div>
+                        </div>
+                        <button className="car-management-update-btn" onClick={updateModal}>등록</button>
+                        <button className="car-management-close-btn" onClick={closeModal}>닫기</button>
+                    </div>
                     </div>
                 )}
 
