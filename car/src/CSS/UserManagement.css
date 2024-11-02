@@ -23,8 +23,8 @@
   padding-left: 20px;
 }
 
-.user-registration {
-  width: 100px;
+.user-management-registration {
+  width: 13%;
   background-color: white; /* 버튼 배경색 흰색 */
   border: 1px solid #ccc; /* 검은색 테두리 */
   padding: 5px 10px; /* 버튼 안쪽 여백 */
@@ -33,7 +33,7 @@
   color: black;
 }
 
-.user-registration:hover {
+.user-management-registration:hover {
   background-color: #f0f0f0; /* 호버 시 배경색 변화 */
 }
 

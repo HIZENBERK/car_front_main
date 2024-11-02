@@ -95,7 +95,7 @@ const UserManagement = () => {
       <div className="usermanagement-a-box">
         <div className="usermanagement-b-box">
           <div className="usermanagement-d-box">
-            <button className="user-registration" onClick={handleUserRegistration}>
+            <button className="user-management-registration" onClick={handleUserRegistration}>
               사용자 등록
             </button>
           </div>
