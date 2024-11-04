@@ -408,24 +408,26 @@ const CarManagement = () => {
                             {selectedCar ? (
                                 <>
                                     <div className="car-management-g-box">
-                                        <div className="car-management-g-box-top">
+                                    <div className="car-management-g-box-top">
                                             <p className="car-management-g-box-top-text">차량 정기 검사</p>
-                                        </div>
-                                            <div className="car-management-g-box-middle-text-box">
-                                            <a
-                                                href="https://www.cyberts.kr/cp/pvr/prm/readCpPvrPrsecResveMainView.do"
+                                            <a 
+                                                className="car-management-g-box-top-text-href"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="car-management-g-box-middle-title"
+                                                href="https://www.cyberts.kr/cp/pvr/prm/readCpPvrPrsecResveMainView.do"
                                                 >
-                                                정기검사 만료일
-                                            </a>
-                                                <p className="car-management-g-box-middle-text">{selectedCar.expiration_date}</p>
-                                            </div>
-                                            <div className="car-management-g-box-middle-text-box">
-                                                <p className="car-management-g-box-middle-title">누적주행거리</p>
-                                                <p className="car-management-g-box-middle-text-distance">{selectedCar.cumulative_distance}</p>
-                                            </div>
+                                                    정기검사예약
+                                                </a>
+
+                                    </div>
+                                        <div className="car-management-g-box-middle-text-box">
+                                            <p className="car-management-g-box-middle-title">정기검사 만료일</p>
+                                            <p className="car-management-g-box-middle-text">{selectedCar.expiration_date}</p>
+                                        </div>
+                                        <div className="car-management-g-box-middle-text-box">
+                                            <p className="car-management-g-box-middle-title">누적주행거리</p>
+                                            <p className="car-management-g-box-middle-text-distance">{selectedCar.cumulative_distance}</p>
+                                        </div>
 
                                         <p className="car-management-g-box-middle-top-text">소모품 현황</p>
                                         {/* 엔진 진행률 */}
