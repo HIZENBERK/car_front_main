@@ -8,23 +8,57 @@
 }
 
 .car-history-a-box {
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
   width: 98%;
   height: 100%;
+  border: 1px solid black;
 }
 
-/* 맨위 */
-.header {
+.car-history-b-box {
   display: flex;
-  justify-content: space-between; /* 양쪽 끝으로 배치 */
-  align-items: center; /* 세로로 가운데 정렬 */
-  margin-top: 7px;
+  justify-content: space-between;
   width: 100%;
+  height: 5%;
+  border: 1px solid green;
+  margin-top: 9px;
+}
+
+.car-history-c-box {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  width: 100%;
+  height: 7%;
+  border: 1px solid blue;
+}
+
+.car-history-d-box {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  width: 100%;
+  height: 7%;
+  border: 1px solid red;
+}
+
+.car-history-e-box {
+  display: flex;
+  width: 100%;
+  height: 7%;
+  border: 1px solid brown;
+}
+
+.car-history-f-box {
+  width: 100%;
+  height: 100%;
+  border: 1px solid goldenrod;
 }
 
 .carhistory-name {
   font-size: 18px; /* 글씨 크기 */
   font-weight: bold; /* 회사명을 굵게 */
-  padding-left: 20px;
+  padding-left: 18px;
 }
 
 .download-btn {
@@ -39,71 +73,89 @@
   background-color: #45a049;
 }
 
-/* 필터 섹션 */
-.filter-row {
+.car-history-c-box-list-option {
   display: flex;
   align-items: center;
-  margin-bottom: 70px;
-  margin-right: -324px;
+  width: 80%;
+  height: 100%;
+  border: 1px solid yellow;
 }
 
-.filter-row label {
-  margin-right: 10px;
+.car-history-c-box-way-option {
+  width: 20%;
+  height: 100%;
+  border: 1px solid red;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.car-history-middle-title {
   font-weight: bold;
+  padding-right: 10px;
 }
 
-.filter-row input[type="radio"] {
-  margin-right: 5px;
+._black {
+  width: 10px;
+  height: 100%;
 }
 
-.aa {
+.car-history-d-box-operation {
   display: flex;
   align-items: center;
-  margin-top: 40px;
-  margin-bottom: 10px;
-  margin-right: 610px;
+  width: 80%;
+  height: 100%;
+  border: 1px solid blue;
 }
 
-.aa label {
-  margin-right: 10px;
-  font-weight: bold;
+.car-history-d-box-date-check {
+  width: 20%;
+  height: 100%;
+  border: 1px solid black;
+  display: flex;
+  justify-content: end;
+  align-items: center;
 }
 
-.aa input[type="radio"] {
-  margin-right: 5px;
-}
-
-.bb {
+.car-history-date-check-button {
   display: flex;
   align-items: center;
-  margin-top: 40px;
-  margin-bottom: 10px;
-  margin-right: -1190px;
+  justify-content: center;
+  height: 30px;
+  background-color: white; /* 버튼 배경색 흰색 */
+  border: 1px solid #ccc; /* 검은색 테두리 */
+  padding: 5px 10px; /* 버튼 안쪽 여백 */
+  cursor: pointer; /* 커서 모양 변경 */
+  border-radius: 4px; /* 버튼 모서리를 둥글게 */
+  color: black;
 }
 
-.cc {
+.car-history-date-check-button:hover {
+  background-color: #f0f0f0; /* 호버 시 배경색 변화 */
+}
+
+.car-history-e-box-search-box {
   display: flex;
   align-items: center;
-  margin-top: 70px;
-  margin-bottom: 10px;
+  width: 80%;
+  height: 100%;
+  border: 1px solid blue;
 }
 
-.cc label {
-  margin-right: 10px;
-  font-weight: bold;
+.car-history-e-box-see-box {
+  width: 20%;
+  height: 100%;
+  border: 1px solid black;
+  display: flex;
+  justify-content: end;
+  align-items: center;
 }
 
-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
+.car-history-e-box-search-input {
+  height: 30px;
+  border: none; /* 전체 경계선을 제거 */
+  border-bottom: 1px solid black; /* 하단 경계선만 추가 */
+  padding: 5px; /* 입력 필드 내 여백 조정 */
 }
 
 /* 테이블 스타일 */
@@ -124,6 +176,10 @@ button:hover {
 
 .car-history-table td {
   vertical-align: middle;
+}
+
+.car-history-table tr {
+  height: 10%;
 }
 
 .car-history-table button {
