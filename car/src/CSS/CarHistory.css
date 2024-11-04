@@ -1,13 +1,15 @@
-/* 사이드바가 있을 경우 메인 컨텐츠가 가려지지 않도록 왼쪽에 마진 추가 */
-.container {
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  margin: 0 auto;
-  width: 80%; /* 전체 화면 대비 폭 설정 */
-  padding: 20px;
-  box-sizing: border-box;
-  margin-left: 250px; /* 사이드바의 폭만큼 왼쪽 마진을 줍니다. */
+.car-history-container {
+  width: 85%; /* 전체 화면을 사용 */
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  flex-direction: column; /* 세로 정렬 */
+  margin-right: 5px;
+}
+
+.car-history-a-box {
+  width: 98%;
+  height: 100%;
 }
 
 /* 맨위 */
@@ -15,17 +17,17 @@
   display: flex;
   justify-content: space-between; /* 양쪽 끝으로 배치 */
   align-items: center; /* 세로로 가운데 정렬 */
-  padding: 10px 0;
+  margin-top: 7px;
+  width: 100%;
 }
 
 .carhistory-name {
-  font-size: 24px;
-  font-weight: bold;
-  text-align: left;
+  font-size: 18px; /* 글씨 크기 */
+  font-weight: bold; /* 회사명을 굵게 */
+  padding-left: 20px;
 }
 
 .download-btn {
-  padding: 10px 20px;
   background-color: #4CAF50;
   color: white;
   border: none;
@@ -35,11 +37,6 @@
 
 .download-btn:hover {
   background-color: #45a049;
-}
-
-.divider {
-  margin-top: 10px;
-  border: 1px solid #e0e0e0;
 }
 
 /* 필터 섹션 */

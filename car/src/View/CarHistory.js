@@ -114,13 +114,13 @@ const CarHistory = () => {
   };
 
   return (
-    <div className="container">
+    <div className="car-history-container">
+      <div className="car-history-a-box">
       <div className="carhistory">
         <header className="header">
           <div className="carhistory-name">차량 운행 내역</div>
           <button className="download-btn">엑셀 다운로드</button>
         </header>
-        <hr className="divider"/>
       </div>
 
       <div className="filters">
@@ -308,6 +308,7 @@ const CarHistory = () => {
         <UseMap onClose={closeMapModal} coord = {coordinates}/>
       </Modal>
       </div>
+    </div>
   );
 };
 
