@@ -73,19 +73,19 @@
   border: 1px solid #ccc;
 }
 
-.table {
+.usermanegement-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.table th {
+.usermanegement-table th {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
   background-color: #F6F6F6;
 }
 
-.table td {
+.usermanegement-table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
@@ -102,6 +102,7 @@
 }
 
 .page-btn {
+  height: 30px;
   padding: 5px 10px;
   margin: 0 5px;
   color: black;
@@ -109,6 +110,10 @@
   background-color: white;
   cursor: pointer;
   font-weight: bold;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .page-btn:hover {
