@@ -414,7 +414,7 @@ const CarManagement = () => {
                                                 className="car-management-g-box-top-text-href"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="car-management-g-box-middle-title"
+                                                href='https://www.cyberts.kr/cp/pvr/prm/readCpPvrPrsecResveMainView.do'
                                                 >
                                                     정기검사예약
                                             </a>
