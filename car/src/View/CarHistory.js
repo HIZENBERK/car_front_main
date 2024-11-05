@@ -123,119 +123,168 @@ const CarHistory = () => {
       출도착지: `출발: ${car.start} / 도착: ${car.end}`,
       누적주행거리: car.totalDistance,
     }));
-  
+
     const worksheet = XLSX.utils.json_to_sheet(filteredData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "CarHistory");
-  
+
     // 엑셀 파일로 다운로드
     XLSX.writeFile(workbook, "차량운행기록.xlsx");
   };
 
   return (
     <div className="car-history-container">
+
+      <div className="car-history-b-box">
+        <div className="carhistory-name">차량 운행 내역</div>
+        <div className="car-history-download-btn-box">
+          <button className="download-btn">엑셀 다운로드</button>
+        </div>
+      </div>
+
       <div className="car-history-a-box">
-      <div className="carhistory">
-        <header className="header">
-          <div className="carhistory-name">차량 운행 내역</div>
-          <button className="download-btn" onClick={handleDownloadExcel}>엑셀 다운로드</button>
-        </header>
+
+        <div className="car-history-c-box">
+          <div className="car-history-c-box-list-option">
+            <label className="car-history-middle-title">운행 기록 옵션:</label>
+            <input
+              type="radio"
+              name="record-option"
+              value="전체"
+              checked={recordOption === '전체'}
+              onChange={handleRecordOptionChange}
+            /> 전체
+            <div className="_black"></div>
+            <input
+              type="radio"
+              name="record-option"
+              value="삭제된 차량 제외"
+              checked={recordOption === '삭제된 차량 제외'}
+              onChange={handleRecordOptionChange}
+            /> 삭제된 차량 제외
+          </div>
+          <div className="car-history-c-box-way-option">
+            <label className="car-history-middle-title">거리 옵션:</label>
+            <input
+              type="radio"
+              name="distance-option"
+              value="전체"
+              checked={distanceOption === '전체'}
+              onChange={handleDistanceOptionChange}
+            /> 전체
+            {/*<input*/}
+            {/*  type="radio"*/}
+            {/*  name="distance-option"*/}
+            {/*  value="3km 이상"*/}
+            {/*  checked={distanceOption === '3km 이상'}*/}
+            {/*  onChange={handleDistanceOptionChange}*/}
+            {/*/> 3km 이상*/}
+            <div className="_black"></div>
+            <input
+              type="radio"
+              name="distance-option"
+              value="3km 이하"
+              checked={distanceOption === '3km 이하'}
+              onChange={handleDistanceOptionChange}
+            /> 3km 이하
+          </div>
+        </div>
+
+        <div className="car-history-d-box">
+          <div className="car-history-d-box-operation">
+            <label className='car-history-middle-title'>운행 용도:</label>
+            <input
+              type="radio"
+              name="use-type"
+              value="전체"
+              checked={useType === '전체'}
+              onChange={handleUseTypeChange}
+            /> 전체
+            <div className="_black"></div>
+            <input
+              type="radio"
+              name="use-type"
+              value="출퇴근용"
+              checked={useType === '출퇴근용'}
+              onChange={handleUseTypeChange}
+            /> 출/퇴근용
+            <div className="_black"></div>
+            <input
+              type="radio"
+              name="use-type"
+              value="업무용"
+              checked={useType === '업무용'}
+              onChange={handleUseTypeChange}
+            /> 업무용
+            <div className="_black"></div>
+            <input
+              type="radio"
+              name="use-type"
+              value="비업무용"
+              checked={useType === '비업무용'}
+              onChange={handleUseTypeChange}
+            /> 비업무용
+          </div>
+          <div className="car-history-d-box-date-check">
+            <button className="car-history-date-check-button" onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}>
+              기간 조회
+            </button>
+          </div>
+        </div>
+
+        <div className="car-history-e-box">
+          <div className="car-history-e-box-search-box">
+            <label className='car-history-middle-title'>통합검색:</label>
+            <input className="car-history-e-box-search-input"></input>
+          </div>
+          <div className="car-history-e-box-see-box">
+
+          </div>
+        </div>
+
+        <div className="car-history-f-box">
+        <table className="car-history-table">
+          <thead>
+            <tr>
+              <th>일시/시간</th>
+              <th>목적</th>
+              <th>차량(운전자)</th>
+              <th>거리 / 소요시간(분)</th>
+              <th>출/도착지</th>
+              <th>누적 주행거리</th>
+              <th>연수증</th>
+              <th>참고</th>
+            </tr>
+          </thead>
+          <tbody className="car-history-tbody">
+            {filterCarData().map((car) => (
+              <tr key={car.id}>
+                <td>{car.date}</td>
+                <td>{car.purpose}</td>
+                <td>{car.car}<br />{car.driver}</td>
+                <td>{car.distance}</td>
+                <td>출발: {car.start}<br />도착: {car.end}</td>
+                <td>{car.totalDistance}</td>
+                <td>
+                  <button onClick={() => openMapModal(coordinates)}>지도보기</button>
+                </td>
+                <td>
+                  <button>관리자 생성</button>
+                </td>
+              </tr>
+            ))}
+            </tbody>
+          </table>
+        </div>
+
       </div>
-
-      <div className="filters">
-        <div className="filter-row">
-          <label>운행기록 옵션:</label>
-          <input
-            type="radio"
-            name="record-option"
-            value="전체"
-            checked={recordOption === '전체'}
-            onChange={handleRecordOptionChange}
-          /> 전체
-          <input
-            type="radio"
-            name="record-option"
-            value="삭제된 차량 제외"
-            checked={recordOption === '삭제된 차량 제외'}
-            onChange={handleRecordOptionChange}
-          /> 삭제된 차량 제외
-        </div>
-
-        <div className="1">
-        <div className="aa">
-          <label>운행 용도:</label>
-          <input
-            type="radio"
-            name="use-type"
-            value="전체"
-            checked={useType === '전체'}
-            onChange={handleUseTypeChange}
-          /> 전체
-          <input
-            type="radio"
-            name="use-type"
-            value="출퇴근용"
-            checked={useType === '출퇴근용'}
-            onChange={handleUseTypeChange}
-          /> 출/퇴근용
-          <input
-            type="radio"
-            name="use-type"
-            value="업무용"
-            checked={useType === '업무용'}
-            onChange={handleUseTypeChange}
-          /> 업무용
-          <input
-            type="radio"
-            name="use-type"
-            value="비업무용"
-            checked={useType === '비업무용'}
-            onChange={handleUseTypeChange}
-          /> 비업무용
-        </div>
-      </div>
-
-        <div className="filter-row">
-          <label>거리 옵션:</label>
-          <input
-            type="radio"
-            name="distance-option"
-            value="전체"
-            checked={distanceOption === '전체'}
-            onChange={handleDistanceOptionChange}
-          /> 전체
-          {/*<input*/}
-          {/*  type="radio"*/}
-          {/*  name="distance-option"*/}
-          {/*  value="3km 이상"*/}
-          {/*  checked={distanceOption === '3km 이상'}*/}
-          {/*  onChange={handleDistanceOptionChange}*/}
-          {/*/> 3km 이상*/}
-          <input
-            type="radio"
-            name="distance-option"
-            value="3km 이하"
-            checked={distanceOption === '3km 이하'}
-            onChange={handleDistanceOptionChange}
-          /> 3km 이하
-        </div>
-
-        <div className="bb">
-          <label>기간 조회:</label>
-          <button onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}>
-            기간 조회
-          </button>
-        </div>
-        <div className='cc'>
-          <label>통합검색:</label>
-          <input></input>
-        </div>
-      </div>
-
-      {/* Date picker modal */}
-      {isDatePickerOpen && (
+    {/* Date picker modal */}
+    {isDatePickerOpen && (
         <div className="date-picker-popup">
-          <h4>가는날을 선택하세요</h4>
+          <div className="date-picker-popup-top">
+            <h4 className="date-picker-popup-title">가는날을 선택하세요</h4>
+            <button className="car-history-reset-button" onClick={handleReset}>날짜 지우기</button>
+          </div>
 
     {/* 가로로 두 개의 DatePicker 배치 */}
     <div className="date-picker-container">
@@ -278,44 +327,12 @@ const CarHistory = () => {
             <p>시작 날짜: {startDate ? startDate.toLocaleDateString('ko-KR') : '선택되지 않음'}</p>
             <p>끝나는 날짜: {endDate ? endDate.toLocaleDateString('ko-KR') : '선택되지 않음'}</p>
           </div>
-          <button className="reset-button" onClick={handleReset}>날짜 지우기</button>
-          <button onClick={() => setIsDatePickerOpen(false)}>확인</button>
+
+          <button className="car-history-date-btn" onClick={() => setIsDatePickerOpen(false)}>확인</button>
+          <button className="car-history-close-btn" onClick={() => setIsDatePickerOpen(false)}>닫기</button>
         </div>
       )}
 
-
-      <table className="car-history-table">
-        <thead>
-          <tr>
-            <th>일시/시간</th>
-            <th>목적</th>
-            <th>차량(운전자)</th>
-            <th>거리 / 소요시간(분)</th>
-            <th>출/도착지</th>
-            <th>누적 주행거리</th>
-            <th>연수증</th>
-            <th>참고</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filterCarData().map((car) => (
-            <tr key={car.id}>
-              <td>{car.date}</td>
-              <td>{car.purpose}</td>
-              <td>{car.car}<br />{car.driver}</td>
-              <td>{car.distance}</td>
-              <td>출발: {car.start}<br />도착: {car.end}</td>
-              <td>{car.totalDistance}</td>
-              <td>
-                <button onClick={() => openMapModal(coordinates)}>지도보기</button>
-              </td>
-              <td>
-                <button>관리자 생성</button>
-              </td>
-            </tr>
-          ))}
-          </tbody>
-        </table>
       {/* 지도 모달 */}
       <Modal
           isOpen={isMapOpen}
@@ -326,7 +343,6 @@ const CarHistory = () => {
       >
         <UseMap onClose={closeMapModal} coord = {coordinates}/>
       </Modal>
-      </div>
     </div>
   );
 };
