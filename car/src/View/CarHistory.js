@@ -5,6 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/locale'; // 한국어 설정
 import '../CSS/CarHistory.css';
 import UseMap, { useMap } from '../Component/UseMap';
+import * as XLSX from 'xlsx'
 
 const CarHistory = () => {
   const [markers, setMarkers] = useState([]);
@@ -113,13 +114,31 @@ const CarHistory = () => {
     },
   };
 
+  const handleDownloadExcel = () => {
+    const filteredData = filterCarData().map((car) => ({
+      일시시간: car.date,
+      목적: car.purpose,
+      차량운전자: `${car.car} (${car.driver})`,
+      거리_소요시간: car.distance,
+      출도착지: `출발: ${car.start} / 도착: ${car.end}`,
+      누적주행거리: car.totalDistance,
+    }));
+  
+    const worksheet = XLSX.utils.json_to_sheet(filteredData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "CarHistory");
+  
+    // 엑셀 파일로 다운로드
+    XLSX.writeFile(workbook, "차량운행기록.xlsx");
+  };
+
   return (
     <div className="car-history-container">
       <div className="car-history-a-box">
       <div className="carhistory">
         <header className="header">
           <div className="carhistory-name">차량 운행 내역</div>
-          <button className="download-btn">엑셀 다운로드</button>
+          <button className="download-btn" onClick={handleDownloadExcel}>엑셀 다운로드</button>
         </header>
       </div>
 
