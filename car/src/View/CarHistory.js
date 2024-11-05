@@ -115,13 +115,16 @@ const CarHistory = () => {
 
   return (
     <div className="car-history-container">
-      <div className="car-history-a-box">
 
-        <div className="car-history-b-box">
-          <div className="carhistory-name">차량 운행 내역</div>
+      <div className="car-history-b-box">
+        <div className="carhistory-name">차량 운행 내역</div>
+        <div className="car-history-download-btn-box">
           <button className="download-btn">엑셀 다운로드</button>
         </div>
-        
+      </div>
+
+      <div className="car-history-a-box">
+
         <div className="car-history-c-box">
           <div className="car-history-c-box-list-option">
             <label className="car-history-middle-title">운행 기록 옵션:</label>
@@ -259,7 +262,10 @@ const CarHistory = () => {
     {/* Date picker modal */}
     {isDatePickerOpen && (
         <div className="date-picker-popup">
-          <h4>가는날을 선택하세요</h4>
+          <div className="date-picker-popup-top">
+            <h4 className="date-picker-popup-title">가는날을 선택하세요</h4>
+            <button className="car-history-reset-button" onClick={handleReset}>날짜 지우기</button>
+          </div>
 
     {/* 가로로 두 개의 DatePicker 배치 */}
     <div className="date-picker-container">
@@ -302,8 +308,9 @@ const CarHistory = () => {
             <p>시작 날짜: {startDate ? startDate.toLocaleDateString('ko-KR') : '선택되지 않음'}</p>
             <p>끝나는 날짜: {endDate ? endDate.toLocaleDateString('ko-KR') : '선택되지 않음'}</p>
           </div>
-          <button className="reset-button" onClick={handleReset}>날짜 지우기</button>
-          <button onClick={() => setIsDatePickerOpen(false)}>확인</button>
+          
+          <button className="car-history-date-btn" onClick={() => setIsDatePickerOpen(false)}>확인</button>
+          <button className="car-history-close-btn" onClick={() => setIsDatePickerOpen(false)}>닫기</button>
         </div>
       )}
 

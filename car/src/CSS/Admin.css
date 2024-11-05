@@ -26,7 +26,7 @@
 .person-name {
   font-size: 18px; /* 글씨 크기 */
   color: #000; /* 글씨 색상 */
-  margin-right: 10px;
+  margin-right: 20px;
 }
 
 .admin-middle {
@@ -313,7 +313,7 @@ th, td {
   display: flex;
   flex-direction: column; /* 세로 정렬 */
   margin-top: 60px;
-  margin-left: 15px;
+  margin-left: 10px;
 }
 
 .admin-b-box {
