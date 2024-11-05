@@ -136,7 +136,7 @@ const CarHistory = () => {
     <div className="car-history-container">
 
       <div className="car-history-b-box">
-        <div className="carhistory-name" >차량 운행 내역</div>
+        <p className="carhistory-name">차량 운행 내역</p>
         <div className="car-history-download-btn-box">
           <button className="download-btn" onClick={handleDownloadExcel}>엑셀 다운로드</button>
         </div>

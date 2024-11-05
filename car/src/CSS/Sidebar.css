@@ -43,13 +43,8 @@
   text-align: center;
 }
 
-/* 마우스 오버 시 메뉴 아이템의 패딩을 확장 */
-.sidebar:hover .menu-item {
-  padding: 10px 20px; /* 확장된 상태에서 더 넓은 패딩 적용 */
-}
-
 .menu-item:hover {
-  background-color: #EAEAEA;
+  background-color: #EAEAEA !important;
 }
 
 .menu-item.selected {

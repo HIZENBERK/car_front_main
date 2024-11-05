@@ -58,11 +58,16 @@
 }
 
 .download-btn {
+  width: 130px;
+  height: 30px;
   background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .download-btn:hover {
@@ -71,6 +76,7 @@
 
 .car-history-download-btn-box {
   padding-right: 13px;
+  height: 100%;
 }
 
 .car-history-c-box-list-option {

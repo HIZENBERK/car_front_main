@@ -236,7 +236,7 @@ const CarManagement = () => {
     const closeModal = () => {
         setIsModalOpen(false);
       };
-    
+
       const updateModal = () => {
         setIsModalOpen(false);
       }
@@ -408,26 +408,26 @@ const CarManagement = () => {
                             {selectedCar ? (
                                 <>
                                     <div className="car-management-g-box">
-                                    <div className="car-management-g-box-top">
+                                        <div className="car-management-g-box-top">
                                             <p className="car-management-g-box-top-text">차량 정기 검사</p>
-                                            <a 
+                                            <a
                                                 className="car-management-g-box-top-text-href"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                href="https://www.cyberts.kr/cp/pvr/prm/readCpPvrPrsecResveMainView.do"
+                                                className="car-management-g-box-middle-title"
                                                 >
                                                     정기검사예약
-                                                </a>
+                                            </a>
 
                                     </div>
                                         <div className="car-management-g-box-middle-text-box">
                                             <p className="car-management-g-box-middle-title">정기검사 만료일</p>
-                                            <p className="car-management-g-box-middle-text">{selectedCar.expiration_date}</p>
-                                        </div>
-                                        <div className="car-management-g-box-middle-text-box">
-                                            <p className="car-management-g-box-middle-title">누적주행거리</p>
-                                            <p className="car-management-g-box-middle-text-distance">{selectedCar.cumulative_distance}</p>
-                                        </div>
+                                                <p className="car-management-g-box-middle-text">{selectedCar.expiration_date}</p>
+                                            </div>
+                                            <div className="car-management-g-box-middle-text-box">
+                                                <p className="car-management-g-box-middle-title">누적주행거리</p>
+                                                <p className="car-management-g-box-middle-text-distance">{selectedCar.cumulative_distance}</p>
+                                            </div>
 
                                         <p className="car-management-g-box-middle-top-text">소모품 현황</p>
                                         {/* 엔진 진행률 */}
@@ -455,7 +455,7 @@ const CarManagement = () => {
                                         {/* 에어컨 진행률 */}
                                         <div className="car-management-progressbar-box">
                                             <div className="car-management-progressbar-title-box">
-                                                <p className="car-management-progressbar-title">에어컨 필터(향균필터)</p>
+                                                <p className="car-management-progressbar-title">에어컨 필터(향균 필터)</p>
                                                 <p className="car-management-progressbar-text">{selectedCar ? `${selectedCar.ac} / 15000Km` : '데이터 없음'}</p>
                                              </div>
                                             <div
@@ -529,7 +529,26 @@ const CarManagement = () => {
                                             </select>
                                             <button className="car-management-registration-maintenance" onClick={handleModalOpen}>정비 등록</button>
                                         </div>
-                                        <div className="car-management-j-box"></div>
+                                        <div className="car-management-j-box">
+                                            <table className="car-management-car-maintenance-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>정비 일자</th>
+                                                        <th>정비 내용</th>
+                                                        <th>누적 주행 거리</th>
+                                                        <th>금액</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>10/10</td>
+                                                        <td>타이어</td>
+                                                        <td>123km</td>
+                                                        <td>21,300</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </>
                             ) : (
@@ -542,42 +561,37 @@ const CarManagement = () => {
                     </div>
                 )}
 
-                {isModalOpen && (
-                    <div className="car-management-modal-overlay">
+            {isModalOpen && (
+                <div className="car-management-modal-overlay">
                     <div className="car-management-modal">
                         <h2>정비 등록</h2>
                         <div className="car-management-modal-content">
                             <div className="car-label-box">
-                                <label className="car-label-text">차량 번호: {selectedCar.num}</label>
+                                <label className="car-label-text">정비 일자:</label>
+                                <div className="car-label-input-with-icon">
+                                    <input type="date" className="car-label-input-date" />
+                                </div>
                             </div>
                             <div className="car-label-box">
                                 <label className="car-label-text">누적 주행 거리:</label>
-                                <input type="text" className="car-label-input"/>
+                                <input type="text" className="car-label-input" />Km
                             </div>
                             <div className="car-label-box">
-                                <label className="car-label-text">정비 일자:</label>
-                                <input type="text" className="car-label-input"/>
-                            </div>
-                            <div className="car-label-box">
+                                <select className="car-management-maintenance-select" onChange={handleYearChange}>
+                                    <option value="엔진오일 및 필터">엔진오일 및 필터</option>
+                                    <option value="에어컨 필터(향균 필터)">에어컨 필터(향균 필터)</option>
+                                    <option value="브레이크 패드 및 디스크">브레이크 패드 및 디스크</option>
+                                    <option value="타이어">타이어</option>
+                                </select>
                                 <label className="car-label-text">금액:</label>
-                                <input type="text" className="car-label-input"/>
-                            </div>
-                            <select className="car-management-year-select" onChange={handleYearChange}>
-                                <option value="2024">2024년</option>
-                                <option value="2023">2023년</option>
-                                <option value="2022">2022년</option>
-                                <option value="2021">2021년</option>
-                             </select>
-                            <div className="car-label-box">
-                                <label className="car-label-text">정비 내용:</label>
-                                <input type="text" className="car-label-input-maintenance"/>
+                                <input type="text" className="car-label-input-price" />원
                             </div>
                         </div>
                         <button className="car-management-update-btn" onClick={updateModal}>등록</button>
                         <button className="car-management-close-btn" onClick={closeModal}>닫기</button>
                     </div>
-                    </div>
-                )}
+                </div>
+            )}
 
             </div>
         </div>

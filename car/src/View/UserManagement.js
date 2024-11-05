@@ -125,7 +125,7 @@ const UserManagement = () => {
         </div>
 
         <div className="usermanagement-c-box">
-          <table className="table">
+          <table className="usermanegement-table">
             <thead>
               <tr>
                 <th><input type="checkbox" /></th>
