@@ -1,3 +1,5 @@
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
 /* 기본 사이드바 스타일 */
 .sidebar {
   width: 200px !important; /* 우선순위 강제 */
