@@ -398,7 +398,24 @@ th, td {
 .user-guide-box:hover,
 .user-info-box:hover,
 .vehicle-status-box:hover,
-.vehicle-run-box:hover {
+.vehicle-run-box:hover,
+.admin-bottom-a-box {
   background-color: #f0f0f0; /* 호버 시 배경색 변화 */
   cursor: pointer;
+}
+
+.admin-container{
+  background: linear-gradient(to bottom right, #689bd4, #ac7ac2);
+    height: 100vh; /* 전체 화면 높이 유지 */
+    margin: 0; /* 기본 여백 제거 */
+    z-index: -1;
+}
+
+.admin-top{
+  z-index: -2;
+}
+
+.admin-c-box,.admin-bottom-a-box,.admin-bottom-title,.admin-bottom-c-box{
+  position: relative;
+  z-index: 0;
 }

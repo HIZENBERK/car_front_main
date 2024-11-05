@@ -498,6 +498,12 @@
   background-color: #f0f0f0;
 }
 
+.car-management{
+  background: linear-gradient(to bottom right, #689bd4, #ac7ac2);
+    height: 100vh; /* 전체 화면 높이 유지 */
+    margin: 0; /* 기본 여백 제거 */
+}
+
 .car-label-input-with-icon {
   position: relative;
   border: none;
