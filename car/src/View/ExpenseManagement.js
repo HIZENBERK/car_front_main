@@ -58,6 +58,82 @@ const ExpenseManagement = () => {
         </div>
       </div>
 
+      <div className="expense-management-a-box">
+
+        <div className="expense-management-b-box">
+          <select className="rows-per-page" value={rowsPerPage} onChange={handleRowsPerPageChange}>
+            <option value="10">10개씩 보기</option>
+            <option value="20">20개씩 보기</option>
+            <option value="30">30개씩 보기</option>
+          </select>
+          <input type="text" className="expense-management-search-box" placeholder="검색..." />
+        </div>
+
+        <div classname="expense-management-c-box">
+          <table className="expense-table">
+            <thead>
+              <tr>
+                <th><input type="checkbox" /></th>
+                <th>구분</th>
+                <th>지출 일자</th>
+                <th>상태</th>
+                <th>사용자</th>
+                <th>차량</th>
+                <th>지출 및 정비/상세 내역</th>
+                <th>결제 수단</th>
+                <th>금액</th>
+                <th>영수증 상세</th>
+                <th>첨부파일</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentRows.map((row) => (
+                <tr key={row.id} onClick={() => openModal(row)}>
+                  <td><input type="checkbox" /></td>
+                  <td>{row.type}</td>
+                  <td>{row.date}</td>
+                  <td>{row.status}</td>
+                  <td>{row.user}</td>
+                  <td>{row.vehicle}</td>
+                  <td>{row.detail}</td>
+                  <td>{row.payment}</td>
+                  <td>{row.amount}</td>
+                  <td>{row.receipt}</td>
+                  <td>{row.attachment}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <div className="pagination">
+            <button
+              className="page-btn"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              &lt;
+            </button>
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                className={`page-btn ${currentPage === index + 1 ? 'active' : ''}`}
+                onClick={() => handlePageChange(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              className="page-btn"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              &gt;
+            </button>
+          </div>
+        </div>
+
+      </div>
+
     {selectedRow && (
       <div className="expensemanagement-modal-overlay" onClick={closeModal}>
         <div className="expensemanagement-modal-content" onClick={(e) => e.stopPropagation()}>
