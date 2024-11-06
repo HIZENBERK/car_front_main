@@ -172,89 +172,92 @@ const Notice = () => {
 
   return (
     <div className="notice-management">
-      <main className="main-content">
-        <div className="header">
-          <h2>공지 사항</h2>
-          <button
-            className="create-notice-btn"
-            onClick={() => {
-              setIsEditMode(false);
-              setIsModalOpen(true);
-              setSelectedNotice(null);
-            }}
-          >
-            공지 생성
-          </button>
-        </div>
+      <div className="notice-top">
+        <p className="notice-top-title">공지사항</p>
+        <button
+          className="create-notice-btn"
+          onClick={() => {
+            setIsEditMode(false);
+            setIsModalOpen(true);
+            setSelectedNotice(null);
+          }}
+        >
+          공지 생성
+        </button>
+      </div>
 
-        <table className="notice-table">
-          <thead>
-            <tr>
-              <th>번호</th>
-              <th>제목</th>
-              <th>작성자</th>
-              <th>등록일</th>
-              <th>삭제</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentRows.map((row) => (
-              <tr key={row.id} onClick={() => handleRowClick(row)}>
-                <td>{row.number}</td>
-                <td>{row.name}</td>
-                <td>{row.user}</td>
-                <td>{row.date}</td>
-                <td>
-                  <button
-                    className="delete-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteNotice(row.id);
-                    }}
-                  >
-                    삭제
-                  </button>
-                </td>
+      <div className="notice-a-box">
+
+        <div className="notice-b-box">
+          <table className="notice-table">
+            <thead>
+              <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>등록일</th>
+                <th>삭제</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {currentRows.map((row) => (
+                <tr key={row.id} onClick={() => handleRowClick(row)}>
+                  <td>{row.number}</td>
+                  <td>{row.name}</td>
+                  <td>{row.user}</td>
+                  <td>{row.date}</td>
+                  <td>
+                    <button
+                      className="notice-delete-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteNotice(row.id);
+                      }}
+                    >
+                      삭제
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-        <div className="pagination">
-          <button
-            className="page-btn"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            &lt;
-          </button>
-          {[...Array(totalPages)].map((_, index) => (
+          <div className="pagination">
             <button
-              key={index}
-              className={`page-btn ${currentPage === index + 1 ? 'active' : ''}`}
-              onClick={() => handlePageChange(index + 1)}
+              className="page-btn"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
             >
-              {index + 1}
+              &lt;
             </button>
-          ))}
-          <button
-            className="page-btn"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            &gt;
-          </button>
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                className={`page-btn ${currentPage === index + 1 ? 'active' : ''}`}
+                onClick={() => handlePageChange(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              className="page-btn"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              &gt;
+            </button>
+          </div>
         </div>
 
-        {/* 공지 생성 및 수정 모달 */}
-        <Modal
+      </div>
+      {/* 공지 생성 및 수정 모달 */}
+      <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onSubmit={isEditMode ? handleEditNotice : handleCreateNotice}
           notice={selectedNotice}
           isEdit={isEditMode}
         />
-      </main>
     </div>
   );
 };
