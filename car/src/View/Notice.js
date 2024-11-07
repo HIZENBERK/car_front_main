@@ -3,17 +3,18 @@ import axios from 'axios';
 import '../CSS/Notice.css';
 import { useAuth } from "../Component/AuthContext";
 
-const Modal = ({ isOpen, onClose, onSubmit, notice, isEdit }) => {
+const Modal = ({ isOpen, onClose, onSubmit, selectedNotice, isEdit }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
+  //console.log("모달에 전단될 값" ,selectedNotice.notice);
   // 수정 모드일 때 공지사항의 제목과 내용을 초기화합니다.
   useEffect(() => {
-    if (notice && isEdit) {
-      setTitle(notice.name);  // 선택된 공지사항의 제목 설정
-      setContent(notice.content);  // 선택된 공지사항의 내용 설정
+    if (selectedNotice && isEdit) {
+      setTitle(selectedNotice.notice.title);  // 선택된 공지사항의 제목 설정
+      setContent(selectedNotice.notice.content);  // 선택된 공지사항의 내용 설정
     }
-  }, [notice, isEdit]);
+  }, [selectedNotice, isEdit]);
 
   if (!isOpen) return null;
 
@@ -34,13 +35,13 @@ const Modal = ({ isOpen, onClose, onSubmit, notice, isEdit }) => {
           <input
             type="text"
             className="modal-input"
-            value={title}
+            value={title || ''}
             onChange={(e) => setTitle(e.target.value)}
           />
           <label>내용</label>
           <textarea
             className="modal-textarea"
-            value={content}
+            value={content || ''}
             onChange={(e) => setContent(e.target.value)}
           ></textarea>
         </div>
@@ -68,58 +69,74 @@ const Notice = () => {
   const currentRows = notices.slice(indexOfFirstRow, indexOfLastRow);
   const totalPages = Math.ceil(notices.length / rowsPerPage);
 
-  useEffect(() => {
-    const fetchNotices = async () => {
-      try {
-        const response = await axios.get(
+  const fetchNotices = async () => {
+    try {
+      const response = await axios.get(
           'https://hizenberk.pythonanywhere.com/api/notices/all/',
           {
             headers: {
               Authorization: `Bearer ${authState.access}`
             }
           }
-        );
-        const fetchedNotices = response.data.notices.map((notice, index) => ({
-          id: index + 1,
-          number: index + 1,
-          name: notice.title,
-          user: notice.created_by__name,
-          date: notice.created_at,
-          content: notice.content
-        }));
-        setNotices(fetchedNotices);
-      } catch (error) {
-        console.error('공지사항 목록 조회 실패:', error.response?.data);
-      }
-    };
+      );
+      const fetchedNotices = response.data.notices.map((notice) => ({
+        id: notice.id,
+        // number: index + 1,
+        name: notice.title,
+        user: notice.created_by__name,
+        date: notice.created_at,
+        content: notice.content
+      }));
+      setNotices(fetchedNotices);
+      // console.log(notices)
+    } catch (error) {
+      console.error('공지사항 목록 조회 실패:', error.response?.data);
+    }
+  };
 
+  useEffect(() => {
     fetchNotices();
-  }, [authState.access]);
+  }, []);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const handleRowClick = (notice) => {
-    setSelectedNotice(notice);
-    setIsEditMode(true);
-    setIsModalOpen(true);
+  const handleRowClick = async (noticeId) => {
+    try {
+      const response = await axios.get(
+          `https://hizenberk.pythonanywhere.com/api/notices/${noticeId}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${authState.access}`
+            }
+          }
+      );
+      setSelectedNotice(response.data);
+      setIsEditMode(true);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error('해당 공지사항 조회 실패:', error.response?.data);
+    }
   };
 
   const handleCreateNotice = async (title, content) => {
     try {
       const response = await axios.post(
         'https://hizenberk.pythonanywhere.com/api/notices/create/',
-        { title, content },
+        { title:title,
+                content:content
+        },
         {
           headers: {
             Authorization: `Bearer ${authState.access}`
           }
         }
       );
+      // console.log(response.data)
       const newNotice = {
         id: response.data.notice.id,
-        number: notices.length + 1,
+        // number: notices.length + 1,
         name: title,
         user: authState.name,
         date: new Date().toISOString().slice(0, 10),
@@ -134,7 +151,7 @@ const Notice = () => {
   const handleEditNotice = async (title, content) => {
     try {
       await axios.put(
-        `https://hizenberk.pythonanywhere.com/api/notices/${selectedNotice.id}/update/`,
+        `https://hizenberk.pythonanywhere.com/api/notices/${selectedNotice.notice.id}/`,
         { title, content },
         {
           headers: {
@@ -149,6 +166,7 @@ const Notice = () => {
       ));
       setIsModalOpen(false);
       setSelectedNotice(null);
+      fetchNotices();
     } catch (error) {
       console.error('공지사항 수정 실패:', error.response?.data);
     }
@@ -157,7 +175,7 @@ const Notice = () => {
   const handleDeleteNotice = async (noticeId) => {
     try {
       await axios.delete(
-        `https://hizenberk.pythonanywhere.com/api/notices/${noticeId}/delete/`,
+        `https://hizenberk.pythonanywhere.com/api/notices/${noticeId}/`,
         {
           headers: {
             Authorization: `Bearer ${authState.access}`
@@ -201,8 +219,8 @@ const Notice = () => {
             </thead>
             <tbody>
               {currentRows.map((row) => (
-                <tr key={row.id} onClick={() => handleRowClick(row)}>
-                  <td>{row.number}</td>
+                <tr key={row.id} onClick={() => handleRowClick(row.id)}>
+                  <td>{row.id}</td>
                   <td>{row.name}</td>
                   <td>{row.user}</td>
                   <td>{row.date}</td>
@@ -255,7 +273,7 @@ const Notice = () => {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onSubmit={isEditMode ? handleEditNotice : handleCreateNotice}
-          notice={selectedNotice}
+          selectedNotice={selectedNotice}
           isEdit={isEditMode}
         />
     </div>
