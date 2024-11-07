@@ -54,6 +54,11 @@ const CarManagement = () => {
         getVehicles();
     }, []);
 
+    useEffect(() => {
+        if (activeTab === '정비이력' && car_data.length > 0) {
+            setSelectedCar(car_data[0]); // car_data의 첫 번째 차량을 선택
+        }
+    }, [activeTab]);
     const handleTabClick = (tab) => {
         setActiveTab(tab);
         setIsFormVisible(false);
@@ -221,10 +226,10 @@ const CarManagement = () => {
         { num: '125나 8545', expiration_date: '2024-06-15', cumulative_distance: '87,000 km', engine: '교체 필요', ac: '정상', break: '정상', tire: '양호' },
     ];
     const car_data = [
-        { img: '이미지', num: '123가 4567', expiration_date: '10/12', cumulative_distance: '123km', engine: '1234', ac: '3333', break: '555', tire: '4213' },
-        { img: '이미지', num: '125나 8545', expiration_date: '10/30', cumulative_distance: '144km', engine: '4850', ac: '2341', break: '3411', tire: '5000' },
-        { img: '이미지', num: '254허 2554', expiration_date: '9/15', cumulative_distance: '200km', engine: '1000', ac: '4000', break: '3500', tire: '3332' },
-        { img: '이미지', num: '224경 4653', expiration_date: '10/15', cumulative_distance: '300km', engine: '2000', ac: '2000', break: '8000', tire: '3214' },
+        { img: '/Img/9409_42742_3533.jpg', num: '123가 4567', expiration_date: '10/12', cumulative_distance: '123km', engine: '1234', ac: '3333', break: '555', tire: '4213' },
+        { img: '/Img/60920_127896_4054.jpg', num: '125나 8545', expiration_date: '10/30', cumulative_distance: '144km', engine: '4850', ac: '2341', break: '3411', tire: '5000' },
+        { img: '/Img/63219_148910_538.jpg', num: '254허 2554', expiration_date: '9/15', cumulative_distance: '200km', engine: '1000', ac: '4000', break: '3500', tire: '3332' },
+        { img: '/Img/carnival_exterior_front_view_pc.jpg', num: '224경 4653', expiration_date: '10/15', cumulative_distance: '300km', engine: '2000', ac: '2000', break: '8000', tire: '3214' },
     ];
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -394,8 +399,10 @@ const CarManagement = () => {
                                 </thead>
                                 <tbody>
                                     {car_data.map((car, index) => (
-                                        <tr key={index} onClick={() => handleCarTableClick(car)} className="car-management-clickable-row">
-                                            <td className="car-management-car-table-td-img">{car.img}</td>
+                                        <tr key={index} onClick={() => handleCarTableClick(car)}
+                                            className="car-management-clickable-row">
+                                            <img src={car.img} alt="Car" className="car-management-car-table-td-img"/>
+                                            {/*<td className="car-management-car-table-td-img">{car.img}</td>*/}
                                             <td className="car-management-car-table-td-num">{car.num}</td>
                                         </tr>
                                     ))}

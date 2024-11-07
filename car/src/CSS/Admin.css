@@ -53,7 +53,7 @@
 /* 공지사항 제목 */
 .notice-title {
   position: absolute;
-  top: 10px; 
+  top: 10px;
   left: 10px;
   font-size: 18px;
   font-weight: bold;
@@ -189,7 +189,7 @@ th, td {
   display: flex;
   justify-content: space-between; /* 자식 요소들 간의 간격을 동일하게 설정 */
 }
- 
+
 .operation-percentage {
   display: flex; /* Flexbox 사용 */
   flex-direction: column; /* 세로 정렬 */
@@ -405,7 +405,7 @@ th, td {
 }
 
 .admin-container{
-  background: linear-gradient(to bottom right, #689bd4, #ac7ac2);
+  /*background: linear-gradient(to bottom right, #689bd4, #ac7ac2);*/
     height: 100vh; /* 전체 화면 높이 유지 */
     margin: 0; /* 기본 여백 제거 */
     z-index: -1;

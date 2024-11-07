@@ -37,12 +37,12 @@ const Sidebar = () => {
 
     // 메뉴 항목 리스트와 각각의 경로 정의
     const menuItems = [
-        { name: '대시보드', path: '/admin', icon: 'fas fa-tachometer-alt', color: 'blue' },
-        { name: '공지사항', path: '/notice', icon: 'fas fa-bell', color: 'red' },
-        { name: '사용자 관리', path: '/usermanagement', icon: 'fas fa-users', color: 'yellow' },
-        { name: '차량 관리', path: '/CarManagement', icon: 'fas fa-car', color: 'brown' },
-        { name: '차량 운행 내역', path: '/CarHistory', icon: 'fas fa-history', color: 'purple' },
-        { name: '지출관리', path: '/expensemanagement', icon: 'fas fa-money-bill', color: 'green' },
+        { name: '대시보드', path: '/admin', icon: 'fas fa-tachometer-alt', color: 'black' },
+        { name: '공지사항', path: '/notice', icon: 'fas fa-bell', color: 'black' },
+        { name: '사용자 관리', path: '/usermanagement', icon: 'fas fa-users', color: 'black' },
+        { name: '차량 관리', path: '/CarManagement', icon: 'fas fa-car', color: 'black' },
+        { name: '차량 운행 내역', path: '/CarHistory', icon: 'fas fa-history', color: 'black' },
+        { name: '지출관리', path: '/expensemanagement', icon: 'fas fa-money-bill', color: 'black' },
     ];
 
     const settingsMenuItems = [
@@ -64,7 +64,7 @@ const Sidebar = () => {
             {menuItems.map((item, index) => (
             <div key={index}>
                 <div
-                    className={`menu-item ${isSelected(item.path) ? 'selected' : ''}`} 
+                    className={`menu-item ${isSelected(item.path) ? 'selected' : ''}`}
                     style={{
                         backgroundColor: isSelected(item.path) ? '#ddd' : '#f8f8f8',
                         fontWeight: isSelected(item.path) ? 'bold' : 'normal',
