@@ -19,9 +19,9 @@
 }
 
 /* 마우스 오버 시 회사명 표시 */
-.sidebar:hover .company-name {
-  display: block;
-}
+/*.sidebar:hover .company-name {*/
+/*  display: block;*/
+/*}*/
 
 /* 프로필 원이 항상 가운데 정렬되도록 유지 */
 .profile-circle {

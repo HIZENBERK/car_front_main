@@ -6,6 +6,9 @@ import { ko } from 'date-fns/locale'; // 한국어 설정
 import '../CSS/CarHistory.css';
 import UseMap, { useMap } from '../Component/UseMap';
 import * as XLSX from 'xlsx'
+import ExcelJS from 'exceljs';
+import saveAs from 'file-saver';
+import {makeXlsx} from "../Component/MakeXlsx";
 
 const CarHistory = () => {
   const [markers, setMarkers] = useState([]);
@@ -114,22 +117,25 @@ const CarHistory = () => {
     },
   };
 
-  const handleDownloadExcel = () => {
-    const filteredData = filterCarData().map((car) => ({
-      일시시간: car.date,
-      목적: car.purpose,
-      차량운전자: `${car.car} (${car.driver})`,
-      거리_소요시간: car.distance,
-      출도착지: `출발: ${car.start} / 도착: ${car.end}`,
-      누적주행거리: car.totalDistance,
-    }));
+  const handleDownloadExcel = async () => {
+    // const filteredData = filterCarData().map((car) => ({
+    //   일시시간: car.date,
+    //   목적: car.purpose,
+    //   차량운전자: `${car.car} (${car.driver})`,
+    //   거리_소요시간: car.distance,
+    //   출도착지: `출발: ${car.start} / 도착: ${car.end}`,
+    //   누적주행거리: car.totalDistance,
+    // }));
+    //
+    // const worksheet = XLSX.utils.json_to_sheet(filteredData);
+    // const workbook = XLSX.utils.book_new();
+    // XLSX.utils.book_append_sheet(workbook, worksheet, "CarHistory");
+    //
+    // // 엑셀 파일로 다운로드
+    // XLSX.writeFile(workbook, "차량운행기록.xlsx");
 
-    const worksheet = XLSX.utils.json_to_sheet(filteredData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "CarHistory");
-
-    // 엑셀 파일로 다운로드
-    XLSX.writeFile(workbook, "차량운행기록.xlsx");
+    const filteredData = filterCarData(); // 필터링된 데이터 준비
+    await makeXlsx(filteredData); // 함수 호출
   };
 
   return (
@@ -250,9 +256,9 @@ const CarHistory = () => {
               <th>목적</th>
               <th>차량(운전자)</th>
               <th>거리 / 소요시간(분)</th>
-              <th>출/도착지</th>
+              <th>출발/도착지</th>
               <th>누적 주행거리</th>
-              <th>연수증</th>
+              <th>운행 경로</th>
               <th>참고</th>
             </tr>
           </thead>

@@ -13,6 +13,7 @@ import Notice from './Notice';
 
 import AdminSignup from './AdminSignup';
 import { useAuth ,AuthProvider } from '../Component/AuthContext';
+import Settings from "./Settings";
 
 function App() {
   const location = useLocation(); // 현재 경로 확인
@@ -32,6 +33,7 @@ function App() {
         <Route path="/carmanagement" element={<CarManagement />} />
         <Route path="/notice" element={<Notice />} />
         <Route path="/adminsignup" element={<AdminSignup />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </div>
   );
