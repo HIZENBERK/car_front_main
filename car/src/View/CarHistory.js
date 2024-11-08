@@ -60,13 +60,51 @@ const CarHistory = () => {
   ];
 
   const coordinates = [
+    { latitude: 37.566742, longitude: 127.008330 },
+    { latitude: 37.567924, longitude: 127.009059 },
+    { latitude: 37.568919, longitude: 127.009649 },
+    { latitude: 37.570067, longitude: 127.009950 },
+    { latitude: 37.571121, longitude: 127.009510 },
+    { latitude: 37.572116, longitude: 127.008620 },
+    { latitude: 37.572916, longitude: 127.007911 },
+    { latitude: 37.573519, longitude: 127.007332 },
+    { latitude: 37.574310, longitude: 127.006635 },
+    { latitude: 37.574540, longitude: 127.006045 },
+    { latitude: 37.575013, longitude: 127.005644 },
+    { latitude: 37.575635, longitude: 127.005031 },
+    { latitude: 37.576070, longitude: 127.003921 },
+    { latitude: 37.576277, longitude: 127.002269 },
+    { latitude: 37.576570, longitude: 127.002256 },
+    { latitude: 37.577090, longitude: 127.002264 },
+    { latitude: 37.577577, longitude: 127.002249 },
+    { latitude: 37.578124, longitude: 127.002226 },
+    { latitude: 37.579110, longitude: 127.002196 },
+    { latitude: 37.579576, longitude: 127.002192 },
+    { latitude: 37.580075, longitude: 127.002177 },
+    { latitude: 37.580995, longitude: 127.002067 },
+    { latitude: 37.581608, longitude: 127.002059 },
+    { latitude: 37.582240, longitude: 127.001945},
+    { latitude: 37.583184, longitude: 127.001809 },
+    { latitude: 37.584085, longitude: 127.001657 },
+    { latitude: 37.584666, longitude: 127.001521},
+    { latitude: 37.585053, longitude: 127.001498},
+    { latitude: 37.585086, longitude: 127.001778}
+  ];
+
+  const coordinates2 = [
     {latitude: 37.3967, longitude: 126.9074},
     {latitude: 37.396708, longitude: 126.907916},
     {latitude: 37.396630, longitude: 126.908587},
     {latitude: 37.396204, longitude: 126.909412},
     {latitude: 37.396261, longitude: 126.911446}
   ];
-
+  const coordinates3 = [
+    {latitude: 37.3967, longitude: 126.9074},
+    {latitude: 37.396708, longitude: 126.907916},
+    {latitude: 37.396630, longitude: 126.908587},
+    {latitude: 37.396204, longitude: 126.909412},
+    {latitude: 37.396261, longitude: 126.911446}
+  ];
   // km를 숫자로 변환하는 함수
   const getKmValue = (distance) => {
     return parseFloat(distance.split(' km')[0]);
