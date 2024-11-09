@@ -88,7 +88,6 @@ const UserManagement = () => {
 
   return (
     <div className="usermanagement-container">
-      <div className="usermanagement-background">
       <div className="usermanagement-top">
         <p className="usermanagement-top-title">사용자 관리</p>
       </div>
@@ -116,7 +115,7 @@ const UserManagement = () => {
             </select>
             <input
               type="text"
-              className="usermanagement-search-box"
+              className="search-box"
               placeholder="검색..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -216,7 +215,6 @@ const UserManagement = () => {
           </div>
         </div>
       )}
-      </div>
     </div>
   );
 };

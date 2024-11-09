@@ -190,7 +190,6 @@ const Notice = () => {
 
   return (
     <div className="notice-management">
-      <div className="notice-background">
       <div className="notice-top">
         <p className="notice-top-title">공지사항</p>
         <button
@@ -277,7 +276,6 @@ const Notice = () => {
           selectedNotice={selectedNotice}
           isEdit={isEditMode}
         />
-        </div>
     </div>
   );
 };

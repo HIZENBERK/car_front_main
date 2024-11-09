@@ -37,16 +37,16 @@ const Sidebar = () => {
 
     // 메뉴 항목 리스트와 각각의 경로 정의
     const menuItems = [
-        { name: '대시보드', path: '/admin', icon: 'fas fa-tachometer-alt', color: 'white' },
-        { name: '공지사항', path: '/notice', icon: 'fas fa-bell', color: 'white' },
-        { name: '사용자 관리', path: '/usermanagement', icon: 'fas fa-users', color: 'white' },
-        { name: '차량 관리', path: '/CarManagement', icon: 'fas fa-car', color: 'white' },
-        { name: '차량 운행 내역', path: '/CarHistory', icon: 'fas fa-history', color: 'white' },
-        { name: '지출관리', path: '/expensemanagement', icon: 'fas fa-money-bill', color: 'white' },
+        { name: '대시보드', path: '/admin', icon: 'fas fa-tachometer-alt', color: 'black' },
+        { name: '공지사항', path: '/notice', icon: 'fas fa-bell', color: 'black' },
+        { name: '사용자 관리', path: '/usermanagement', icon: 'fas fa-users', color: 'black' },
+        { name: '차량 관리', path: '/CarManagement', icon: 'fas fa-car', color: 'black' },
+        { name: '차량 운행 내역', path: '/CarHistory', icon: 'fas fa-history', color: 'black' },
+        { name: '지출관리', path: '/expensemanagement', icon: 'fas fa-money-bill', color: 'black' },
     ];
 
     const settingsMenuItems = [
-        { name: '설정', path: '/settings', icon: 'bi bi-gear-fill', color: 'white' } // 설정 메뉴 항목
+        { name: '설정', path: '/settings' } // 설정 메뉴 항목
     ];
 
     // 현재 경로가 해당 경로로 시작하는지 확인하는 함수
@@ -98,7 +98,7 @@ const Sidebar = () => {
                             }}
                             onClick={() => handleClick(item.path)} // 클릭 시 해당 경로로 이동
                         >
-                            <i className={item.icon} style={{ marginRight: '8px', color: item.color }}></i> {/* 아이콘 추가 */}
+                            <i className={item.icon} style={{ marginRight: '8px' }}></i> {/* 아이콘 추가 */}
                             {item.name} {/* 설정 메뉴 이름 출력 */}
                         </div>
                     </div>
