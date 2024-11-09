@@ -115,7 +115,8 @@
 }
 
 .expense-table th {
-  background-color: #F6F6F6;
+  background-color: rgb(84, 87, 100);
+  color: white;
 }
 
 .expense-table th, .expense-table td {

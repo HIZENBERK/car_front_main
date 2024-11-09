@@ -103,7 +103,9 @@
   border: 2px solid black;
   padding: 8px;
   text-align: center;
-  background-color: #F6F6F6;
+  /*background-color: #F6F6F6;*/
+  background-color: rgb(84, 87, 100);
+  color: white;
 }
 
 .usermanegement-table td {

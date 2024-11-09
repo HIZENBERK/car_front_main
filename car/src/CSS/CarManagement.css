@@ -168,7 +168,8 @@
 }
 
 .car-table th {
-  background-color: #F6F6F6;
+  background-color: rgb(84, 87, 100);
+  color: white;
 }
 
 .car-table th,
@@ -193,14 +194,16 @@
 .car-management-car-table-car {
   width: 55%;
   text-align: center;
-  background-color: #F6F6F6;
+  background-color: rgb(84, 87, 100);
+  color: white;
   border-bottom: 2px solid black;
 }
 
 .car-management-car-table-car-num {
   width: 55%;
   text-align: center;
-  background-color: #F6F6F6;
+  background-color: rgb(84, 87, 100);
+  color: white;
   border-bottom: 2px solid black;
 }
 
@@ -235,7 +238,8 @@
 
 .car-management-car-maintenance-table th {
   text-align: center;
-  background-color: #F6F6F6;
+  background-color: rgb(84, 87, 100);
+  color: white;
   border-bottom: 2px solid black;
 }
 
