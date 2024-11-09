@@ -1,10 +1,20 @@
 .car-history-container {
+  background-color: #f3f3f38e;
+  width: 100%; /* 전체 화면을 사용 */
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  flex-direction: column; /* 세로 정렬 */
+}
+
+.car-history-background {
   width: 85%; /* 전체 화면을 사용 */
   height: 100vh;
   display: flex;
   justify-content: flex-start; /* 왼쪽 정렬 */
   flex-direction: column; /* 세로 정렬 */
   margin-right: 5px;
+  margin-left: 14%;
 }
 
 .car-history-a-box {
@@ -125,7 +135,7 @@
   justify-content: center;
   height: 30px;
   background-color: white; /* 버튼 배경색 흰색 */
-  border: 1px solid #ccc; /* 검은색 테두리 */
+  border: 2px solid black; /* 검은색 테두리 */
   padding: 5px 10px; /* 버튼 안쪽 여백 */
   cursor: pointer; /* 커서 모양 변경 */
   border-radius: 4px; /* 버튼 모서리를 둥글게 */
@@ -156,6 +166,7 @@
   border: none; /* 전체 경계선을 제거 */
   border-bottom: 1px solid black; /* 하단 경계선만 추가 */
   padding: 5px; /* 입력 필드 내 여백 조정 */
+  background-color: #f3f3f314;
 }
 
 /* 테이블 스타일 */
@@ -163,10 +174,11 @@
   width: 100%;
   border-collapse: collapse;
   text-align: center;
+  border: 2px solid black;
 }
 
 .car-history-table th, .car-history-table td {
-  border: 1px solid #ccc;
+  border: 2px solid black;
   padding: 10px;
 }
 
@@ -176,6 +188,7 @@
 
 .car-history-table td {
   vertical-align: middle;
+  background-color: white;
 }
 
 .car-history-table tr {
@@ -202,7 +215,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid black;
   padding: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
@@ -242,7 +255,7 @@
   justify-content: center;
   height: 30px;
   background-color: white; /* 버튼 배경색 흰색 */
-  border: 1px solid #ccc; /* 검은색 테두리 */
+  border: 2px solid black; /* 검은색 테두리 */
   padding: 5px 10px; /* 버튼 안쪽 여백 */
   cursor: pointer; /* 커서 모양 변경 */
   border-radius: 4px; /* 버튼 모서리를 둥글게 */
@@ -255,7 +268,7 @@
   margin-top: 20px;
   background-color: white;
   color: black;
-  border: 1px solid #ccc;
+  border: 2px solid black;
   padding: 5px;
   cursor: pointer;
   border-radius: 50px;
@@ -269,7 +282,7 @@
   margin-top: 20px;
   background-color: red;
   color: white;
-  border: 1px solid #ccc;
+  border: 2px solid black;
   padding: 5px;
   cursor: pointer;
   border-radius: 50px;

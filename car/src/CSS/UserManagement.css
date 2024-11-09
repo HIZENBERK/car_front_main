@@ -1,10 +1,21 @@
 .usermanagement-container {
-    width: 85%;
-    height: 100vh;
-    display: flex;
-    justify-content: flex-start; /* 왼쪽 정렬 */
-    overflow: hidden; /* 이 컨테이너 안의 내용이 넘치면 숨김 */
-    margin-right: 5px;
+  background-color: #f3f3f38e;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  flex-direction: column; /* 세로 정렬 */
+  overflow: hidden; /* 이 컨테이너 안의 내용이 넘치면 숨김 */
+}
+
+.usermanagement-background {
+  width: 85%; /* 전체 화면을 사용 */
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  flex-direction: column; /* 세로 정렬 */
+  margin-right: 5px;
+  margin-left: 14%;
 }
 
 .usermanagement-top {
@@ -12,7 +23,6 @@
     justify-content: space-between;
     align-items: center;
     width: 85%;
-    background-color: white;
     position: fixed;
     margin-top: 10px;
   }
@@ -26,7 +36,7 @@
 .user-management-registration {
   width: 13%;
   background-color: white; /* 버튼 배경색 흰색 */
-  border: 1px solid #ccc; /* 검은색 테두리 */
+  border: 2px solid black; /* 검은색 테두리 */
   padding: 5px 10px; /* 버튼 안쪽 여백 */
   cursor: pointer; /* 커서 모양 변경 */
   border-radius: 4px; /* 버튼 모서리를 둥글게 */
@@ -45,7 +55,7 @@
   padding: 1px;
   font-size: 14px;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 2px solid black;
   margin-right: 10px;
 }
 
@@ -56,21 +66,32 @@
 
 .user-check {
   background-color: white; /* 버튼 배경색 흰색 */
-  border: 1px solid #ccc; /* 검은색 테두리 */
+  border: 2px solid black; /* 검은색 테두리 */
   padding: 5px 10px; /* 버튼 안쪽 여백 */
   cursor: pointer; /* 커서 모양 변경 */
   border-radius: 4px; /* 버튼 모서리를 둥글게 */
   margin-left: auto;
   color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .user-check:hover {
   background-color: #f0f0f0; /* 호버 시 배경색 변화 */
 }
 
-.rows-per-page, .search-box {
+.rows-per-page {
   padding: 5px;
-  border: 1px solid #ccc;
+  border: 2px solid black;
+}
+
+.usermanagement-search-box {
+  padding: 5px;
+  border: none;
+  border-bottom: 1px solid black;
+  margin-right: 5px;
+  background-color: #f3f3f314;
 }
 
 .usermanegement-table {
@@ -79,14 +100,15 @@
 }
 
 .usermanegement-table th {
-  border: 1px solid #ddd;
+  border: 2px solid black;
   padding: 8px;
   text-align: center;
   background-color: #F6F6F6;
 }
 
 .usermanegement-table td {
-  border: 1px solid #ddd;
+  border: 2px solid black;
+  background-color: white;
   padding: 8px;
   text-align: center;
 }

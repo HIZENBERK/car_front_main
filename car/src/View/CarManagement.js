@@ -248,6 +248,7 @@ const CarManagement = () => {
 
     return (
         <div className="car-management">
+            <div className="car-management-background">
 
             <div className="car-management-top">
                 <p className="car-management-top-text">차량 관리</p>
@@ -600,6 +601,7 @@ const CarManagement = () => {
                 </div>
             )}
 
+            </div>
             </div>
         </div>
     );

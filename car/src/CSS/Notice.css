@@ -1,10 +1,20 @@
 .notice-management {
-  width: 85%;
+  background-color: #f3f3f38e;
+  width: 100%;
   height: 100vh;
   display: flex;
   justify-content: flex-start; /* 왼쪽 정렬 */
   overflow: hidden; /* 이 컨테이너 안의 내용이 넘치면 숨김 */
+}
+
+.notice-background {
+  width: 85%; /* 전체 화면을 사용 */
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  flex-direction: column; /* 세로 정렬 */
   margin-right: 5px;
+  margin-left: 14%;
 }
 
 .notice-top {
@@ -24,7 +34,7 @@
 
 .create-notice-btn {
   height: 30px;
-  border: 1px solid #ccc;
+  border: 2px solid black;
   background-color: #f9f9f9;
   cursor: pointer;
   display: flex;
@@ -60,9 +70,13 @@
   margin-bottom: 10px;
 }
 
+.rows-per-page {
+  cursor: pointer;
+}
+
 .rows-per-page, .search-box {
   padding: 5px;
-  border: 1px solid #ccc;
+  border: 2px solid black;
 }
 
 .notice-table {
@@ -75,7 +89,7 @@
 }
 
 .notice-table th, .notice-table td {
-  border: 1px solid #ddd;
+  border: 2px solid black;
   padding: 8px;
   text-align: center;
 }
@@ -107,7 +121,7 @@
 .page-btn {
   padding: 5px 10px;
   margin: 0 5px;
-  border: 1px solid #ccc;
+  border: 2px solid black;
   cursor: pointer;
   border-radius: 4px;
   display: flex;

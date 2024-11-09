@@ -1,10 +1,20 @@
 .admin-container {
-  width: 85%;
+  /*background: linear-gradient(to bottom right, #EBF7FF, #FFEBFF);*/
+  background-color: #f3f3f38e;
+  width: 100%;
   height: 100vh;
   display: flex;
   justify-content: flex-start; /* 왼쪽 정렬 */
   overflow: hidden; /* 이 컨테이너 안의 내용이 넘치면 숨김 */
+}
+
+.admin-background {
+  width: 85%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
   margin-right: 5px;
+  margin-left: 14%;
 }
 
 .admin-top {
@@ -12,7 +22,6 @@
   justify-content: space-between;
   align-items: center;
   width: 85%;
-  background-color: white;
   position: fixed;
   margin-top: 10px;
 }
@@ -97,7 +106,7 @@ th, td {
 .vehicle-run-box {
   width: 100%;
   height: 100%;
-  border: 1px solid #ccc;
+  border: 2px solid black;
   border-radius: 8px;
   /*padding: 2px;*/
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -109,7 +118,7 @@ th, td {
 .vehicle-status-box{
   width: 100%;
   height: 100%;
-  border: 1px solid #ccc;
+  border: 2px solid black;
   border-radius: 8px;
   /*padding: 2px;*/
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -146,7 +155,7 @@ th, td {
 .user-guide-box {
   width: 100%; /* user-info-box와 vehicle-status-box, vehicle-run-box의 총 길이 */
   height: 95%;
-  border: 1px solid #ccc;
+  border: 2px solid black;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: white;
@@ -333,9 +342,10 @@ th, td {
   height: 100%;
   display: flex; /* Flexbox를 사용해 가로 정렬 */
   justify-content: space-between;
-  border: 1px solid #ccc;
+  border: 2px solid black;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
 }
 
 .admin-bottom-b-box {
@@ -398,24 +408,7 @@ th, td {
 .user-guide-box:hover,
 .user-info-box:hover,
 .vehicle-status-box:hover,
-.vehicle-run-box:hover,
-.admin-bottom-a-box {
+.vehicle-run-box:hover{
   background-color: #f0f0f0; /* 호버 시 배경색 변화 */
   cursor: pointer;
-}
-
-.admin-container{
-  /*background: linear-gradient(to bottom right, #689bd4, #ac7ac2);*/
-    height: 100vh; /* 전체 화면 높이 유지 */
-    margin: 0; /* 기본 여백 제거 */
-    z-index: -1;
-}
-
-.admin-top{
-  z-index: -2;
-}
-
-.admin-c-box,.admin-bottom-a-box,.admin-bottom-title,.admin-bottom-c-box{
-  position: relative;
-  z-index: 0;
 }
