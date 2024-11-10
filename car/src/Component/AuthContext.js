@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
@@ -38,21 +38,42 @@ export const AuthProvider = ({ children }) => {
 
     const refreshAccessToken = async () => {
         try {
-            const response = await axios.post('https://hizenberk.pythonanywhere.com/api/token/refresh/', {
-                refresh: authState.refresh || localStorage.getItem('refreshToken'),
-            });
-            const newAccessToken = response.data.access;
-            localStorage.setItem('accessToken', newAccessToken);
-            setAuthState((prevState) => ({ ...prevState, access: newAccessToken }));
+            // const refreshToken = authState.refresh || localStorage.getItem('refreshToken');
+            // if (!refreshToken) return null; // Refresh token이 없으면 리턴하지 않음
+            //
+            // const response = await axios.post('https://hizenberk.pythonanywhere.com/api/token/refresh/', {
+            //     refresh: refreshToken,
+            // });
+            const newAccessToken = localStorage.getItem('accessToken');
+            // localStorage.setItem('accessToken', newAccessToken);
+            // setAuthState((prevState) => ({ ...prevState, access: newAccessToken }));
             return newAccessToken;
         } catch (error) {
             console.error('Failed to refresh token:', error);
-            logout(); // Log out user if refresh token is invalid
+            logout(); // Refresh token이 만료된 경우 로그아웃
             return null;
         }
     };
 
     const [LogoutSuccess, setLogoutSuccess] = useState('');
+
+    // 페이지가 로드될 때 토큰을 자동으로 갱신합니다.
+    useEffect(() => {
+        const initializeAuth = async () => {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken');
+
+            if (accessToken && refreshToken) {
+                setAuthState({
+                    access: accessToken,
+                    refresh: refreshToken,
+                });
+                //await refreshAccessToken(); // 액세스 토큰 갱신
+            }
+        };
+
+        initializeAuth(); // 페이지가 로드될 때 실행
+    }, []); // 컴포넌트가 처음 마운트될 때 한 번만 실행
 
     return (
         <AuthContext.Provider value={{ authState, login, logout, LogoutSuccess, setLogoutSuccess, refreshAccessToken }}>

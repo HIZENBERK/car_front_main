@@ -1,5 +1,5 @@
 import '../CSS/App.css';
-import {BrowserRouter as Router, Route, Routes, Link, useLocation, useNavigate} from 'react-router-dom';
+import { HashRouter as Router, Route, Routes, Link, useLocation, useNavigate } from 'react-router-dom';  // HashRouter로 변경
 import Signup from './Signup';
 import Admin from './Admin';
 import React, { useState } from 'react';
@@ -12,30 +12,29 @@ import CarManagement from './CarManagement';
 import Notice from './Notice';
 
 import AdminSignup from './AdminSignup';
-import { useAuth ,AuthProvider } from '../Component/AuthContext';
+import { useAuth, AuthProvider } from '../Component/AuthContext';
 import Settings from "./Settings";
 
 function App() {
   const location = useLocation(); // 현재 경로 확인
-
   const showSidebar = location.pathname !== '/' && location.pathname !== '/adminsignup'; // '/'와 '/signup'에서 사이드바 숨김
 
   return (
-    <div className="App">
-      {showSidebar && <Sidebar />} {/* 조건부로 Sidebar 렌더링 */}
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/expensemanagement" element={<ExpenseManagement />} />
-        <Route path="/carhistory" element={<CarHistory />} />
-        <Route path="/usermanagement" element={<UserManagement />} />
-        <Route path="/carmanagement" element={<CarManagement />} />
-        <Route path="/notice" element={<Notice />} />
-        <Route path="/adminsignup" element={<AdminSignup />} />
-        <Route path="/settings" element={<Settings />} />
-      </Routes>
-    </div>
+      <div className="App">
+        {showSidebar && <Sidebar />} {/* 조건부로 Sidebar 렌더링 */}
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/expensemanagement" element={<ExpenseManagement />} />
+          <Route path="/carhistory" element={<CarHistory />} />
+          <Route path="/usermanagement" element={<UserManagement />} />
+          <Route path="/carmanagement" element={<CarManagement />} />
+          <Route path="/notice" element={<Notice />} />
+          <Route path="/adminsignup" element={<AdminSignup />} />
+          <Route path="/settings" element={<Settings />} />
+        </Routes>
+      </div>
   );
 }
 
@@ -45,14 +44,15 @@ function Login() {
   const [error, setError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
-  const {setLogoutSuccess} = useAuth();
+  const { setLogoutSuccess } = useAuth();
+
   const navigateToAdmin = () => {
     navigate("/admin");
   };
+
   const handleLogin = async (e) => {
     e.preventDefault(); // 기본 폼 제출 이벤트 방지
     setError(''); // 이전 에러 메시지 초기화
-    //console.log('로그인 정보:', "email_or_phone:" ,emailOrPhone,"\n", "password:", password);
     try {
       const response = await axios.post('https://hizenberk.pythonanywhere.com/api/admin/login/', {
         "email_or_phone": emailOrPhone,
@@ -81,45 +81,41 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleLogin}>
-        {/*<div>*/}
-        {/*  <p>프론트 버전 0.2.6 / 24.11.07</p>*/}
-        {/*  <p>서버 버전 0.1.7 / 24.11.07</p>*/}
-        {/*</div>*/}
-        <div className="form-group">
-          <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="아이디"
-            value={emailOrPhone}
-            onChange={(e) => setEmailOrPhone(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="비밀번호"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-        </div>
-        <div className="form-footer">
-        <Link to="/adminsignup" className="adminSignup-label">관리자 회원가입</Link>
-          <div className="auto-login">
-            <input type="checkbox" id="autoLogin" name="autoLogin" />
-            <label htmlFor="autoLogin">자동로그인</label>
+      <div className="login-container">
+        <form className="login-form" onSubmit={handleLogin}>
+          <div className="form-group">
+            <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="아이디"
+                value={emailOrPhone}
+                onChange={(e) => setEmailOrPhone(e.target.value)}
+                required
+            />
           </div>
-          <button type="submit" className="login-button">로그인</button>
-        </div>
-      </form>
-    </div>
+          <div className="form-group">
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="비밀번호"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+            />
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+          </div>
+          <div className="form-footer">
+            <Link to="/adminsignup" className="adminSignup-label">관리자 회원가입</Link>
+            <div className="auto-login">
+              <input type="checkbox" id="autoLogin" name="autoLogin" />
+              <label htmlFor="autoLogin">자동로그인</label>
+            </div>
+            <button type="submit" className="login-button">로그인</button>
+          </div>
+        </form>
+      </div>
   );
 }
 
