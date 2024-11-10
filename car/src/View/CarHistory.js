@@ -178,7 +178,7 @@ const CarHistory = () => {
 
   return (
     <div className="car-history-container">
-
+      <div className="car-history-background">
       <div className="car-history-b-box">
         <p className="carhistory-name">차량 운행 내역</p>
         <div className="car-history-download-btn-box">
@@ -278,8 +278,7 @@ const CarHistory = () => {
 
         <div className="car-history-e-box">
           <div className="car-history-e-box-search-box">
-            <label className='car-history-middle-title'>통합검색:</label>
-            <input className="car-history-e-box-search-input"></input>
+            <input className="car-history-e-box-search-input" placeholder='검색...'></input>
           </div>
           <div className="car-history-e-box-see-box">
 
@@ -387,6 +386,7 @@ const CarHistory = () => {
       >
         <UseMap onClose={closeMapModal} coord = {coordinates}/>
       </Modal>
+      </div>
     </div>
   );
 };

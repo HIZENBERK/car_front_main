@@ -88,6 +88,7 @@ const UserManagement = () => {
 
   return (
     <div className="usermanagement-container">
+      <div className="usermanagement-background">
       <div className="usermanagement-top">
         <p className="usermanagement-top-title">사용자 관리</p>
       </div>
@@ -215,6 +216,7 @@ const UserManagement = () => {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 };

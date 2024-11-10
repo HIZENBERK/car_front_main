@@ -150,7 +150,7 @@ function Admin() {
 
   return (
     <div className="admin-container">
-      <div className="admin-background"></div>
+      <div className="admin-background">
       <div className="admin-top">
         <p className="office-name">회사명 : {authState.company_name}</p>
         <p className="person-name">{authState.name} 님 안녕하세요!</p>
@@ -355,6 +355,7 @@ function Admin() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

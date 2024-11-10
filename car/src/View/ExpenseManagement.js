@@ -46,7 +46,7 @@ const ExpenseManagement = () => {
 
   return (
     <div className="expense-management">
-      
+      <div className="expense-management-background">
       <div className="expense-management-top-box">
         <p className="expense-management-top-title">지출 내역</p>
         <div className="filters">
@@ -156,6 +156,7 @@ const ExpenseManagement = () => {
         </div>
       </div>
       )}
+      </div>
   </div>
   );
 };
