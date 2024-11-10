@@ -90,11 +90,11 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
 
         // 한글 형식으로 매핑
         const maintenanceTypeMapping = {
-            'engine_oil_change': '엔진오일 및 필터',
-            '에어컨 필터(향균 필터)': '에어컨 필터 교체',
-            '브레이크 패드 및 디스크': '브레이크 패드 교체',
-            '타이어': '타이어 교체',
-            '기타': '기타'
+            '엔진오일 및 필터': 'engine_oil_change' ,
+            '에어컨 필터 교체':'air_filter_change' ,
+            '브레이크 패드 교체':'brake_pad_change' ,
+            '타이어 교체':'tire_change' ,
+            '기타':'other'
         };
 
         const mappedMaintenanceType = maintenanceTypeMapping[maintenanceType];
