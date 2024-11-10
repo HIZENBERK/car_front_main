@@ -1,18 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import '../CSS/CarManagement.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const MaintenanceHistory = () => {
+const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
     const [selectedCar, setSelectedCar] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [carData, setCarData] = useState([]);
+    const [maintenanceDate, setMaintenanceDate] = useState('');
+    const [cumulativeDistance, setCumulativeDistance] = useState('');
+    const [maintenanceType, setMaintenanceType] = useState('엔진오일 및 필터');
+    const [maintenanceCost, setMaintenanceCost] = useState('');
 
-    const car_data = [
-        { img: '/Img/9409_42742_3533.jpg', num: '123가 4567', expiration_date: '10/12', cumulative_distance: '123km', engine: '1234', ac: '3333', break: '555', tire: '4213' },
-        { img: '/Img/60920_127896_4054.jpg', num: '125나 8545', expiration_date: '10/30', cumulative_distance: '144km', engine: '4850', ac: '2341', break: '3411', tire: '5000' },
-        { img: '/Img/63219_148910_538.jpg', num: '254허 2554', expiration_date: '9/15', cumulative_distance: '200km', engine: '1000', ac: '4000', break: '3500', tire: '3332' },
-        { img: '/Img/carnival_exterior_front_view_pc.jpg', num: '224경 4653', expiration_date: '10/15', cumulative_distance: '300km', engine: '2000', ac: '2000', break: '8000', tire: '3214' },
-    ];
+    // 차량 데이터를 불러오는 함수
+    const fetchCarData = async () => {
+        try {
+            const response = await axios.get('https://hizenberk.pythonanywhere.com/api/vehicles/', {
+                headers: { Authorization: `Bearer ${authState.access}` }
+            });
+            setCarData(response.data.vehicles);
+        } catch (error) {
+            if (error.response?.data?.code === 'token_not_valid') {
+                const newAccessToken = await refreshAccessToken();
+                if (newAccessToken) {
+                    fetchCarData();
+                }
+            } else {
+                console.error('차량 데이터 불러오기 실패:', error);
+            }
+        }
+    };
 
+    useEffect(() => {
+        fetchCarData();
+    }, [fetchCarData]);
+
+    // 소모품 상태 계산 함수들
     const carStatusEngine = () => {
         const maxLimit = 10000;
         return {
@@ -53,13 +76,64 @@ const MaintenanceHistory = () => {
         setIsModalOpen(false);
     };
 
-    const updateModal = () => {
-        setIsModalOpen(false);
-    };
-
     const handleYearChange = (event) => {
         const selectedYear = event.target.value;
         console.log(`${selectedYear}년 데이터를 불러옵니다.`);
+    };
+
+    // 정비 기록 등록 함수
+    const handleMaintenanceSubmit = async () => {
+        if (!selectedCar || !maintenanceDate || !maintenanceType || !maintenanceCost) {
+            console.error("모든 필드를 입력해야 합니다.");
+            return;
+        }
+
+        // 한글 형식으로 매핑
+        const maintenanceTypeMapping = {
+            'engine_oil_change': '엔진오일 및 필터',
+            '에어컨 필터(향균 필터)': '에어컨 필터 교체',
+            '브레이크 패드 및 디스크': '브레이크 패드 교체',
+            '타이어': '타이어 교체',
+            '기타': '기타'
+        };
+
+        const mappedMaintenanceType = maintenanceTypeMapping[maintenanceType];
+
+        console.log("전송하는 maintenance_type 값:", mappedMaintenanceType);
+
+        if (!mappedMaintenanceType) {
+            console.error("유효하지 않은 정비 유형입니다.");
+            return;
+        }
+
+        try {
+            const response = await axios.post('https://hizenberk.pythonanywhere.com/api/maintenances/create/', {
+                vehicle: selectedCar.id,
+                maintenance_date: maintenanceDate,
+                maintenance_type: mappedMaintenanceType, // 한글 형식의 정비 유형 전송
+                maintenance_cost: parseFloat(maintenanceCost),
+                maintenance_description: `${maintenanceType} 작업 완료`,
+            }, {
+                headers: { Authorization: `Bearer ${authState.access}` }
+            });
+            console.log('정비 기록 등록 성공:', response.data);
+            closeModal();
+        } catch (error) {
+            if (error.response) {
+                console.error('정비 기록 등록 실패:', error.response.data);
+                if (error.response.data.errors) {
+                    console.error('구체적인 오류:', error.response.data.errors.maintenance_type);
+                }
+            } else {
+                console.error('정비 기록 등록 실패:', error.message);
+            }
+            if (error.response?.data?.code === 'token_not_valid') {
+                const newAccessToken = await refreshAccessToken();
+                if (newAccessToken) {
+                    handleMaintenanceSubmit();
+                }
+            }
+        }
     };
 
     return (
@@ -73,11 +147,13 @@ const MaintenanceHistory = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {car_data.map((car, index) => (
+                        {carData.map((car, index) => (
                             <tr key={index} onClick={() => handleCarTableClick(car)}
                                 className="car-management-clickable-row">
-                                <img src={car.img} alt="Car" className="car-management-car-table-td-img" />
-                                <td className="car-management-car-table-td-num">{car.num}</td>
+                                <td>
+                                    <img src={car.img || '/Img/default_car.jpg'} alt="Car" className="car-management-car-table-td-img" />
+                                </td>
+                                <td className="car-management-car-table-td-num">{car.license_plate_number}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -209,25 +285,26 @@ const MaintenanceHistory = () => {
                             <div className="car-label-box">
                                 <label className="car-label-text">정비 일자:</label>
                                 <div className="car-label-input-with-icon">
-                                    <input type="date" className="car-label-input-date" />
+                                    <input type="date" className="car-label-input-date" onChange={(e) => setMaintenanceDate(e.target.value)} />
                                 </div>
                             </div>
                             <div className="car-label-box">
                                 <label className="car-label-text">누적 주행 거리:</label>
-                                <input type="text" className="car-label-input" />Km
+                                <input type="text" className="car-label-input" onChange={(e) => setCumulativeDistance(e.target.value)} />Km
                             </div>
                             <div className="car-label-box">
-                                <select className="car-management-maintenance-select" onChange={handleYearChange}>
+                                <select className="car-management-maintenance-select" onChange={(e) => setMaintenanceType(e.target.value)}>
                                     <option value="엔진오일 및 필터">엔진오일 및 필터</option>
                                     <option value="에어컨 필터(향균 필터)">에어컨 필터(향균 필터)</option>
                                     <option value="브레이크 패드 및 디스크">브레이크 패드 및 디스크</option>
                                     <option value="타이어">타이어</option>
+                                    <option value="기타">기타</option>
                                 </select>
                                 <label className="car-label-text">금액:</label>
-                                <input type="text" className="car-label-input-price" />원
+                                <input type="text" className="car-label-input-price" onChange={(e) => setMaintenanceCost(e.target.value)} />원
                             </div>
                         </div>
-                        <button className="car-management-update-btn" onClick={updateModal}>등록</button>
+                        <button className="car-management-update-btn" onClick={handleMaintenanceSubmit}>등록</button>
                         <button className="car-management-close-btn" onClick={closeModal}>닫기</button>
                     </div>
                 </div>
