@@ -7,6 +7,7 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
     const [selectedCar, setSelectedCar] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [carData, setCarData] = useState([]);
+    const [maintenanceData, setMaintenanceData] = useState([]); // 전체 정비 기록 저장
     const [maintenanceDate, setMaintenanceDate] = useState('');
     const [cumulativeDistance, setCumulativeDistance] = useState('');
     const [maintenanceType, setMaintenanceType] = useState('엔진오일 및 필터');
@@ -31,9 +32,29 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
         }
     };
 
+    // 전체 정비 기록을 불러오는 함수
+    const fetchMaintenanceData = async () => {
+        try {
+            const response = await axios.get('https://hizenberk.pythonanywhere.com/api/maintenances/', {
+                headers: { Authorization: `Bearer ${authState.access}` }
+            });
+            setMaintenanceData(response.data.records);
+        } catch (error) {
+            if (error.response?.data?.code === 'token_not_valid') {
+                const newAccessToken = await refreshAccessToken();
+                if (newAccessToken) {
+                    fetchMaintenanceData();
+                }
+            } else {
+                console.error('정비 기록 불러오기 실패:', error);
+            }
+        }
+    };
+
     useEffect(() => {
         fetchCarData();
-    }, [fetchCarData]);
+        fetchMaintenanceData(); // 컴포넌트 로드 시 정비 기록 불러오기
+    }, []);
 
     // 소모품 상태 계산 함수들
     const carStatusEngine = () => {
@@ -99,8 +120,6 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
 
         const mappedMaintenanceType = maintenanceTypeMapping[maintenanceType];
 
-        console.log("전송하는 maintenance_type 값:", mappedMaintenanceType);
-
         if (!mappedMaintenanceType) {
             console.error("유효하지 않은 정비 유형입니다.");
             return;
@@ -110,7 +129,7 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
             const response = await axios.post('https://hizenberk.pythonanywhere.com/api/maintenances/create/', {
                 vehicle: selectedCar.id,
                 maintenance_date: maintenanceDate,
-                maintenance_type: mappedMaintenanceType, // 한글 형식의 정비 유형 전송
+                maintenance_type: mappedMaintenanceType,
                 maintenance_cost: parseFloat(maintenanceCost),
                 maintenance_description: `${maintenanceType} 작업 완료`,
             }, {
@@ -136,6 +155,11 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
         }
     };
 
+    // 선택된 차량에 맞는 정비 기록 필터링
+    const filteredMaintenanceData = selectedCar 
+        ? maintenanceData.filter(record => record.vehicle === selectedCar.id) 
+        : [];
+
     return (
         <div className="car-management-d-box">
             <div className="car-management-e-box">
@@ -148,8 +172,7 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                     </thead>
                     <tbody>
                         {carData.map((car, index) => (
-                            <tr key={index} onClick={() => handleCarTableClick(car)}
-                                className="car-management-clickable-row">
+                            <tr key={index} onClick={() => handleCarTableClick(car)} className="car-management-clickable-row">
                                 <td>
                                     <img src={car.img || '/Img/default_car.jpg'} alt="Car" className="car-management-car-table-td-img" />
                                 </td>
@@ -259,12 +282,14 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>10/10</td>
-                                            <td>타이어</td>
-                                            <td>123km</td>
-                                            <td>21,300</td>
-                                        </tr>
+                                        {filteredMaintenanceData.map((record, index) => (
+                                            <tr key={index}>
+                                                <td>{record.maintenance_date}</td>
+                                                <td>{record.maintenance_type_display}</td>
+                                                <td>{record.cumulative_distance || '데이터 없음'}</td> {/* 누적 주행 거리 */}
+                                                <td>{record.maintenance_cost} 원</td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                             </div>
@@ -295,9 +320,9 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                             <div className="car-label-box">
                                 <select className="car-management-maintenance-select" onChange={(e) => setMaintenanceType(e.target.value)}>
                                     <option value="엔진오일 및 필터">엔진오일 및 필터</option>
-                                    <option value="에어컨 필터(향균 필터)">에어컨 필터(향균 필터)</option>
-                                    <option value="브레이크 패드 및 디스크">브레이크 패드 및 디스크</option>
-                                    <option value="타이어">타이어</option>
+                                    <option value="에어컨 필터 교체">에어컨 필터 교체</option>
+                                    <option value="브레이크 패드 교체">브레이크 패드 교체</option>
+                                    <option value="타이어 교체">타이어 교체</option>
                                     <option value="기타">기타</option>
                                 </select>
                                 <label className="car-label-text">금액:</label>
