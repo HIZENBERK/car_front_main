@@ -13,15 +13,30 @@ export const AuthProvider = ({ children }) => {
     });
 
     const login = (refresh, access, company_name, department, name) => {
-        setAuthState({
-            refresh,
-            access,
-            company_name,
-            department,
-            name,
-        });
-        localStorage.setItem('accessToken', access);
-        localStorage.setItem('refreshToken', refresh);
+        if (!localStorage.getItem('accessToken')){
+            setAuthState({
+                refresh,
+                access,
+                company_name,
+                department,
+                name,
+            });
+            localStorage.setItem('accessToken', access);
+            localStorage.setItem('refreshToken', refresh);
+            localStorage.setItem('company_name', company_name);
+            localStorage.setItem('name', name);
+        }else {
+            setAuthState({
+                localStorage.getItem('refreshToken'),
+                localStorage.getItem('accessToken'),
+                company_name,
+                department,
+                name,
+            });
+        }
+
+
+
     };
 
     const logout = () => {
@@ -34,6 +49,8 @@ export const AuthProvider = ({ children }) => {
         });
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        localStorage.removeItem('company_name');
+        localStorage.removeItem('name');
     };
 
     const refreshAccessToken = async () => {
