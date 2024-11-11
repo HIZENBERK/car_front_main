@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../CSS/CarManagement.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const VehicleList = ({ authState, refreshAccessToken }) => {
     const [vehicles, setVehicles] = useState([]);
@@ -190,78 +191,107 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
             </table>
 
             {isFormVisible && (
-                <form className="registration-form" onSubmit={handleRegisterOrUpdateVehicle}>
-                    <button type="button" onClick={() => setIsFormVisible(false)}>뒤로가기</button>
-                    <div className="form-group">
-                        <label>차량 카테고리</label>
-                        <input
-                            type="text"
-                            value={vehicleCategory}
-                            onChange={(e) => setVehicleCategory(e.target.value)}
-                            placeholder="차량 카테고리를 입력하세요"
-                        />
+                <form className="vehiclelist-registration-form" onSubmit={handleRegisterOrUpdateVehicle}>
+                    <div className="vehiclelist-registration-form-box">
+
+                        <div className="vehiclelist-registration-form-a-box">
+
+                            <div className="vehiclelist-registration-form-c-box">
+                                <div className="signup-return-box" onClick={() => setIsFormVisible(false)}>
+                                <i className="bi bi-arrow-return-left"></i>
+                                <span>뒤로 가기</span>
+                                </div>
+                            </div>
+
+                            <div className="vehiclelist-registration-form-d-box">
+                                <div className="form-group">
+                                <label>차량 카테고리</label>
+                                <input
+                                    type="text"
+                                    value={vehicleCategory}
+                                    onChange={(e) => setVehicleCategory(e.target.value)}
+                                    placeholder="차량 카테고리를 입력하세요"
+                                />
+                                </div>
+                                <div className="form-group">
+                                    <label>차종</label>
+                                    <input type="text" value={vehicleType} onChange={(e) => setVehicleType(e.target.value)} />
+                                </div>
+                                <div className="form-group">
+                                    <label>자동차 등록번호</label>
+                                    <input type="text" value={carRegistrationNumber} onChange={(e) => setCarRegistrationNumber(e.target.value)} />
+                                </div>
+                                <div className="form-group">
+                                    <label>차량 번호</label>
+                                    <input type="text" value={licensePlateNumber} onChange={(e) => setLicensePlateNumber(e.target.value)} />
+                                </div>
+                                <div className="form-group">
+                                    <label>구매 날짜</label>
+                                    <input type="date" value={purchaseDate} onChange={(e) => setPurchaseDate(e.target.value)} />
+                                </div>
+                                <div className="form-group">
+                                    <label>구매 가격</label>
+                                    <input type="number" value={purchasePrice} onChange={(e) => setPurchasePrice(e.target.value)} />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div className="vehiclelist-registration-form-b-box">
+
+                            <div className="vehiclelist-registration-form-c-box">
+                                
+                            </div>
+
+                            <div className="vehiclelist-registration-form-e-box">
+                                <div className="form-group">
+                                    <label>총 주행 거리</label>
+                                    <input type="number" value={totalMileage} onChange={(e) => setTotalMileage(e.target.value)} />
+                                </div>
+                                <div className="form-group">
+                                    <label>차대 번호</label>
+                                    <input type="text" value={chassisNumber} onChange={(e) => setChassisNumber(e.target.value)} />
+                                </div>
+                                <div className="form-group">
+                                    <label>구매 유형</label>
+                                    <select value={purchaseType} onChange={(e) => setPurchaseType(e.target.value)}>
+                                        <option value="">선택</option>
+                                        <option value="매매">매매</option>
+                                        <option value="리스">리스</option>
+                                        <option value="렌트">렌트</option>
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label>선수금</label>
+                                    <input type="number" value={downPayment} onChange={(e) => setDownPayment(e.target.value)} />
+                                </div>
+                                <div className="form-group">
+                                    <label>보증금</label>
+                                    <input type="number" value={deposit} onChange={(e) => setDeposit(e.target.value)} />
+                                </div>
+                                <div className="form-group">
+                                    <label>만기일</label>
+                                    <input type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
+                                </div>
+                                <div className="form-group">
+                                    <label>차량 현재 상황</label>
+                                    <select value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)}>
+                                        <option value="">선택</option>
+                                        <option value="가용차량">가용차량</option>
+                                        <option value="사용불가">사용불가</option>
+                                        <option value="삭제">삭제</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                            <div className="vehiclelist-registration-form-f-box">
+                                <button type="submit" className="vehiclelist-submit-button">
+                                    {editingVehicleId ? "수정" : "등록"}
+                                </button>
+                            </div>
+                        </div>
+
                     </div>
-                    <div className="form-group">
-                        <label>차종</label>
-                        <input type="text" value={vehicleType} onChange={(e) => setVehicleType(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>자동차 등록번호</label>
-                        <input type="text" value={carRegistrationNumber} onChange={(e) => setCarRegistrationNumber(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>차량 번호</label>
-                        <input type="text" value={licensePlateNumber} onChange={(e) => setLicensePlateNumber(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>구매 날짜</label>
-                        <input type="date" value={purchaseDate} onChange={(e) => setPurchaseDate(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>구매 가격</label>
-                        <input type="number" value={purchasePrice} onChange={(e) => setPurchasePrice(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>총 주행 거리</label>
-                        <input type="number" value={totalMileage} onChange={(e) => setTotalMileage(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>차대 번호</label>
-                        <input type="text" value={chassisNumber} onChange={(e) => setChassisNumber(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>구매 유형</label>
-                        <select value={purchaseType} onChange={(e) => setPurchaseType(e.target.value)}>
-                            <option value="">선택</option>
-                            <option value="매매">매매</option>
-                            <option value="리스">리스</option>
-                            <option value="렌트">렌트</option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>선수금</label>
-                        <input type="number" value={downPayment} onChange={(e) => setDownPayment(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>보증금</label>
-                        <input type="number" value={deposit} onChange={(e) => setDeposit(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>만기일</label>
-                        <input type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label>차량 현재 상황</label>
-                        <select value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)}>
-                            <option value="">선택</option>
-                            <option value="가용차량">가용차량</option>
-                            <option value="사용불가">사용불가</option>
-                            <option value="삭제">삭제</option>
-                        </select>
-                    </div>
-                    <button type="submit" className="submit-button">
-                        {editingVehicleId ? "수정" : "등록"}
-                    </button>
                 </form>
             )}
         </div>

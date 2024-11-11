@@ -62,30 +62,48 @@ function Signup() {
 
   return (
     <div className="signup-container">
-      <form className="signup-form">
-        <div className="form-group">
-          <input type="password"
-                 className="input-field"
-                 id="password"
-                 name="password"
-                 placeholder="비밀번호"
-                 onChange={(e) => setPassword(e.target.value)}
-          />
+      <div className="admin-signup-a-box">
+
+        <div className="admin-signup-b-box">
+
+          <div className="admin-signup-d-box">
+            <div className="signup-return-box" onClick={() => navigate(-1)}>
+            <i className="bi bi-arrow-return-left"></i>
+            <span>뒤로 가기</span>
+            </div>
+          </div>
+
+          <div className="admin-signup-e-box">
+            <div className="form-group">
+            <input type="password"
+                  className="input-field"
+                  id="password"
+                  name="password"
+                  placeholder="비밀번호"
+                  onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <input type="password"
+                    className="input-field"
+                    id="password"
+                    name="password"
+                    placeholder="비밀번호 확인"
+                    onChange={(e) => setPassword2(e.target.value)}
+              />
+              <p className="password-info">영문, 숫자 6자리 이상</p>
+            </div>
+          </div>
+
         </div>
-        <div className="form-group">
-          <input type="password"
-                 className="input-field"
-                 id="password"
-                 name="password"
-                 placeholder="비밀번호 확인"
-                 onChange={(e) => setPassword2(e.target.value)}
-          />
-          <p className="password-info">영문, 숫자 6자리 이상</p>
-        </div>
-        <div className="form-group">
-          <label className="company-info-label">회사정보</label>
-        </div>
-        <div className="form-group">
+
+        <div className="admin-signup-c-box">
+
+          <div className="admin-signup-f-box">
+            <label className="company-info-label">회사정보</label>
+          </div>
+
+          <div className="form-group">
           <input type="text"
                  className="input-field"
                  id="businessNumber"
@@ -93,75 +111,78 @@ function Signup() {
                  placeholder="사업자번호" onChange={(e) => setBusinessNumber(e.target.value)}
           />
         </div>
-        <div className="form-group">
-          <input type="text"
-                 className="input-field"
-                 id="companyName"
-                 name="companyName"
-                 placeholder="업체명"
-                 onChange={(e) => setCompanyName(e.target.value)}
-          />
+          <div className="form-group">
+            <input type="text"
+                  className="input-field"
+                  id="companyName"
+                  name="companyName"
+                  placeholder="업체명"
+                  onChange={(e) => setCompanyName(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <input type="text"
+                  className="input-field"
+                  id="companyAddress"
+                  name="companyAddress"
+                  placeholder="업체주소"
+                  onChange={(e) => setCompanyAddress(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <input type="text"
+                  className="input-field"
+                  id="managerName"
+                  name="managerName"
+                  placeholder="담당자명"
+                  onChange={(e) => setManagerName(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <input type="text"
+                  className="input-field"
+                  id="position"
+                  name="position"
+                  placeholder="담당자 직급"
+                  onChange={(e) => setPosition(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <input type="text"
+                  className="input-field"
+                  id="department"
+                  name="department"
+                  placeholder="담당자 연락처"
+                  onChange={(e) => setManagerContact(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <input type="text"
+                  className="input-field"
+                  id="managerDepartment"
+                  name="managerDepartment"
+                  placeholder="담당자 소속 부서"
+                  onChange={(e) => setDepartment(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <input type="email"
+                  className="input-field"
+                  id="email"
+                  name="email"
+                  placeholder="이메일"
+                  onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <button type="submit" className="signup-button" onClick={handRegister}>가입하기</button>
+          <p className="terms">
+            가입하기 버튼을 누르면, <span className="blue-text">서비스 이용약관</span>, <span className="blue-text">위치정보 이용약관</span>, <span
+              className="blue-text">개인정보 수집 및 이용</span>에 동의한 것으로 간주합니다.
+          </p>
+
         </div>
-        <div className="form-group">
-          <input type="text"
-                 className="input-field"
-                 id="companyAddress"
-                 name="companyAddress"
-                 placeholder="업체주소"
-                 onChange={(e) => setCompanyAddress(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <input type="text"
-                 className="input-field"
-                 id="managerName"
-                 name="managerName"
-                 placeholder="담당자명"
-                 onChange={(e) => setManagerName(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <input type="text"
-                 className="input-field"
-                 id="position"
-                 name="position"
-                 placeholder="담당자 직급"
-                 onChange={(e) => setPosition(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <input type="text"
-                 className="input-field"
-                 id="department"
-                 name="department"
-                 placeholder="담당자 연락처"
-                 onChange={(e) => setManagerContact(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <input type="text"
-                 className="input-field"
-                 id="managerDepartment"
-                 name="managerDepartment"
-                 placeholder="담당자 소속 부서"
-                 onChange={(e) => setDepartment(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <input type="email"
-                 className="input-field"
-                 id="email"
-                 name="email"
-                 placeholder="이메일"
-                 onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <button type="submit" className="signup-button" onClick={handRegister}>가입하기</button>
-        <p className="terms">
-          가입하기 버튼을 누르면, <span className="blue-text">서비스 이용약관</span>, <span className="blue-text">위치정보 이용약관</span>, <span
-            className="blue-text">개인정보 수집 및 이용</span>에 동의한 것으로 간주합니다.
-        </p>
-      </form>
+
+      </div>
     </div>
   );
 }

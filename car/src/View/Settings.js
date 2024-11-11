@@ -1,5 +1,6 @@
 import React from 'react';
 import '../CSS/Settings.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function Settings() {
     const menuItems = [
@@ -9,6 +10,7 @@ function Settings() {
         { name: '차량 관리', icon: 'fas fa-car', color: 'black', source: 'https://fontawesome.com/icons' },
         { name: '차량 운행 내역', icon: 'fas fa-history', color: 'black', source: 'https://fontawesome.com/icons' },
         { name: '지출관리', icon: 'fas fa-money-bill', color: 'black', source: 'https://fontawesome.com/icons' },
+        { name: '뒤로 가기', icon: 'bi bi-arrow-return-left', color: 'black', source: 'https://icons.getbootstrap.kr/icons/arrow-return-left/'}
     ];
 
     return (
