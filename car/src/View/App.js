@@ -1,8 +1,8 @@
+import React, { useState, useEffect } from 'react';  // useState 추가
 import '../CSS/App.css';
-import {BrowserRouter as Router, Route, Routes, Link, useLocation, useNavigate} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation, useNavigate } from 'react-router-dom';
 import Signup from './Signup';
 import Admin from './Admin';
-import React, { useState } from 'react';
 import axios from 'axios';
 import Sidebar from './Sidebar';
 import ExpenseManagement from './ExpenseManagement';
@@ -10,33 +10,44 @@ import CarHistory from './CarHistory';
 import UserManagement from './UserManagement';
 import CarManagement from './CarManagement';
 import Notice from './Notice';
-
 import AdminSignup from './AdminSignup';
-import { useAuth ,AuthProvider } from '../Component/AuthContext';
-import Settings from "./Settings";
+import { useAuth, AuthProvider } from '../Component/AuthContext';
+import Settings from './Settings';
 
 function App() {
-  const location = useLocation(); // 현재 경로 확인
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { authState, login } = useAuth();
 
-  const showSidebar = location.pathname !== '/' && location.pathname !== '/adminsignup'; // '/'와 '/signup'에서 사이드바 숨김
+    const showSidebar = location.pathname !== '/' && location.pathname !== '/adminsignup'; 
 
-  return (
-    <div className="App">
-      {showSidebar && <Sidebar />} {/* 조건부로 Sidebar 렌더링 */}
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/expensemanagement" element={<ExpenseManagement />} />
-        <Route path="/carhistory" element={<CarHistory />} />
-        <Route path="/usermanagement" element={<UserManagement />} />
-        <Route path="/carmanagement" element={<CarManagement />} />
-        <Route path="/notice" element={<Notice />} />
-        <Route path="/adminsignup" element={<AdminSignup />} />
-        <Route path="/settings" element={<Settings />} />
-      </Routes>
-    </div>
-  );
+    useEffect(() => {
+        // 페이지가 새로 고침될 때 로그인 상태 유지
+        if (authState.access && authState.refresh) {
+            // 이미 로그인 상태라면 필요한 데이터 로드 후, 페이지 이동
+            console.log('로그인 상태 유지');
+        } else {
+            console.log('로그인 상태가 아닙니다.');
+        }
+    }, [authState]);
+
+    return (
+        <div className="App">
+            {showSidebar && <Sidebar />}
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/expensemanagement" element={<ExpenseManagement />} />
+                <Route path="/carhistory" element={<CarHistory />} />
+                <Route path="/usermanagement" element={<UserManagement />} />
+                <Route path="/carmanagement" element={<CarManagement />} />
+                <Route path="/notice" element={<Notice />} />
+                <Route path="/adminsignup" element={<AdminSignup />} />
+                <Route path="/settings" element={<Settings />} />
+            </Routes>
+        </div>
+    );
 }
 
 function Login() {
