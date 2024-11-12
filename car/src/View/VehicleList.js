@@ -31,17 +31,24 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
                 }
             });
             setVehicles(response.data.vehicles);
+            
         } catch (error) {
-            if (error.response?.data?.code === 'token_not_valid') {
-                const newAccessToken = await refreshAccessToken();
-                if (newAccessToken) {
-                    getVehicles(); // 새 토큰으로 요청 재시도
-                }
-            } else {
-                console.error('차량 목록 조회 실패:', error);
-            }
-        }
-    };
+    //         if (error.response?.data?.code === 'token_not_valid') {
+    //             const newAccessToken = await refreshAccessToken();
+    //             if (newAccessToken) {
+    //                 getVehicles(); // 새 토큰으로 요청 재시도
+    //             }
+    //         } else {
+    //             console.error('차량 목록 조회 실패:', error);
+    //         }
+    //     }
+    // };
+
+                {       //위에 주석 다시 사용할때는 이거 지워야함
+                    console.error('차량 목록 조회 실패:', error);//위에 주석 다시 사용할때는 이거 지워야함
+                }//위에 주석 다시 사용할때는 이거 지워야함
+            }//위에 주석 다시 사용할때는 이거 지워야함
+        };//위에 주석 다시 사용할때는 이거 지워야함
 
     useEffect(() => {
         getVehicles();
@@ -93,12 +100,13 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
             getVehicles();
             resetFormFields();
         } catch (error) {
-            if (error.response?.data?.code === 'token_not_valid') {
-                const newAccessToken = await refreshAccessToken();
-                if (newAccessToken) {
-                    handleRegisterOrUpdateVehicle(e); // 새 토큰으로 등록/수정 요청 재시도
-                }
-            } else {
+            // if (error.response?.data?.code === 'token_not_valid') {
+            //     const newAccessToken = await refreshAccessToken();
+            //     if (newAccessToken) {
+            //         handleRegisterOrUpdateVehicle(e); // 새 토큰으로 등록/수정 요청 재시도
+            //     }
+            // } else 
+            {
                 console.error('차량 등록/수정 실패:', error.response?.data);
             }
         }
@@ -130,12 +138,13 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
             console.log('차량 삭제 성공');
             getVehicles();
         } catch (error) {
-            if (error.response?.data?.code === 'token_not_valid') {
-                const newAccessToken = await refreshAccessToken();
-                if (newAccessToken) {
-                    handleDeleteVehicle(licensePlateNumber); // 새 토큰으로 삭제 요청 재시도
-                }
-            } else {
+            // if (error.response?.data?.code === 'token_not_valid') {
+            //     const newAccessToken = await refreshAccessToken();
+            //     if (newAccessToken) {
+            //         handleDeleteVehicle(licensePlateNumber); // 새 토큰으로 삭제 요청 재시도
+            //     }
+            // } else 
+            {
                 console.error('차량 삭제 실패:', error.response?.data);
             }
         }
