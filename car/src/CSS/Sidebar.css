@@ -51,8 +51,9 @@
 }
 
 .menu-item.selected {
-  background-color: rgb(24, 26, 32) !important;
+  background-color: rgb(246, 246, 246) !important;
   font-weight: bold;
+  color: #272b34;
 }
 
 .settings-menu {

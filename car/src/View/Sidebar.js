@@ -75,7 +75,11 @@ const Sidebar = () => {
                     }}
                     onClick={() => handleClick(item.path)}
                 >
-                    <i className={item.icon} style={{ marginRight: '8px', color: item.color }}></i> {/* 아이콘 색상 추가 */}
+                    <i className={item.icon}
+                       style={{
+                           marginRight: '8px',
+                           color: isSelected(item.path) ? '#272b34' : item.color,
+                    }}></i> {/* 아이콘 색상 추가 */}
                     {item.name}
                 </div>
             </div>
