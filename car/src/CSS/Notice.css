@@ -8,13 +8,13 @@
 }
 
 .notice-background {
-  width: 85%; /* 전체 화면을 사용 */
+  width: 90%; /* 전체 화면을 사용 */
   height: 100vh;
   display: flex;
   justify-content: flex-start; /* 왼쪽 정렬 */
   flex-direction: column; /* 세로 정렬 */
   margin-right: 5px;
-  margin-left: 14%;
+  margin-left: 10%;
 }
 
 .notice-top {

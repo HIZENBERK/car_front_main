@@ -2,7 +2,7 @@
 
 /* 기본 사이드바 스타일 */
 .sidebar {
-  width: 200px !important; /* 우선순위 강제 */
+  width: 10% !important; /* 우선순위 강제 */
   background-color: rgb(39, 43, 52) !important;
   padding: 20px 10px !important;
   position: fixed !important;

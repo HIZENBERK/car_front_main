@@ -9,12 +9,12 @@
 }
 
 .admin-background {
-  width: 85%;
+  width: 90%;
   height: 100%;
   display: flex;
   justify-content: flex-start;
   margin-right: 5px;
-  margin-left: 14%;
+  margin-left: 10%;
 }
 
 .admin-top {
