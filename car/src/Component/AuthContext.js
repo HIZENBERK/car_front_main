@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
@@ -12,6 +12,25 @@ export const AuthProvider = ({ children }) => {
         name: null
     });
 
+    useEffect(() => {
+        // 로컬스토리지에서 토큰을 불러와서 상태를 초기화합니다.
+        const accessToken = localStorage.getItem('accessToken');
+        const refreshToken = localStorage.getItem('refreshToken');
+        const companyName = localStorage.getItem('companyName');
+        const department = localStorage.getItem('department');
+        const name = localStorage.getItem('name');
+
+        if (accessToken && refreshToken) {
+            setAuthState({
+                access: accessToken,
+                refresh: refreshToken,
+                company_name: companyName,
+                department: department,
+                name: name
+            });
+        }
+    }, []);
+
     const login = (refresh, access, company_name, department, name) => {
         setAuthState({
             refresh,
@@ -22,6 +41,9 @@ export const AuthProvider = ({ children }) => {
         });
         localStorage.setItem('accessToken', access);
         localStorage.setItem('refreshToken', refresh);
+        localStorage.setItem('companyName', company_name);
+        localStorage.setItem('department', department);
+        localStorage.setItem('name', name);
     };
 
     const logout = () => {
@@ -34,6 +56,9 @@ export const AuthProvider = ({ children }) => {
         });
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        localStorage.removeItem('companyName');
+        localStorage.removeItem('department');
+        localStorage.removeItem('name');
     };
 
     const refreshAccessToken = async () => {
@@ -47,7 +72,7 @@ export const AuthProvider = ({ children }) => {
             return newAccessToken;
         } catch (error) {
             console.error('Failed to refresh token:', error);
-            logout(); // Log out user if refresh token is invalid
+            logout(); // 토큰 갱신 실패 시 로그아웃 처리
             return null;
         }
     };
