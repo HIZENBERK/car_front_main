@@ -130,7 +130,7 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
             console.error("유효하지 않은 정비 유형입니다.");
             return;
         }
-
+        //console.log(selectedCar.id,maintenanceDate,mappedMaintenanceType,maintenanceCost,maintenanceType)
         try {
             const response = await axios.post('https://hizenberk.pythonanywhere.com/api/maintenances/create/', {
                 vehicle: selectedCar.id,
@@ -143,6 +143,7 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
             });
             console.log('정비 기록 등록 성공:', response.data);
             closeModal();
+            fetchMaintenanceData();
         } catch (error) {
             if (error.response) {
                 console.error('정비 기록 등록 실패:', error.response.data);
@@ -185,8 +186,8 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
     };
 
     // 선택된 차량에 맞는 정비 기록 필터링
-    const filteredMaintenanceData = selectedCar 
-        ? maintenanceData.filter(record => record.vehicle === selectedCar.id) 
+    const filteredMaintenanceData = selectedCar
+        ? maintenanceData.filter(record => record.vehicle === selectedCar.id)
         : [];
 
     return (
@@ -319,7 +320,7 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                                                 <td>{record.cumulative_distance || '데이터 없음'}</td>
                                                 <td>{record.maintenance_cost} 원</td>
                                                 <td>
-                                                    <button 
+                                                    <button
                                                         onClick={() => handleMaintenanceDelete(record.id)}
                                                         className="car-management-delete-btn"
                                                     >
