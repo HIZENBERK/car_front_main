@@ -3,8 +3,9 @@ import axios from 'axios';
 import '../CSS/CarManagement.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import {useAuth} from "../Component/AuthContext";
 
-const VehicleList = ({ authState, refreshAccessToken }) => {
+const VehicleList = () => {
     const [vehicles, setVehicles] = useState([]);
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [vehicleCategory, setVehicleCategory] = useState('');
@@ -21,18 +22,19 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
     const [expirationDate, setExpirationDate] = useState('');
     const [currentStatus, setCurrentStatus] = useState('');
     const [editingVehicleId, setEditingVehicleId] = useState(null);
-
+    const { authState, refreshAccessToken } = useAuth();
     // 차량 목록을 서버에서 가져오는 함수
     const getVehicles = async () => {
         try {
+            console.log(authState);
             const response = await axios.get('https://hizenberk.pythonanywhere.com/api/vehicles/', {
                 headers: {
                     Authorization: `Bearer ${authState.access}`
                 }
             });
             setVehicles(response.data.vehicles);
-            
-        } catch (error) {
+
+        }catch (error) {
     //         if (error.response?.data?.code === 'token_not_valid') {
     //             const newAccessToken = await refreshAccessToken();
     //             if (newAccessToken) {
@@ -44,11 +46,11 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
     //     }
     // };
 
-                {       //위에 주석 다시 사용할때는 이거 지워야함
-                    console.error('차량 목록 조회 실패:', error);//위에 주석 다시 사용할때는 이거 지워야함
-                }//위에 주석 다시 사용할때는 이거 지워야함
+            {       //위에 주석 다시 사용할때는 이거 지워야함
+                console.error('차량 목록 조회 실패:', error);//위에 주석 다시 사용할때는 이거 지워야함
             }//위에 주석 다시 사용할때는 이거 지워야함
-        };//위에 주석 다시 사용할때는 이거 지워야함
+        }//위에 주석 다시 사용할때는 이거 지워야함
+    };//위에 주석 다시 사용할때는 이거 지워야함
 
     useEffect(() => {
         getVehicles();
@@ -105,7 +107,7 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
             //     if (newAccessToken) {
             //         handleRegisterOrUpdateVehicle(e); // 새 토큰으로 등록/수정 요청 재시도
             //     }
-            // } else 
+            // } else
             {
                 console.error('차량 등록/수정 실패:', error.response?.data);
             }
@@ -143,7 +145,7 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
             //     if (newAccessToken) {
             //         handleDeleteVehicle(licensePlateNumber); // 새 토큰으로 삭제 요청 재시도
             //     }
-            // } else 
+            // } else
             {
                 console.error('차량 삭제 실패:', error.response?.data);
             }
@@ -249,7 +251,7 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
                         <div className="vehiclelist-registration-form-b-box">
 
                             <div className="vehiclelist-registration-form-c-box">
-                                
+
                             </div>
 
                             <div className="vehiclelist-registration-form-e-box">
@@ -291,7 +293,7 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
                                         <option value="삭제">삭제</option>
                                     </select>
                                 </div>
-                                
+
                             </div>
                             <div className="vehiclelist-registration-form-f-box">
                                 <button type="submit" className="vehiclelist-submit-button">

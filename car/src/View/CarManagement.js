@@ -17,9 +17,9 @@ const CarManagement = () => {
     const renderActiveTabContent = () => {
         switch (activeTab) {
             case TABS.VEHICLE_LIST:
-                return <VehicleList authState={authState} refreshAccessToken={refreshAccessToken} />;
+                return <VehicleList />;
             case TABS.MAINTENANCE_HISTORY:
-                return <MaintenanceHistory authState={authState} refreshAccessToken={refreshAccessToken} />;
+                return <MaintenanceHistory />;
             default:
                 return null;
         }

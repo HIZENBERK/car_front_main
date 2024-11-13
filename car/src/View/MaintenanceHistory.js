@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../CSS/CarManagement.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {useAuth} from "../Component/AuthContext";
 
-const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
+const MaintenanceHistory = () => {
     const [selectedCar, setSelectedCar] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [carData, setCarData] = useState([]);
@@ -12,23 +13,25 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
     const [cumulativeDistance, setCumulativeDistance] = useState('');
     const [maintenanceType, setMaintenanceType] = useState('엔진오일 및 필터');
     const [maintenanceCost, setMaintenanceCost] = useState('');
+    const { authState, refreshAccessToken } = useAuth();
 
     // 차량 데이터를 불러오는 함수
     const fetchCarData = async () => {
         try {
+            console.log(authState);
             const response = await axios.get('https://hizenberk.pythonanywhere.com/api/vehicles/', {
                 headers: { Authorization: `Bearer ${authState.access}` }
             });
             setCarData(response.data.vehicles);
         } catch (error) {
-            if (error.response?.data?.code === 'token_not_valid') {
-                const newAccessToken = await refreshAccessToken();
-                if (newAccessToken) {
-                    fetchCarData();
-                }
-            } else {
-                console.error('차량 데이터 불러오기 실패:', error);
-            }
+            // if (error.response?.data?.code === 'token_not_valid') {
+            //     const newAccessToken = await refreshAccessToken();
+            //     if (newAccessToken) {
+            //         fetchCarData();
+            //     }
+            // } else {
+            //     console.error('차량 데이터 불러오기 실패:', error);
+            // }
         }
     };
 
@@ -41,10 +44,10 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
             setMaintenanceData(response.data.records);
         } catch (error) {
             if (error.response?.data?.code === 'token_not_valid') {
-                const newAccessToken = await refreshAccessToken();
-                if (newAccessToken) {
-                    fetchMaintenanceData();
-                }
+                // const newAccessToken = await refreshAccessToken();
+                // if (newAccessToken) {
+                //     fetchMaintenanceData();
+                // }
             } else {
                 console.error('정비 기록 불러오기 실패:', error);
             }
@@ -154,10 +157,10 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                 console.error('정비 기록 등록 실패:', error.message);
             }
             if (error.response?.data?.code === 'token_not_valid') {
-                const newAccessToken = await refreshAccessToken();
-                if (newAccessToken) {
-                    handleMaintenanceSubmit();
-                }
+                // const newAccessToken = await refreshAccessToken();
+                // if (newAccessToken) {
+                //     handleMaintenanceSubmit();
+                // }
             }
         }
     };
