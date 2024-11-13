@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../CSS/ExpenseManagement.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 
 const ExpenseManagement = () => {
   // 더미 데이터
@@ -88,7 +90,7 @@ const ExpenseManagement = () => {
             </thead>
             <tbody>
               {currentRows.map((row) => (
-                <tr key={row.id} onClick={() => openModal(row)}>
+                <tr key={row.id} onClick={() => openModal(row)} className="expense_management-table-tr">
                   <td><input type="checkbox" /></td>
                   <td>{row.type}</td>
                   <td>{row.date}</td>
@@ -135,23 +137,43 @@ const ExpenseManagement = () => {
       </div>
 
     {selectedRow && (
-      <div className="expensemanagement-modal-overlay" onClick={closeModal}>
+      <div className="expensemanagement-modal-overlay">
+        
         <div className="expensemanagement-modal-content" onClick={(e) => e.stopPropagation()}>
-          <h2>차량번호 ({selectedRow.vehicle})</h2>
-          <div className="expensemanagement-modal-fields">
-            <label>지출항목:</label> <input type="text" value={selectedRow.detail} readOnly />
-            <label>상태:</label> <input type="text" value={selectedRow.status} readOnly />
-            <label>지출일자:</label> <input type="text" value={selectedRow.date} readOnly />
-            <label>사용자:</label> <input type="text" value={selectedRow.user} readOnly />
-            <label>사용처:</label> <input type="text" value={selectedRow.detail} readOnly />
-            <label>결제수단:</label> <input type="text" value={selectedRow.payment} readOnly />
-            <label>사업자번호:</label> <input type="text" readOnly />
-            <label>주소:</label> <input type="text" readOnly />
+        <div className="expensemanagement-modal-top-box">
+          <div className="signup-return-box" onClick={closeModal}>
+            <i className="bi bi-arrow-return-left"></i>
+            <span>뒤로 가기</span>
+            </div>
+            <h2>차량번호 ({selectedRow.vehicle})</h2>
           </div>
-          <div className="expensemanagement-modal-receipt-box"></div>
+          <div className="expensmanagement-modal-a-box">
+          <div className="expensemanagement-modal-fields">
+            <div className="expensemanagement-modal-body-box">
+            <label>지출항목:</label> <input className="expensemanagement-input-4" type="text" value={selectedRow.detail} readOnly /></div>
+            <div className="expensemanagement-modal-body-box">
+            <label>상태:</label> <input className="expensemanagement-input-2" type="text" value={selectedRow.status} readOnly /> </div>
+            <div className="expensemanagement-modal-body-box">
+            <label>지출일자:</label> <input className="expensemanagement-input-4" type="text" value={selectedRow.date} readOnly /> </div>
+            <div className="expensemanagement-modal-body-box">
+            <label>사용자:</label> <input className="expensemanagement-input-3" type="text" value={selectedRow.user} readOnly /> </div>
+            <div className="expensemanagement-modal-body-box">
+            <label>사용처:</label> <input className="expensemanagement-input-3" type="text" value={selectedRow.detail} readOnly /> </div>
+            <div className="expensemanagement-modal-body-box">
+            <label>결제수단:</label> <input className="expensemanagement-input-4" type="text" value={selectedRow.payment} readOnly /> </div>
+            <div className="expensemanagement-modal-body-box">
+            <label>사업자번호:</label> <input className="expensemanagement-input-5" type="text" readOnly /> </div>
+            <div className="expensemanagement-modal-body-box">
+            <label>주소:</label> <input className="expensemanagement-input-2" type="text" readOnly /> </div>
+          </div>
+          <div className="expensemanaegement-modal-receipt-a-box">
+          <div className="expensemanagement-modal-receipt-box">
+          </div>
           <div className="expensemanagement-modal-buttons">
-            <button className="reject-btn">반려</button>
             <button className="approve-btn">승인</button>
+            <button className="reject-btn">반려</button>
+          </div>
+          </div>
           </div>
         </div>
       </div>

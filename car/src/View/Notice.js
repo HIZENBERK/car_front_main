@@ -24,29 +24,30 @@ const Modal = ({ isOpen, onClose, onSubmit, selectedNotice, isEdit }) => {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h2>{isEdit ? "공지사항 수정" : "공지사항 생성"}</h2>
-          <button onClick={onClose} className="close-btn">X</button>
+    <div className="notice-modal-overlay">
+      <div className="notice-modal-content">
+        <div className="notice-modal-header">
+          <p className="notice-model-header-title">{isEdit ? "공지사항 수정" : "공지사항 생성"}</p>
+          <button onClick={onClose} className="notice-close-btn"><i className="bi bi-arrow-return-left"></i>뒤로 가기</button>
         </div>
-        <div className="modal-body">
-          <label>제목</label>
+        <div className="notice-modal-body">
+          <div className="notice-modal-body-box">
+          <label>제목:</label>
           <input
             type="text"
-            className="modal-input"
+            className="notice-modal-input"
             value={title || ''}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <label>내용</label>
+          </div>
           <textarea
-            className="modal-textarea"
+            className="notice-modal-textarea"
             value={content || ''}
             onChange={(e) => setContent(e.target.value)}
           ></textarea>
         </div>
-        <div className="modal-footer">
-          <button className="modal-submit-btn" onClick={handleSubmit}>
+        <div className="notice-modal-footer">
+          <button className="notice-modal-submit-btn" onClick={handleSubmit}>
             {isEdit ? "수정" : "등록"}
           </button>
         </div>

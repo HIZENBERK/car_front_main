@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../CSS/CarManagement.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
     const [selectedCar, setSelectedCar] = useState(null);
@@ -324,7 +325,7 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                                                         onClick={() => handleMaintenanceDelete(record.id)}
                                                         className="car-management-delete-btn"
                                                     >
-                                                        삭제
+                                                        <i class="bi bi-x-circle"></i>
                                                     </button>
                                                 </td>
                                             </tr>

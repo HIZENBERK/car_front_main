@@ -238,6 +238,7 @@
 
 .car-management-car-maintenance-table th {
   text-align: center;
+  font-size: 15px;
   background-color: rgb(84, 87, 100);
   color: white;
   border-bottom: 2px solid black;
@@ -245,6 +246,17 @@
 
 .car-management-car-maintenance-table td {
   text-align: center;
+  font-size: 14px;
+}
+
+.car-management-delete-btn {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: white;
 }
 
 .car-management-g-box-top {
@@ -417,6 +429,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.vehiclelist-registration-form-d-box label {
+  font-weight: bold;
+}
+
+.vehiclelist-registration-form-e-box label {
+  font-weight: bold;
 }
 
 .vehiclelist-registration-form-line-box {
