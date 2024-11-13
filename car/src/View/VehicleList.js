@@ -30,6 +30,7 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
                     Authorization: `Bearer ${authState.access}`
                 }
             });
+            console.log('서버 응답 데이터:', response.data);
             setVehicles(response.data.vehicles);
             
         } catch (error) {
@@ -51,8 +52,10 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
         };//위에 주석 다시 사용할때는 이거 지워야함
 
     useEffect(() => {
-        getVehicles();
-    }, []);
+    if (authState?.access) {
+        getVehicles(); // 초기 사용자 목록 불러오기
+    }
+    }, [authState]);
 
     const handleRegisterClick = () => {
         setIsFormVisible(true);

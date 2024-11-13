@@ -79,6 +79,7 @@ const Notice = () => {
             }
           }
       );
+      console.log('서버 응답 데이터:', response.data);
       const fetchedNotices = response.data.notices.map((notice) => ({
         id: notice.id,
         // number: index + 1,
@@ -95,8 +96,10 @@ const Notice = () => {
   };
 
   useEffect(() => {
-    fetchNotices();
-  }, []);
+    if (authState?.access) {
+      fetchNotices(); // 초기 사용자 목록 불러오기
+    }
+  }, [authState]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
