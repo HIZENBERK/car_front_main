@@ -30,7 +30,6 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
                     Authorization: `Bearer ${authState.access}`
                 }
             });
-            console.log('서버 응답 데이터:', response.data);
             setVehicles(response.data.vehicles);
             
         } catch (error) {
@@ -52,10 +51,8 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
         };//위에 주석 다시 사용할때는 이거 지워야함
 
     useEffect(() => {
-    if (authState?.access) {
-        getVehicles(); // 초기 사용자 목록 불러오기
-    }
-    }, [authState]);
+        getVehicles();
+    }, []);
 
     const handleRegisterClick = () => {
         setIsFormVisible(true);
@@ -213,59 +210,62 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
                                 <i className="bi bi-arrow-return-left"></i>
                                 <span>뒤로 가기</span>
                                 </div>
+                                <p className="vehiclelist-registration-form-title">차량</p>
                             </div>
 
                             <div className="vehiclelist-registration-form-d-box">
-                                <div className="form-group">
-                                <label>차량 카테고리</label>
+                                <div className="vehiclelist-form-group-7">
+                                <label>차량 카테고리:</label>
                                 <input
                                     type="text"
                                     value={vehicleCategory}
                                     onChange={(e) => setVehicleCategory(e.target.value)}
-                                    placeholder="차량 카테고리를 입력하세요"
+                                    className="vehiclelist-input"
                                 />
                                 </div>
-                                <div className="form-group">
-                                    <label>차종</label>
+                                <div className="vehiclelist-form-group-2">
+                                    <label>차종:</label>
                                     <input type="text" value={vehicleType} onChange={(e) => setVehicleType(e.target.value)} />
                                 </div>
-                                <div className="form-group">
-                                    <label>자동차 등록번호</label>
+                                <div className="vehiclelist-form-group-8">
+                                    <label>자동차 등록번호:</label>
                                     <input type="text" value={carRegistrationNumber} onChange={(e) => setCarRegistrationNumber(e.target.value)} />
                                 </div>
-                                <div className="form-group">
-                                    <label>차량 번호</label>
+                                <div className="vehiclelist-form-group">
+                                    <label>차량 번호:</label>
                                     <input type="text" value={licensePlateNumber} onChange={(e) => setLicensePlateNumber(e.target.value)} />
                                 </div>
-                                <div className="form-group">
-                                    <label>구매 날짜</label>
+                                <div className="vehiclelist-form-group">
+                                    <label>구매 날짜:</label>
                                     <input type="date" value={purchaseDate} onChange={(e) => setPurchaseDate(e.target.value)} />
                                 </div>
-                                <div className="form-group">
-                                    <label>구매 가격</label>
+                                <div className="vehiclelist-form-group">
+                                    <label>구매 가격:</label>
                                     <input type="number" value={purchasePrice} onChange={(e) => setPurchasePrice(e.target.value)} />
                                 </div>
                             </div>
 
                         </div>
 
+                        <div className="vehiclelist-registration-form-line-box"></div>
+
                         <div className="vehiclelist-registration-form-b-box">
 
                             <div className="vehiclelist-registration-form-c-box">
-                                
+                                <p className="vehiclelist-registration-form-title">등록</p>
                             </div>
 
                             <div className="vehiclelist-registration-form-e-box">
-                                <div className="form-group">
-                                    <label>총 주행 거리</label>
+                                <div className="vehiclelist-form-group-7-2">
+                                    <label>총 주행 거리:</label>
                                     <input type="number" value={totalMileage} onChange={(e) => setTotalMileage(e.target.value)} />
                                 </div>
-                                <div className="form-group">
-                                    <label>차대 번호</label>
+                                <div className="vehiclelist-form-group">
+                                    <label>차대 번호:</label>
                                     <input type="text" value={chassisNumber} onChange={(e) => setChassisNumber(e.target.value)} />
                                 </div>
-                                <div className="form-group">
-                                    <label>구매 유형</label>
+                                <div className="vehiclelist-form-group-check-4">
+                                    <label>구매 유형:</label>
                                     <select value={purchaseType} onChange={(e) => setPurchaseType(e.target.value)}>
                                         <option value="">선택</option>
                                         <option value="매매">매매</option>
@@ -273,20 +273,20 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
                                         <option value="렌트">렌트</option>
                                     </select>
                                 </div>
-                                <div className="form-group">
-                                    <label>선수금</label>
+                                <div className="vehiclelist-form-group-3">
+                                    <label>선수금:</label>
                                     <input type="number" value={downPayment} onChange={(e) => setDownPayment(e.target.value)} />
                                 </div>
-                                <div className="form-group">
-                                    <label>보증금</label>
+                                <div className="vehiclelist-form-group-3">
+                                    <label>보증금:</label>
                                     <input type="number" value={deposit} onChange={(e) => setDeposit(e.target.value)} />
                                 </div>
-                                <div className="form-group">
-                                    <label>만기일</label>
+                                <div className="vehiclelist-form-group-3">
+                                    <label>만기일:</label>
                                     <input type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
                                 </div>
-                                <div className="form-group">
-                                    <label>차량 현재 상황</label>
+                                <div className="vehiclelist-form-group-check-6">
+                                    <label>차량 현재 상황:</label>
                                     <select value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)}>
                                         <option value="">선택</option>
                                         <option value="가용차량">가용차량</option>

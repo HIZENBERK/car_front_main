@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'; // React Router에�
 import axios from 'axios'; // 회사명 가져오기 위해 axios import
 import '../CSS/Sidebar.css';
 import { useAuth } from "../Component/AuthContext"; // CSS 파일 import
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const Sidebar = () => {
     const [companyName, setCompanyName] = useState(''); // 회사명 상태
@@ -46,7 +47,7 @@ const Sidebar = () => {
     ];
 
     const settingsMenuItems = [
-        { name: '설정', path: '/settings' } // 설정 메뉴 항목
+        { name: '설정', path: '/settings', icon: 'bi bi-gear-fill', color: 'white' } // 설정 메뉴 항목
     ];
 
     // 현재 경로가 해당 경로로 시작하는지 확인하는 함수

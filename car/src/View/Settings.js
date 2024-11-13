@@ -12,7 +12,8 @@ function Settings() {
         { name: '차량 관리', icon: 'fas fa-car', color: 'black', source: 'https://fontawesome.com/icons' },
         { name: '차량 운행 내역', icon: 'fas fa-history', color: 'black', source: 'https://fontawesome.com/icons' },
         { name: '지출관리', icon: 'fas fa-money-bill', color: 'black', source: 'https://fontawesome.com/icons' },
-        { name: '뒤로 가기', icon: 'bi bi-arrow-return-left', color: 'black', source: 'https://icons.getbootstrap.kr/icons/arrow-return-left/' }
+        { name: '뒤로 가기', icon: 'bi bi-arrow-return-left', color: 'black', source: 'https://icons.getbootstrap.kr/icons/arrow-return-left/' },
+        { name: '설정', icon: 'bi bi-gear-fill', color: 'black', source: 'https://icons.getbootstrap.kr/icons/gear-fill/'}
     ];
 
     const toggleSources = () => {
