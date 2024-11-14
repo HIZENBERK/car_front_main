@@ -1,159 +1,41 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import '../CSS/ExpenseManagement.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import { useAuth } from "../Component/AuthContext";
+
 
 const ExpenseManagement = () => {
-  const { authState } = useAuth();
-  const [expenses, setExpenses] = useState([]);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [currentRows, setCurrentRows] = useState([]);
+  // 더미 데이터
+  const dummyData = [
+    { id: 1, type: '지출', date: '9.19', status: '승인', user: '김영엽 부장/영업부', vehicle: '12가1234', detail: '유류비', payment: '법인카드', amount: '3,421원', receipt: '첨부파일', attachment: '이미지' },
+    { id: 2, type: '지출', date: '9.20', status: '승인', user: '박현수 대리/기술부', vehicle: '34나5678', detail: '정비비', payment: '법인카드', amount: '15,300원', receipt: '첨부파일', attachment: '이미지' },
+  ];
+
+  // 상태 관리
+  const [rowsPerPage, setRowsPerPage] = useState(10);  // 페이지당 보여줄 행 수
+  const [currentPage, setCurrentPage] = useState(1);   // 현재 페이지
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
 
-  const fetchExpenses = useCallback(async () => {
-    try {
-      const response = await axios.get(`https://hizenberk.pythonanywhere.com/api/expenses/`, {
-        headers: {
-          Authorization: `Bearer ${authState.access}`,
-        },
-      });
-      if (response.status === 200) {
-        const updatedExpenses = response.data.expenses.map(expense => ({
-          ...expense,
-          status: expense.status || "pending"
-        }));
-        setExpenses(updatedExpenses);
-        updateCurrentRows(updatedExpenses);
-      }
-    } catch (error) {
-      console.error("Error fetching expenses:", error);
-    }
-  }, [authState.access]);
+  // 페이지당 데이터를 나누기
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const currentRows = dummyData.slice(indexOfFirstRow, indexOfLastRow);
 
-  useEffect(() => {
-    if (authState.access) {
-      fetchExpenses();
-    }
-  }, [authState.access, fetchExpenses]);
+  // 총 페이지 수 계산
+  const totalPages = Math.ceil(dummyData.length / rowsPerPage);
 
-  const translateStatus = (status) => {
-    switch (status) {
-      case "approved":
-        return "승인";
-      case "pending":
-        return "대기";
-      case "rejected":
-        return "반려";
-      default:
-        return status;
-    }
-  };
-
-  const translateStatusToEnglish = (status) => {
-    switch (status) {
-      case "승인":
-        return "approved";
-      case "대기":
-        return "pending";
-      case "반려":
-        return "rejected";
-      default:
-        return status;
-    }
-  };
-
-  const updateExpenseStatus = async (id, newStatus) => {
-    const updatedExpenses = expenses.map((expense) =>
-      expense.id === id ? { ...expense, status: newStatus } : expense
-    );
-    setExpenses(updatedExpenses);
-    updateCurrentRows(updatedExpenses);
-
-    try {
-      const response = await axios.patch(
-        `https://hizenberk.pythonanywhere.com/api/expenses/${id}/`,
-        { status: translateStatusToEnglish(newStatus) },
-        {
-          headers: {
-            Authorization: `Bearer ${authState.access}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        console.log("Server response received:", response.data);
-        closeModal()
-      }
-    } catch (error) {
-      console.error("Error updating status:", error);
-      const revertedExpenses = expenses.map((expense) =>
-        expense.id === id ? { ...expense, status: expense.status } : expense
-      );
-      setExpenses(revertedExpenses);
-      updateCurrentRows(revertedExpenses);
-    }
-  };
-
-  const deleteExpense = async (id) => {
-    console.log("Attempting to delete expense with ID:", id);
-    try {
-      const response = await axios.delete(`https://hizenberk.pythonanywhere.com/api/expenses/${id}/`, {
-        headers: {
-          Authorization: `Bearer ${authState.access}`,
-        },
-      });
-
-      if (response.status === 204) {
-        console.log("Expense deleted successfully");
-        const updatedExpenses = expenses.filter((expense) => expense.id !== id);
-        setExpenses(updatedExpenses);
-        updateCurrentRows(updatedExpenses);
-      } else {
-        console.error("Unexpected response:", response.status);
-      }
-    } catch (error) {
-      console.error("Error deleting expense:", error);
-    }
-  };
-
-  const updateCurrentRows = (filteredExpenses) => {
-    const indexOfLastRow = currentPage * rowsPerPage;
-    const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-    const filteredRows = filteredExpenses
-      .filter((expense) => {
-        if (!searchTerm) return true;
-        return expense.details.toLowerCase().includes(searchTerm.toLowerCase());
-      })
-      .slice(indexOfFirstRow, indexOfLastRow);
-    setCurrentRows(filteredRows);
-  };
-
-  useEffect(() => {
-    updateCurrentRows(expenses);
-  }, [expenses, currentPage, rowsPerPage, searchTerm]);
-
+  // 페이지 변경 핸들러
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
+  // 페이지당 행 수 변경 핸들러
   const handleRowsPerPageChange = (e) => {
     setRowsPerPage(parseInt(e.target.value));
-    setCurrentPage(1);
+    setCurrentPage(1);  // 페이지 수 초기화
   };
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    setCurrentPage(1);
-  };
-
-  const totalPages = Math.ceil(expenses.length / rowsPerPage);
-
-  const countStatus = (status) => expenses.filter((expense) => translateStatus(expense.status) === status).length;
-
+  // 모달 열기/닫기 핸들러
   const openModal = (row) => {
     setSelectedRow(row);
     setIsModalOpen(true);
@@ -167,35 +49,33 @@ const ExpenseManagement = () => {
   return (
     <div className="expense-management">
       <div className="expense-management-background">
-        <div className="expense-management-top-box">
-          <p className="expense-management-top-title">지출 내역</p>
-          <div className="filters">
-            <button className="filter-btn">전체({expenses.length})</button>
-            <button className="filter-btn">승인({countStatus("승인")})</button>
-            <button className="filter-btn">대기({countStatus("대기")})</button>
-            <button className="filter-btn">반려({countStatus("반려")})</button>
-          </div>
+      <div className="expense-management-top-box">
+        <p className="expense-management-top-title">지출 내역</p>
+        <div className="filters">
+          <button className="filter-btn">전체(10)</button>
+          <button className="filter-btn">승인(8)</button>
+          <button className="filter-btn">대기(1)</button>
+          <button className="filter-btn">반려(1)</button>
+          <button className="expense-management-download-btn">엑셀 다운로드</button>
+        </div>
+      </div>
+
+      <div className="expense-management-a-box">
+
+        <div className="expense-management-b-box">
+          <select className="rows-per-page" value={rowsPerPage} onChange={handleRowsPerPageChange}>
+            <option value="10">10개씩 보기</option>
+            <option value="20">20개씩 보기</option>
+            <option value="30">30개씩 보기</option>
+          </select>
+          <input type="text" className="expense-management-search-box" placeholder="검색..." />
         </div>
 
-        <div className="expense-management-a-box">
-          <div className="expense-management-b-box">
-            <select className="rows-per-page" value={rowsPerPage} onChange={handleRowsPerPageChange}>
-              <option value="10">10개씩 보기</option>
-              <option value="20">20개씩 보기</option>
-              <option value="30">30개씩 보기</option>
-            </select>
-            <input
-              type="text"
-              className="expense-management-search-box"
-              placeholder="검색..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-          </div>
-
+        <div classname="expense-management-c-box">
           <table className="expense-table">
             <thead>
               <tr>
+                <th><input type="checkbox" /></th>
                 <th>구분</th>
                 <th>지출 일자</th>
                 <th>상태</th>
@@ -204,29 +84,26 @@ const ExpenseManagement = () => {
                 <th>지출 및 정비/상세 내역</th>
                 <th>결제 수단</th>
                 <th>금액</th>
-                <th>삭제</th>
+                <th>영수증 상세</th>
+                <th>첨부파일</th>
               </tr>
             </thead>
             <tbody>
-              {currentRows.length > 0 ? currentRows.map((expense) => (
-                <tr key={expense.id} onClick={() => openModal(expense)}>
-                  <td>{expense.expense_type}</td>
-                  <td>{expense.expense_date}</td>
-                  <td>
-                    <span>{translateStatus(expense.status)}</span>
-                  </td>
-                  <td>{expense.user_info.name}</td>
-                  <td>{expense.vehicle_info.license_plate_number}</td>
-                  <td>{expense.details}</td>
-                  <td>{expense.payment_method}</td>
-                  <td>{expense.amount}</td>
-                  <td>
-                    <button onClick={(e) => { e.stopPropagation(); deleteExpense(expense.id); }}>삭제</button>
-                  </td>
+              {currentRows.map((row) => (
+                <tr key={row.id} onClick={() => openModal(row)} className="expense_management-table-tr">
+                  <td><input type="checkbox" /></td>
+                  <td>{row.type}</td>
+                  <td>{row.date}</td>
+                  <td>{row.status}</td>
+                  <td>{row.user}</td>
+                  <td>{row.vehicle}</td>
+                  <td>{row.detail}</td>
+                  <td>{row.payment}</td>
+                  <td>{row.amount}</td>
+                  <td>{row.receipt}</td>
+                  <td>{row.attachment}</td>
                 </tr>
-              )) : (
-                <tr><td colSpan="9">데이터가 없습니다.</td></tr>
-              )}
+              ))}
             </tbody>
           </table>
 
@@ -256,48 +133,53 @@ const ExpenseManagement = () => {
             </button>
           </div>
         </div>
+
       </div>
 
-      {isModalOpen && selectedRow && (
-        <div className="expensemanagement-modal-overlay" onClick={closeModal}>
-          <div className="expensemanagement-modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="expensemanagement-modal-top-box">
-              <div className="signup-return-box" onClick={closeModal}>
-                <i className="bi bi-arrow-return-left"></i>
-                <span>뒤로 가기</span>
-              </div>
-              <h2>차량번호 ({selectedRow.vehicle_info.license_plate_number})</h2>
+    {selectedRow && (
+      <div className="expensemanagement-modal-overlay">
+        
+        <div className="expensemanagement-modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="expensemanagement-modal-top-box">
+          <div className="signup-return-box" onClick={closeModal}>
+            <i className="bi bi-arrow-return-left"></i>
+            <span>뒤로 가기</span>
             </div>
-            <div className="expensemanagement-modal-a-box">
-              <div className="expensemanagement-modal-fields">
-                <div className="expensemanagement-modal-body-box">
-                  <label>지출항목:</label> <input className="expensemanagement-input-4" type="text" value={selectedRow.details} readOnly />
-                </div>
-                <div className="expensemanagement-modal-body-box">
-                  <label>상태:</label> <input className="expensemanagement-input-2" type="text" value={translateStatus(selectedRow.status)} readOnly />
-                </div>
-                <div className="expensemanagement-modal-body-box">
-                  <label>지출일자:</label> <input className="expensemanagement-input-4" type="text" value={selectedRow.expense_date} readOnly />
-                </div>
-                <div className="expensemanagement-modal-body-box">
-                  <label>사용자:</label> <input className="expensemanagement-input-3" type="text" value={selectedRow.user_info.name} readOnly />
-                </div>
-                <div className="expensemanagement-modal-body-box">
-                  <label>차량:</label> <input className="expensemanagement-input-3" type="text" value={selectedRow.vehicle_info.license_plate_number} readOnly />
-                </div>
-                <div className="expensemanagement-modal-body-box">
-                  <label>결제수단:</label> <input className="expensemanagement-input-4" type="text" value={selectedRow.payment_method} readOnly />
-                </div>
-              </div>
-              <div className="expensemanagement-modal-buttons">
-                <button className="approve-btn" onClick={() => updateExpenseStatus(selectedRow.id, "승인")}>승인</button>
-                <button className="reject-btn" onClick={() => updateExpenseStatus(selectedRow.id, "반려")}>반려</button>
-              </div>
-            </div>
+            <h2>차량번호 ({selectedRow.vehicle})</h2>
+          </div>
+          <div className="expensmanagement-modal-a-box">
+          <div className="expensemanagement-modal-fields">
+            <div className="expensemanagement-modal-body-box">
+            <label>지출항목:</label> <input className="expensemanagement-input-4" type="text" value={selectedRow.detail} readOnly /></div>
+            <div className="expensemanagement-modal-body-box">
+            <label>상태:</label> <input className="expensemanagement-input-2" type="text" value={selectedRow.status} readOnly /> </div>
+            <div className="expensemanagement-modal-body-box">
+            <label>지출일자:</label> <input className="expensemanagement-input-4" type="text" value={selectedRow.date} readOnly /> </div>
+            <div className="expensemanagement-modal-body-box">
+            <label>사용자:</label> <input className="expensemanagement-input-3" type="text" value={selectedRow.user} readOnly /> </div>
+            <div className="expensemanagement-modal-body-box">
+            <label>사용처:</label> <input className="expensemanagement-input-3" type="text" value={selectedRow.detail} readOnly /> </div>
+            <div className="expensemanagement-modal-body-box">
+            <label>결제수단:</label> <input className="expensemanagement-input-4" type="text" value={selectedRow.payment} readOnly /> </div>
+            <div className="expensemanagement-modal-body-box">
+            <label>사업자번호:</label> <input className="expensemanagement-input-5" type="text" readOnly /> </div>
+            <div className="expensemanagement-modal-body-box">
+            <label>주소:</label> <input className="expensemanagement-input-2" type="text" readOnly /> </div>
+          </div>
+          <div className="expensemanaegement-modal-receipt-a-box">
+          <div className="expensemanagement-modal-receipt-box">
+          </div>
+          <div className="expensemanagement-modal-buttons">
+            <button className="approve-btn">승인</button>
+            <button className="reject-btn">반려</button>
+          </div>
+          </div>
           </div>
         </div>
+      </div>
       )}
-    </div>
+      </div>
+  </div>
   );
 };
 
