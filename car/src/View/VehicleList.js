@@ -192,8 +192,8 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
                             <td>{vehicle.purchase_date}</td>
                             <td>{vehicle.total_mileage} km</td>
                             <td>{vehicle.current_status}</td>
-                            <td><button onClick={() => handleEditVehicle(vehicle)}>수정</button></td>
-                            <td><button onClick={() => handleDeleteVehicle(vehicle.license_plate_number)}>삭제</button></td>
+                            <td><button className="vehiclelist-update-btn" onClick={() => handleEditVehicle(vehicle)}>수정</button></td>
+                            <td><button className="vehiclelist-delete-btn" onClick={() => handleDeleteVehicle(vehicle.license_plate_number)}>삭제</button></td>
                         </tr>
                     ))}
                 </tbody>

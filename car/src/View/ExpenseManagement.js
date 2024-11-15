@@ -221,7 +221,7 @@ const ExpenseManagement = () => {
                   <td>{expense.payment_method}</td>
                   <td>{expense.amount}</td>
                   <td>
-                    <button onClick={(e) => { e.stopPropagation(); deleteExpense(expense.id); }}>삭제</button>
+                    <button className="expensemanagement-delete-btn" onClick={(e) => { e.stopPropagation(); deleteExpense(expense.id); }}>삭제</button>
                   </td>
                 </tr>
               )) : (

@@ -383,14 +383,14 @@ const CarHistory = () => {
                       도착: {car.arrival_location}
                     </td>
                     <td>
-                      <button onClick={() => openMapModal()}>지도보기</button>
+                      <button className="car-history-map-btn" onClick={() => openMapModal()}>지도보기</button>
                     </td>
                     <td>{car.total_cost} 원</td>
                     <td>
-                      <button onClick={() => handleEditRecord(car.id)}>수정</button>
+                      <button className="car-history-update-btn" onClick={() => handleEditRecord(car.id)}>수정</button>
                     </td>
                     <td>
-                      <button onClick={() => handleDeleteRecord(car.id)}>삭제</button>
+                      <button className="car-history-delete-btn" onClick={() => handleDeleteRecord(car.id)}>삭제</button>
                     </td>
                   </tr>
                 ))}
