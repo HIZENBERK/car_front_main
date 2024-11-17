@@ -1,0 +1,47 @@
+/* 전체 컨테이너 스타일 */
+.notice-detail-container {
+    max-width: 800px;
+    margin: 50px auto; /* 가운데 정렬 */
+    padding: 20px;
+    background-color: #ffffff; /* 배경색 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 박스 그림자 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    font-family: Arial, sans-serif; /* 기본 글꼴 */
+  }
+  
+  /* 제목 스타일 */
+  .notice-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333333; /* 어두운 색 텍스트 */
+    margin-bottom: 20px; /* 아래 여백 */
+  }
+  
+  /* 내용 스타일 */
+  .notice-content {
+    font-size: 16px;
+    color: #555555; /* 중간 밝기의 텍스트 */
+    line-height: 1.6; /* 줄 간격 */
+    margin-bottom: 30px; /* 아래 여백 */
+  }
+  
+  /* 뒤로가기 버튼 스타일 */
+  .back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff; /* 파란색 배경 */
+    color: #ffffff; /* 흰색 텍스트 */
+    border: none;
+    border-radius: 5px; /* 모서리 둥글게 */
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none; /* 텍스트 밑줄 제거 */
+    transition: background-color 0.3s ease; /* 호버 효과 */
+  }
+  
+  /* 버튼 호버 효과 */
+  .back-button:hover {
+    background-color: #0056b3; /* 더 어두운 파란색 */
+  }
+  

@@ -13,6 +13,7 @@ import Notice from './Notice';
 import AdminSignup from './AdminSignup';
 import { useAuth, AuthProvider } from '../Component/AuthContext';
 import Settings from './Settings';
+import NoticeDetail from './NoticeDetail';
 
 function App() {
     const location = useLocation();
@@ -45,6 +46,7 @@ function App() {
                 <Route path="/notice" element={<Notice />} />
                 <Route path="/adminsignup" element={<AdminSignup />} />
                 <Route path="/settings" element={<Settings />} />
+                <Route path="/notice/:id" element={<NoticeDetail />} />
             </Routes>
         </div>
     );

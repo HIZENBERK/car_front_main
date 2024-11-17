@@ -22,6 +22,8 @@ const CarHistory = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false); // State to handle the registration modal
   const [recordIdToEdit, setRecordIdToEdit] = useState(null);
+  const [selectedCoordinates, setSelectedCoordinates] = useState([]); // 선택된 좌표 저장
+
   const [editingRecord, setEditingRecord] = useState({
     vehicle: '',
     departure_location: '',
@@ -88,13 +90,24 @@ const CarHistory = () => {
     await makeXlsx(filteredData);
   };
 
-  const openMapModal = () => setIsMapOpen(true);
-  const closeMapModal = () => setIsMapOpen(false);
+  const openMapModal = (coordinates) => {
+    setSelectedCoordinates(coordinates); // 선택된 경로 좌표를 저장
+    setIsMapOpen(true); // 지도 모달 열기
+  };
+  
+  const closeMapModal = () => {
+    setIsMapOpen(false); // 지도 모달 닫기
+    setSelectedCoordinates([]); // 좌표 초기화
+  };
 
   const handleEditRecord = (recordId) => {
-    const record = carData.find(car => car.id === recordId);
-    setEditingRecord(record);
-    setRecordIdToEdit(recordId); // Set the record to edit
+    const record = carData.find((car) => car.id === recordId);
+    if (!record) {
+      console.error("Record not found for ID:", recordId);
+      return;
+    }
+    setEditingRecord({ ...record }); // 복사하여 상태에 저장
+    setRecordIdToEdit(recordId);
     setIsModalOpen(true);
   };
 
@@ -383,7 +396,14 @@ const CarHistory = () => {
                       도착: {car.arrival_location}
                     </td>
                     <td>
-                      <button className="car-history-map-btn" onClick={() => openMapModal()}>지도보기</button>
+                    <td>
+                      <button
+                        className="car-history-map-btn"
+                        onClick={() => openMapModal(car.coordinates)} // car.coordinates 전달
+                      >
+                        지도보기
+                      </button>
+                    </td>
                     </td>
                     <td>{car.total_cost} 원</td>
                     <td>
@@ -431,119 +451,128 @@ const CarHistory = () => {
 
         {/* Register Modal for car record */}
         <Modal
-          isOpen={isRegisterModalOpen}
-          onRequestClose={() => setIsRegisterModalOpen(false)}
-          ariaHideApp={false}
-          style={customModalStyles}
-        >
-          <div>
-            <h2>운행 기록 등록</h2>
-            {error && <p className="error-message">{error}</p>}
-            <div>
-              <label>차량 ID</label>
-              <input
-                type="text"
-                name="vehicle"
-                value={editingRecord.vehicle}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>출발지</label>
-              <input
-                type="text"
-                name="departure_location"
-                value={editingRecord.departure_location}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>도착지</label>
-              <input
-                type="text"
-                name="arrival_location"
-                value={editingRecord.arrival_location}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>출발 전 누적 주행거리</label>
-              <input
-                type="number"
-                name="departure_mileage"
-                value={editingRecord.departure_mileage}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>도착 후 누적 주행거리</label>
-              <input
-                type="number"
-                name="arrival_mileage"
-                value={editingRecord.arrival_mileage}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>출발 시간</label>
-              <input
-                type="datetime-local"
-                name="departure_time"
-                value={editingRecord.departure_time}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>도착 시간</label>
-              <input
-                type="datetime-local"
-                name="arrival_time"
-                value={editingRecord.arrival_time}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>운행 용도</label>
-              <input
-                type="text"
-                name="driving_purpose"
-                value={editingRecord.driving_purpose}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>연료비</label>
-              <input
-                type="number"
-                name="fuel_cost"
-                value={editingRecord.fuel_cost}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>통행료</label>
-              <input
-                type="number"
-                name="toll_fee"
-                value={editingRecord.toll_fee}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>기타 비용</label>
-              <input
-                type="number"
-                name="other_costs"
-                value={editingRecord.other_costs}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <button onClick={handleRegisterRecord}>등록</button>
-              <button onClick={() => setIsRegisterModalOpen(false)}>닫기</button>
-            </div>
-          </div>
-        </Modal>
+  isOpen={isModalOpen}
+  onRequestClose={() => setIsModalOpen(false)}
+  ariaHideApp={false}
+  style={{ content: { marginLeft: '200px' } }} // 스타일 커스터마이즈
+>
+  <h2>운행 기록 수정</h2>
+  {error && <p className="error-message">{error}</p>}
+  <div>
+    <label>차량 ID</label>
+    <input
+      type="text"
+      name="vehicle"
+      value={editingRecord.vehicle || ''} // 안전한 기본값
+      onChange={handleInputChange}
+    />
+  </div>
+  <div>
+    <label>출발지</label>
+    <input
+      type="text"
+      name="departure_location"
+      value={editingRecord.departure_location || ''}
+      onChange={handleInputChange}
+    />
+  </div>
+  <div>
+    <label>도착지</label>
+    <input
+      type="text"
+      name="arrival_location"
+      value={editingRecord.arrival_location || ''}
+      onChange={handleInputChange}
+    />
+  </div>
+  <div>
+    <label>출발 전 누적 주행거리</label>
+    <input
+      type="number"
+      name="departure_mileage"
+      value={editingRecord.departure_mileage || 0}
+      onChange={handleInputChange}
+    />
+  </div>
+  <div>
+    <label>도착 후 누적 주행거리</label>
+    <input
+      type="number"
+      name="arrival_mileage"
+      value={editingRecord.arrival_mileage || 0}
+      onChange={handleInputChange}
+    />
+  </div>
+  <div>
+    <label>출발 시간</label>
+    <input
+      type="datetime-local"
+      name="departure_time"
+      value={editingRecord.departure_time || ''}
+      onChange={handleInputChange}
+    />
+  </div>
+  <div>
+    <label>도착 시간</label>
+    <input
+      type="datetime-local"
+      name="arrival_time"
+      value={editingRecord.arrival_time || ''}
+      onChange={handleInputChange}
+    />
+  </div>
+  <div>
+    <label>운행 목적</label>
+    <input
+      type="text"
+      name="driving_purpose"
+      value={editingRecord.driving_purpose || ''}
+      onChange={handleInputChange}
+    />
+  </div>
+  <div>
+    <label>연료비</label>
+    <input
+      type="number"
+      name="fuel_cost"
+      value={editingRecord.fuel_cost || 0}
+      onChange={handleInputChange}
+    />
+  </div>
+  <div>
+    <label>통행료</label>
+    <input
+      type="number"
+      name="toll_fee"
+      value={editingRecord.toll_fee || 0}
+      onChange={handleInputChange}
+    />
+  </div>
+  <div>
+    <label>기타 비용</label>
+    <input
+      type="number"
+      name="other_costs"
+      value={editingRecord.other_costs || 0}
+      onChange={handleInputChange}
+    />
+  </div>
+  <div style={{ marginTop: '20px' }}>
+    <button onClick={handleSubmit}>수정</button>
+    <button onClick={() => setIsModalOpen(false)}>닫기</button>
+  </div>
+</Modal>
+{isMapOpen && (
+  <Modal
+    isOpen={isMapOpen}
+    onRequestClose={closeMapModal}
+    ariaHideApp={false}
+    style={{ content: { marginLeft: '200px' } }}
+  >
+    <UseMap onClose={closeMapModal} coord={selectedCoordinates}/>
+  </Modal>
+)}
+
       </div>
     </div>
   );
