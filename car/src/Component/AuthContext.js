@@ -12,8 +12,10 @@ export const AuthProvider = ({ children }) => {
         name: null
     });
 
+    const [logoutSuccess, setLogoutSuccess] = useState('');
+
+    // 로컬스토리지에서 토큰을 불러와서 상태를 초기화합니다.
     useEffect(() => {
-        // 로컬스토리지에서 토큰을 불러와서 상태를 초기화합니다.
         const accessToken = localStorage.getItem('accessToken');
         const refreshToken = localStorage.getItem('refreshToken');
         const companyName = localStorage.getItem('companyName');
@@ -31,6 +33,7 @@ export const AuthProvider = ({ children }) => {
         }
     }, []);
 
+    // 로그인 처리 함수
     const login = (refresh, access, company_name, department, name) => {
         setAuthState({
             refresh,
@@ -46,6 +49,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('name', name);
     };
 
+    // 로그아웃 처리 함수
     const logout = () => {
         setAuthState({
             refresh: null,
@@ -59,12 +63,26 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('companyName');
         localStorage.removeItem('department');
         localStorage.removeItem('name');
+
+        setLogoutSuccess('로그아웃이 성공적으로 완료되었습니다.');
+        // 로그아웃 후, 3초 후 메시지 초기화
+        setTimeout(() => {
+            setLogoutSuccess('');
+        }, 3000);
     };
 
+    // Access Token 갱신 함수
     const refreshAccessToken = async () => {
+        const refreshToken = authState.refresh || localStorage.getItem('refreshToken');
+        
+        if (!refreshToken) {
+            console.error('No refresh token available');
+            return null;
+        }
+
         try {
             const response = await axios.post('https://hizenberk.pythonanywhere.com/api/token/refresh/', {
-                refresh: authState.refresh || localStorage.getItem('refreshToken'),
+                refresh: refreshToken,
             });
             const newAccessToken = response.data.access;
             localStorage.setItem('accessToken', newAccessToken);
@@ -77,10 +95,15 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const [LogoutSuccess, setLogoutSuccess] = useState('');
-
     return (
-        <AuthContext.Provider value={{ authState, login, logout, LogoutSuccess, setLogoutSuccess, refreshAccessToken }}>
+        <AuthContext.Provider value={{
+            authState, 
+            login, 
+            logout, 
+            logoutSuccess, 
+            setLogoutSuccess, 
+            refreshAccessToken
+        }}>
             {children}
         </AuthContext.Provider>
     );

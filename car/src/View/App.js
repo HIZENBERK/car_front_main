@@ -18,14 +18,13 @@ import NoticeDetail from './NoticeDetail';
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { authState, login } = useAuth();
+  const { authState, login, logout } = useAuth();
 
+  // 사이드바 표시 여부
   const showSidebar = location.pathname !== '/' && location.pathname !== '/adminsignup';
 
   useEffect(() => {
-    // 페이지가 새로 고침될 때 로그인 상태 유지
     if (authState.access && authState.refresh) {
-      // 이미 로그인 상태라면 필요한 데이터 로드 후, 페이지 이동
       console.log('로그인 상태 유지');
     } else {
       console.log('로그인 상태가 아닙니다.');
@@ -58,7 +57,6 @@ function Login() {
   const [error, setError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
-  const { setLogoutSuccess } = useAuth();
   const [showPassword, setShowPassword] = useState(false); // Manage password visibility
 
   const navigateToAdmin = () => {
@@ -73,7 +71,6 @@ function Login() {
         "email_or_phone": emailOrPhone,
         "password": password
       });
-      setLogoutSuccess('');
       login(
           response.data.refresh,
           response.data.access,
@@ -113,7 +110,6 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          {/* 눈 모양 아이콘 */}
           <span
             className="password-toggle"
             onClick={() => setShowPassword(!showPassword)} // 클릭 시 상태 변경
@@ -137,6 +133,7 @@ function Login() {
   );
 }
 
+// 최상위 컴포넌트에서 AuthProvider로 감싸기
 export default function Root() {
   return (
     <AuthProvider> {/* AuthProvider로 App을 감쌈 */}

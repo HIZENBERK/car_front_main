@@ -13,30 +13,46 @@ const Sidebar = () => {
 
     // 로그아웃 처리 함수
     const handleLogout = async () => {
+        if (!authState.refresh || !authState.access) {
+            console.error("로그아웃을 위한 필수 정보가 부족합니다.");
+            alert("로그아웃에 필요한 정보가 없습니다.");
+            return;
+        }
+
         try {
-            // 디버깅 로그: refreshToken 및 accessToken 확인
-            console.log("Sending refresh token:", authState.refreshToken); 
+            console.log("Sending refresh token:", authState.refresh); 
             console.log("Authorization Header:", `Bearer ${authState.access}`);
 
-            // refreshToken을 요청 본문에 포함시켜 서버로 전송, access token은 필요한 경우 헤더에 포함
+            // 로그아웃 API 요청
             const response = await axios.post('https://hizenberk.pythonanywhere.com/api/logout/', {
-                refresh: authState.refreshToken, // refresh token을 본문에 포함
+                refresh: authState.refresh, // refresh token을 본문에 포함
             }, {
                 headers: {
-                    Authorization: `Bearer ${authState.access}`, // 필요 시 Authorization 헤더에 access token을 포함
+                    Authorization: `Bearer ${authState.access}`, // access token을 헤더에 포함
                 },
             });
 
+            console.log("로그아웃 응답 상태:", response.status);
+            console.log("로그아웃 응답 내용:", response.data);
+
             if (response.status === 205) {
-                // 로그아웃 성공 시
+                // 로그아웃 성공 시 인증 상태 초기화
                 setAuthState({ access: null, refresh: null, company_name: '' }); // 인증 상태 초기화
                 localStorage.removeItem('access');  // LocalStorage에서 토큰 삭제
                 localStorage.removeItem('refresh');
-                navigate('/login'); // 로그인 페이지로 리디렉션
+                navigate('/'); // 로그인 페이지로 리디렉션
+            } else {
+                console.error("로그아웃 실패: 응답 상태 코드가 205가 아닙니다.");
+                alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
             }
         } catch (error) {
-            console.error('로그아웃 실패:', error.response ? error.response.data : error);
-            alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
+            if (error.response) {
+                console.error('로그아웃 실패:', error.response.data);
+                alert(`로그아웃에 실패했습니다: ${error.response.data.message || '알 수 없는 오류'}`);
+            } else {
+                console.error('로그아웃 실패:', error);
+                alert('로그아웃에 실패했습니다. 다시 시도해주세요.');
+            }
         }
     };
 
@@ -102,20 +118,20 @@ const Sidebar = () => {
                 {settingsMenuItems.map((item, index) => (
                     <div key={index}>
                         <div
-                            className={`menu-item ${isSelected(item.path) ? 'selected' : ''}`} // 선택된 경로에 'selected' 클래스 추가
+                            className={`menu-item ${isSelected(item.path) ? 'selected' : ''}`}
                             style={{
-                                backgroundColor: isSelected(item.path) ? '#ddd' : '#f8f8f8', // 선택된 경로는 #ddd, 그 외는 #f8f8f8
-                                fontWeight: isSelected(item.path) ? 'bold' : 'normal', // 선택된 경로는 글씨체 bold
-                                display: 'flex', // flexbox 사용
-                                alignItems: 'center', // 수직 중앙 정렬
-                                padding: '10px', // 패딩 추가
-                                cursor: 'pointer', // 커서 포인터
-                                textAlign: 'left', // 텍스트 왼쪽 정렬
+                                backgroundColor: isSelected(item.path) ? '#ddd' : '#f8f8f8',
+                                fontWeight: isSelected(item.path) ? 'bold' : 'normal',
+                                display: 'flex',
+                                alignItems: 'center',
+                                padding: '10px',
+                                cursor: 'pointer',
+                                textAlign: 'left',
                             }}
-                            onClick={item.onClick ? item.onClick : () => handleClick(item.path)} // 클릭 시 해당 경로로 이동 또는 로그아웃
+                            onClick={item.onClick ? item.onClick : () => handleClick(item.path)}
                         >
                             <i className={item.icon} style={{ marginRight: '8px' }}></i> {/* 아이콘 추가 */}
-                            {item.name} {/* 설정 메뉴 이름 출력 */}
+                            {item.name}
                         </div>
                     </div>
                 ))}
