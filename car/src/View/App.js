@@ -16,40 +16,40 @@ import Settings from './Settings';
 import NoticeDetail from './NoticeDetail';
 
 function App() {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const { authState, login } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { authState, login } = useAuth();
 
-    const showSidebar = location.pathname !== '/' && location.pathname !== '/adminsignup'; 
+  const showSidebar = location.pathname !== '/' && location.pathname !== '/adminsignup';
 
-    useEffect(() => {
-        // 페이지가 새로 고침될 때 로그인 상태 유지
-        if (authState.access && authState.refresh) {
-            // 이미 로그인 상태라면 필요한 데이터 로드 후, 페이지 이동
-            console.log('로그인 상태 유지');
-        } else {
-            console.log('로그인 상태가 아닙니다.');
-        }
-    }, [authState]);
+  useEffect(() => {
+    // 페이지가 새로 고침될 때 로그인 상태 유지
+    if (authState.access && authState.refresh) {
+      // 이미 로그인 상태라면 필요한 데이터 로드 후, 페이지 이동
+      console.log('로그인 상태 유지');
+    } else {
+      console.log('로그인 상태가 아닙니다.');
+    }
+  }, [authState]);
 
-    return (
-        <div className="App">
-            {showSidebar && <Sidebar />}
-            <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/admin" element={<Admin />} />
-                <Route path="/expensemanagement" element={<ExpenseManagement />} />
-                <Route path="/carhistory" element={<CarHistory />} />
-                <Route path="/usermanagement" element={<UserManagement />} />
-                <Route path="/carmanagement" element={<CarManagement />} />
-                <Route path="/notice" element={<Notice />} />
-                <Route path="/adminsignup" element={<AdminSignup />} />
-                <Route path="/settings" element={<Settings />} />
-                <Route path="/notice/:id" element={<NoticeDetail />} />
-            </Routes>
-        </div>
-    );
+  return (
+    <div className="App">
+      {showSidebar && <Sidebar />}
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/expensemanagement" element={<ExpenseManagement />} />
+        <Route path="/carhistory" element={<CarHistory />} />
+        <Route path="/usermanagement" element={<UserManagement />} />
+        <Route path="/carmanagement" element={<CarManagement />} />
+        <Route path="/notice" element={<Notice />} />
+        <Route path="/adminsignup" element={<AdminSignup />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/notices/:noticeId" element={<NoticeDetail />} />
+      </Routes>
+    </div>
+  );
 }
 
 function Login() {
@@ -58,33 +58,29 @@ function Login() {
   const [error, setError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
-  const {setLogoutSuccess} = useAuth();
+  const { setLogoutSuccess } = useAuth();
+  const [showPassword, setShowPassword] = useState(false); // Manage password visibility
+
   const navigateToAdmin = () => {
     navigate("/admin");
   };
+
   const handleLogin = async (e) => {
     e.preventDefault(); // 기본 폼 제출 이벤트 방지
     setError(''); // 이전 에러 메시지 초기화
-    //console.log('로그인 정보:', "email_or_phone:" ,emailOrPhone,"\n", "password:", password);
     try {
       const response = await axios.post('https://hizenberk.pythonanywhere.com/api/admin/login/', {
         "email_or_phone": emailOrPhone,
         "password": password
       });
       setLogoutSuccess('');
-      // 로그인 성공 시 처리 (예: 토큰 저장, 리다이렉트 등)
-      console.log('데이터 체크:', response.data.refresh, "\n",
-          response.data.access,"\n",
-          response.data.user_info.company.name,"\n",
-          response.data.user_info.department,"\n",
-          response.data.user_info.name);
       login(
           response.data.refresh,
           response.data.access,
           response.data.user_info.company.name,
           response.data.user_info.department,
           response.data.user_info.name,
-      )
+      );
       console.log('로그인 성공:', response.data);
       navigateToAdmin();
     } catch (err) {
@@ -96,10 +92,6 @@ function Login() {
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleLogin}>
-        {/*<div>*/}
-        {/*  <p>프론트 버전 0.2.6 / 24.11.07</p>*/}
-        {/*  <p>서버 버전 0.1.7 / 24.11.07</p>*/}
-        {/*</div>*/}
         <div className="login-form-group">
           <input
             type="text"
@@ -111,9 +103,9 @@ function Login() {
             required
           />
         </div>
-        <div className="login-form-group">
+        <div className="login-form-group" style={{ position: 'relative' }}>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}  // 비밀번호 보이기/숨기기
             id="password"
             name="password"
             placeholder="비밀번호"
@@ -121,10 +113,19 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          {/* 눈 모양 아이콘 */}
+          <span
+            className="password-toggle"
+            onClick={() => setShowPassword(!showPassword)} // 클릭 시 상태 변경
+            role="button"
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? "🙈" : "👁️"}
+          </span>
           {error && <p style={{ color: 'red' }}>{error}</p>}
         </div>
         <div className="form-footer">
-        <Link to="/adminsignup" className="adminSignup-label">관리자 회원가입</Link>
+          <Link to="/adminsignup" className="adminSignup-label">관리자 회원가입</Link>
           <div className="auto-login">
             <input type="checkbox" id="autoLogin" name="autoLogin" />
             <label htmlFor="autoLogin">자동로그인</label>
@@ -138,10 +139,10 @@ function Login() {
 
 export default function Root() {
   return (
-      <AuthProvider> {/* AuthProvider로 App을 감쌈 */}
-        <Router>
-          <App />
-        </Router>
-      </AuthProvider>
+    <AuthProvider> {/* AuthProvider로 App을 감쌈 */}
+      <Router>
+        <App />
+      </Router>
+    </AuthProvider>
   );
 }

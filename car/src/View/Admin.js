@@ -141,8 +141,10 @@ function Admin() {
   };
 
   const handleNoticeClick = (notice) => {
-    navigate(`/notice/${notice.id}`);
-  };
+    // Ensure 'notice' has an 'id' property
+    navigate(`/notices/${notice.id}`);
+};
+
   if (!authState) {
     return <div>Loading...</div>;
   }

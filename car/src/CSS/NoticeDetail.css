@@ -1,47 +1,76 @@
-/* 전체 컨테이너 스타일 */
+/* General Container */
 .notice-detail-container {
-    max-width: 800px;
-    margin: 50px auto; /* 가운데 정렬 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
     padding: 20px;
-    background-color: #ffffff; /* 배경색 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 박스 그림자 */
-    border-radius: 8px; /* 모서리 둥글게 */
-    font-family: Arial, sans-serif; /* 기본 글꼴 */
+    background-color: #f9f9fb;
+    font-family: 'Arial', sans-serif;
   }
   
-  /* 제목 스타일 */
-  .notice-title {
-    font-size: 28px;
-    font-weight: bold;
-    color: #333333; /* 어두운 색 텍스트 */
-    margin-bottom: 20px; /* 아래 여백 */
+  /* Styles for the notice title */
+  .notice-detail-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: left;
+    width: 100%;
+    max-width: 800px;
+    border-bottom: 2px solid #ddd; /* Adds underline style */
+    padding-bottom: 5px;
   }
   
-  /* 내용 스타일 */
-  .notice-content {
+  /* Styles for the notice content */
+  .notice-detail-body {
     font-size: 16px;
-    color: #555555; /* 중간 밝기의 텍스트 */
-    line-height: 1.6; /* 줄 간격 */
-    margin-bottom: 30px; /* 아래 여백 */
+    color: #555;
+    line-height: 1.6;
+    max-width: 800px;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    word-wrap: break-word;
+    min-height: 150px; /* Ensures enough height */
   }
   
-  /* 뒤로가기 버튼 스타일 */
-  .back-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007bff; /* 파란색 배경 */
-    color: #ffffff; /* 흰색 텍스트 */
+  /* Styles for the back button */
+  .back-btn {
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
     border: none;
-    border-radius: 5px; /* 모서리 둥글게 */
+    border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    margin-top: 30px;
+    transition: background-color 0.3s ease;
     text-align: center;
-    text-decoration: none; /* 텍스트 밑줄 제거 */
-    transition: background-color 0.3s ease; /* 호버 효과 */
   }
   
-  /* 버튼 호버 효과 */
-  .back-button:hover {
-    background-color: #0056b3; /* 더 어두운 파란색 */
+  /* Hover effect for the back button */
+  .back-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .notice-detail-header h1 {
+      font-size: 20px;
+    }
+  
+    .notice-detail-body {
+      font-size: 14px;
+      padding: 15px;
+    }
+  
+    .back-btn {
+      padding: 10px 20px;
+      font-size: 14px;
+    }
   }
   
