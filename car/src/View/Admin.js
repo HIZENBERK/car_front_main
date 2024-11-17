@@ -103,7 +103,6 @@ function Admin() {
         },
       });
       const fetchedNotices = response.data.notices.map((notice) => ({
-        id: notice.id,
         title: notice.title,
         date: notice.created_at,
       }));
@@ -141,11 +140,8 @@ function Admin() {
   };
 
   const handleNoticeClick = (notice) => {
-    if (notice.id) {
-      navigate(`/notice/${notice.id}`);
-    } else {
-      console.error("Notice ID is undefined");
-    }
+    console.log(`${notice.title} 클릭됨`);
+    navigate(`/notice/${notice.title}`);
   };
 
   if (!authState) {
