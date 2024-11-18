@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'; // React Router에서 useNavigate import
-import axios from 'axios'; // 회사명 가져오기 위해 axios import
+import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import '../CSS/Sidebar.css';
-import { useAuth } from "../Component/AuthContext"; // CSS 파일 import
+import { useAuth } from "../Component/AuthContext"; // 인증 상태를 관리하는 Context
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const Sidebar = () => {
-    const [companyName, setCompanyName] = useState(''); // 회사명 상태
     const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
     const location = useLocation(); // 현재 경로 감지
-    const { authState, setAuthState } = useAuth(); // authState와 setAuthState를 가져옵니다.
+    const { authState, setAuthState, logout } = useAuth(); // 인증 상태와 로그아웃 함수 가져오기
 
     // 로그아웃 처리 함수
     const handleLogout = async () => {
@@ -24,22 +23,24 @@ const Sidebar = () => {
             console.log("Authorization Header:", `Bearer ${authState.access}`);
 
             // 로그아웃 API 요청
-            const response = await axios.post('https://hizenberk.pythonanywhere.com/api/logout/', {
-                refresh: authState.refresh, // refresh token을 본문에 포함
-            }, {
-                headers: {
-                    Authorization: `Bearer ${authState.access}`, // access token을 헤더에 포함
-                },
-            });
+            const response = await axios.post(
+                'https://hizenberk.pythonanywhere.com/api/logout/', 
+                {
+                    refresh: authState.refresh, // refresh token을 본문에 포함
+                }, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${authState.access}`, // access token을 헤더에 포함
+                    },
+                }
+            );
 
             console.log("로그아웃 응답 상태:", response.status);
             console.log("로그아웃 응답 내용:", response.data);
 
             if (response.status === 205) {
                 // 로그아웃 성공 시 인증 상태 초기화
-                setAuthState({ access: null, refresh: null, company_name: '' }); // 인증 상태 초기화
-                localStorage.removeItem('access');  // LocalStorage에서 토큰 삭제
-                localStorage.removeItem('refresh');
+                logout(); // 로그아웃 호출
                 navigate('/'); // 로그인 페이지로 리디렉션
             } else {
                 console.error("로그아웃 실패: 응답 상태 코드가 205가 아닙니다.");
@@ -63,7 +64,10 @@ const Sidebar = () => {
         }
     };
 
-    // 메뉴 항목 리스트와 각각의 경로 정의
+    // 현재 경로가 해당 경로로 시작하는지 확인하는 함수
+    const isSelected = (path) => location.pathname.startsWith(path);
+
+    // 메뉴 항목 리스트
     const menuItems = [
         { name: '대시보드', path: '/admin', icon: 'fas fa-tachometer-alt', color: 'white' },
         { name: '공지사항', path: '/notice', icon: 'fas fa-bell', color: 'white' },
@@ -78,16 +82,13 @@ const Sidebar = () => {
         { name: '로그아웃', path: '', icon: 'bi bi-box-arrow-right', color: 'red', onClick: handleLogout } // 로그아웃 메뉴 항목
     ];
 
-    // 현재 경로가 해당 경로로 시작하는지 확인하는 함수
-    const isSelected = (path) => location.pathname.startsWith(path);
-
     return (
         <div className="sidebar">
             <div className="company-section">
                 <div className="profile-circle">
                   <img src={require('../Img/car.jpg')} alt="Car" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />
                 </div>
-                <div className="company-name">{authState.company_name}</div> {/* 회사명 표시 */}
+                <div className="company-name">{authState.company_name}</div>
             </div>
             <div className="menu">
                 {menuItems.map((item, index) => (
@@ -108,7 +109,7 @@ const Sidebar = () => {
                                style={{
                                    marginRight: '8px',
                                    color: isSelected(item.path) ? '#272b34' : item.color,
-                            }}></i> {/* 아이콘 색상 추가 */}
+                            }}></i>
                             {item.name}
                         </div>
                     </div>
@@ -130,7 +131,7 @@ const Sidebar = () => {
                             }}
                             onClick={item.onClick ? item.onClick : () => handleClick(item.path)}
                         >
-                            <i className={item.icon} style={{ marginRight: '8px' }}></i> {/* 아이콘 추가 */}
+                            <i className={item.icon} style={{ marginRight: '8px' }}></i>
                             {item.name}
                         </div>
                     </div>

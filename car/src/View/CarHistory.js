@@ -389,13 +389,12 @@ const CarHistory = () => {
                     <td>{new Date(car.arrival_time).toISOString()}</td>
                     <td>{car.driving_purpose}</td>
                     <td>{car.vehicle}</td>
-                    <td>{car.driving_distance} m</td>
+                    <td>{car.driving_distance}</td>
                     <td>{car.driving_time}</td>
                     <td>
                       출발: {car.departure_location}<br />
                       도착: {car.arrival_location}
                     </td>
-                    <td>
                     <td>
                       <button
                         className="car-history-map-btn"
@@ -404,7 +403,7 @@ const CarHistory = () => {
                         지도보기
                       </button>
                     </td>
-                    </td>
+
                     <td>{car.total_cost} 원</td>
                     <td>
                       <button className="car-history-update-btn" onClick={() => handleEditRecord(car.id)}>수정</button>
