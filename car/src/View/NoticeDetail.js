@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../CSS/NoticeDetail.css'; // Updated CSS file
+import '../CSS/Notice.css'; // Updated CSS file
 import { useAuth } from '../Component/AuthContext';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const NoticeDetail = () => {
   const { authState } = useAuth();
@@ -46,20 +47,24 @@ const NoticeDetail = () => {
   return (
     <div className="notice-management">
       <div className="notice-background">
-        <div className="notice-top">
-          <h1 className="notice-top-title">공지사항 상세</h1>
-          <button
-            className="notice-detail-back-btn"
-            onClick={() => navigate(-1)} // Navigate back
-          >
-            &larr; 뒤로가기
-          </button>
+        <div className="notice-modal-header">
+          <p className="notice-model-header-title">공지사항 상세</p>
+          <button onClick={() => navigate(-1)} className="notice-close-btn"><i className="bi bi-arrow-return-left"></i>뒤로 가기</button>
         </div>
-        <div className="notice-detail-content">
-          <h1>{notice.title}</h1>
-          <div className="notice-detail-body">
-            <p>{notice.content}</p>
+        <div className="notice-modal-body">
+          <div className="notice-modal-body-box">
+          <div className="notice-modal-title-box">
+          <div className="notice-modal-title-box-box">
+          <label>제목:</label></div>
+          <label
+            type="text"
+            className="notice-modal-input"
+          >{notice.title}</label></div>
           </div>
+          <div className="notice-modal-textarea-box">
+          <p
+            className="notice-detail-content"
+          >{notice.content}</p></div>
         </div>
       </div>
     </div>

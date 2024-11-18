@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../CSS/Notice.css';
 import { useAuth } from "../Component/AuthContext";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const Modal = ({ isOpen, onClose, onSubmit, selectedNotice, isEdit }) => {
   const [title, setTitle] = useState('');
@@ -32,26 +33,30 @@ const Modal = ({ isOpen, onClose, onSubmit, selectedNotice, isEdit }) => {
         </div>
         <div className="notice-modal-body">
           <div className="notice-modal-body-box">
-          <label>제목:</label>
-          <input
-            type="text"
-            className="notice-modal-input"
-            value={title || ''}
-            onChange={(e) => setTitle(e.target.value)}
-          />
+            <div className="notice-modal-title-box">
+            <div className="notice-modal-title-box-box">
+            <label>제목:</label></div>
+            <input
+              type="text"
+              className="notice-modal-input"
+              value={title || ''}
+              onChange={(e) => setTitle(e.target.value)}
+            /></div>
+            </div>
+            <div className="notice-modal-textarea-box">
+            <textarea
+              className="notice-modal-textarea"
+              value={content || ''}
+              onChange={(e) => setContent(e.target.value)}
+            ></textarea>
+            </div>
           </div>
-          <textarea
-            className="notice-modal-textarea"
-            value={content || ''}
-            onChange={(e) => setContent(e.target.value)}
-          ></textarea>
+          <div className="notice-modal-footer">
+            <button className="notice-modal-submit-btn" onClick={handleSubmit}>
+              {isEdit ? "수정" : "등록"}
+            </button>
+          </div>
         </div>
-        <div className="notice-modal-footer">
-          <button className="notice-modal-submit-btn" onClick={handleSubmit}>
-            {isEdit ? "수정" : "등록"}
-          </button>
-        </div>
-      </div>
     </div>
   );
 };
