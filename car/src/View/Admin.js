@@ -21,6 +21,7 @@ ChartJS.register(
 );
 
 function Admin() {
+  const [users, setUsers] = useState([]);
   const { authState } = useAuth();
   const [userCount, setUserCount] = useState(0);
   const [selectedMonth, setSelectedMonth] = useState('');
@@ -28,22 +29,54 @@ function Admin() {
   const [totalVehicles, setTotalVehicles] = useState(0);
   const [unavailableVehicles, setUnavailableVehicles] = useState(0);
   const [expiredLeaseRentVehicles, setExpiredLeaseRentVehicles] = useState(0);
+  const [bannedUserCount, setBannedUserCount] = useState(0);
+  const [newUserCount, setNewUserCount] = useState(0);
   const [notices, setNotices] = useState([]);
   const navigate = useNavigate();
   
-  const getUserInfo = async () => {
+  const getUserInfo = async (filter = {}) => {
     try {
       const response = await axios.get('https://hizenberk.pythonanywhere.com/api/users/', {
         headers: {
-          Authorization: `Bearer ${authState.access}` 
+          Authorization: `Bearer ${authState.access}`,
         },
       });
-      const nonAdmins = response.data.users.filter((user) => !user.is_admin);
-      setUserCount(nonAdmins.length);
+      console.log('서버 응답 데이터:', response.data);
+  
+      if (Array.isArray(response.data.users)) {
+        // 전체 사용자 수
+        const allUsers = response.data.users;
+        setUserCount(allUsers.length);
+  
+        // 사용 중지 사용자 수
+        const bannedUsers = allUsers.filter((user) => user.is_banned);
+        setBannedUserCount(bannedUsers.length);
+  
+        // 신규 사용자 수 계산
+        const today = new Date().toISOString().split('T')[0];
+        const newUsers = allUsers.filter((user) => 
+          user.created_at && user.created_at.startsWith(today)
+        );
+        setNewUserCount(newUsers.length);
+  
+        // 필터링 (필드 및 쿼리 조건에 따른 필터 적용)
+        let filteredUsers = allUsers;
+        if (filter.field && filter.query) {
+          filteredUsers = allUsers.filter((user) => {
+            const userValue = user[filter.field]?.toString().toLowerCase();
+            return userValue && userValue.includes(filter.query.toLowerCase());
+          });
+        }
+        setUsers(filteredUsers);
+      } else {
+        console.error('Unexpected response data format:', response.data);
+        setUsers([]); // 데이터가 배열이 아니면 빈 배열로 설정
+      }
     } catch (err) {
-      console.error('조회 실패:', err.response?.data);
+      console.error('조회 실패:', err.response?.status, err.response?.data);
     }
   };
+  
 
   const getVehicleInfo = async () => {
     try {
@@ -102,11 +135,14 @@ function Admin() {
           Authorization: `Bearer ${authState.access}`
         },
       });
-      const fetchedNotices = response.data.notices.map((notice) => ({
-        id: notice.id,
-        title: notice.title,
-        date: notice.created_at,
-      }));
+      const fetchedNotices = response.data.notices.map((notice) => {
+        const formattedDate = new Date(notice.created_at).toISOString().split('T')[0]; // "YYYY-MM-DD" 형식으로 변환
+        return {
+          id: notice.id,
+          title: notice.title,
+          date: formattedDate,
+        };
+      });
       setNotices(fetchedNotices);
     } catch (err) {
       console.error('공지사항 조회 실패:', err.response?.data);
@@ -166,8 +202,8 @@ function Admin() {
                   <p className="admin-middle-title">사용자</p>
                   <div className="admin-middle-content">
                     <p className="admin-middle-text">전체: {userCount}명</p>
-                    <p className="admin-middle-text">신규</p>
-                    <p className="admin-middle-text">사용중지</p>
+                    <p className="admin-middle-text">신규: {newUserCount}명</p>
+                    <p className="admin-middle-text">사용중지: {bannedUserCount}명</p>
                   </div>
                 </div>
 

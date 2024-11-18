@@ -385,8 +385,8 @@ const CarHistory = () => {
               <tbody className="car-history-tbody">
                 {filterCarData().map((car) => (
                   <tr key={car.id}>
-                    <td>{new Date(car.departure_time).toISOString()}</td>
-                    <td>{new Date(car.arrival_time).toISOString()}</td>
+                    <td>{car.departure_time.split('T')[0]}</td>
+                    <td>{car.arrival_time.split('T')[0]}</td>
                     <td>{car.driving_purpose}</td>
                     <td>{car.vehicle}</td>
                     <td>{car.driving_distance}m</td>

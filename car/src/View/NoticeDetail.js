@@ -1,67 +1,65 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../CSS/NoticeDetail.css';
-import { useAuth } from "../Component/AuthContext";
+import '../CSS/NoticeDetail.css'; // Updated CSS file
+import { useAuth } from '../Component/AuthContext';
 
 const NoticeDetail = () => {
   const { authState } = useAuth();
-  const { noticeId } = useParams(); // URL에서 noticeId 가져오기
+  const { noticeId } = useParams(); // Get noticeId from URL
   const navigate = useNavigate();
   const [notice, setNotice] = useState(null);
 
   useEffect(() => {
-    // noticeId가 유효한지 확인하고, 유효하지 않으면 API 요청을 하지 않음
     if (!noticeId) {
       console.error('Invalid noticeId');
-      return; // noticeId가 없으면 API 요청을 하지 않음
+      return;
     }
 
-    // API 요청 함수 정의
     const fetchNoticeDetail = async () => {
       try {
         const response = await axios.get(
           `https://hizenberk.pythonanywhere.com/api/notices/${noticeId}/`,
           {
             headers: {
-              Authorization: `Bearer ${authState.access}`, // 인증 헤더 추가
+              Authorization: `Bearer ${authState.access}`, // Auth headers
             },
           }
         );
-        setNotice(response.data.notice); // notice 데이터를 상태에 저장
+        setNotice(response.data.notice);
       } catch (error) {
-        console.error('공지사항 상세 조회 실패:', error.response?.data);
+        console.error('Failed to fetch notice detail:', error.response?.data);
       }
     };
 
-    // authState와 noticeId가 모두 유효한 경우에만 API 호출
     if (authState?.access && noticeId) {
       fetchNoticeDetail();
     } else {
       console.error('Authentication or noticeId is missing');
     }
-  }, [authState, noticeId]); // authState나 noticeId가 바뀔 때마다 useEffect 실행
+  }, [authState, noticeId]);
 
-  // notice가 로딩 중일 때 표시할 내용
   if (!notice) {
-    return <div>Loading...</div>;
+    return <div className="notice-management">Loading...</div>;
   }
 
-  // notice 상세 내용 표시
   return (
-    <div className="notice-detail-container">
-      <div className="notice-detail-header">
-        <button
-          className="back-btn"
-          onClick={() => navigate(-1)} // 뒤로가기 버튼
-        >
-          &larr; 뒤로가기
-        </button>
-        <h1>{notice.title}</h1> {/* 제목 표시 */}
-      </div>
-      <div className="notice-detail-content">
-        <div className="notice-detail-body">
-          <p>{notice.content}</p> {/* 공지 내용 표시 */}
+    <div className="notice-management">
+      <div className="notice-background">
+        <div className="notice-top">
+          <h1 className="notice-top-title">공지사항 상세</h1>
+          <button
+            className="notice-detail-back-btn"
+            onClick={() => navigate(-1)} // Navigate back
+          >
+            &larr; 뒤로가기
+          </button>
+        </div>
+        <div className="notice-detail-content">
+          <h1>{notice.title}</h1>
+          <div className="notice-detail-body">
+            <p>{notice.content}</p>
+          </div>
         </div>
       </div>
     </div>
