@@ -389,7 +389,7 @@ const CarHistory = () => {
                     <td>{new Date(car.arrival_time).toISOString()}</td>
                     <td>{car.driving_purpose}</td>
                     <td>{car.vehicle}</td>
-                    <td>{car.driving_distance}</td>
+                    <td>{car.driving_distance}m</td>
                     <td>{car.driving_time}</td>
                     <td>
                       출발: {car.departure_location}<br />
