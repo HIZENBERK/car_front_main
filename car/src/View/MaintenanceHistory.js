@@ -13,6 +13,11 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
     const [cumulativeDistance, setCumulativeDistance] = useState('');
     const [maintenanceType, setMaintenanceType] = useState('엔진오일 및 필터');
     const [maintenanceCost, setMaintenanceCost] = useState('');
+
+    useEffect(() => {
+        fetchCarData();
+        fetchMaintenanceData();
+    }, []); // 빈 의존성
     
 
     // 차량 데이터를 불러오는 함수
@@ -48,9 +53,10 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
     };
 
     useEffect(() => {
-        fetchCarData();
-        fetchMaintenanceData();
-    }, []);
+        if (selectedCar) {
+            updateProgressBars();
+        }
+    }, [selectedCar, cumulativeDistance]);
 
     // 차량 데이터가 로드될 때 첫 번째 차량 자동 선택
     useEffect(() => {
@@ -58,63 +64,116 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
             setSelectedCar(carData[0]);
         }
     }, [carData, selectedCar]);
+    const updateProgressBars = () => {
+        if (!selectedCar) return;
+    
+        const newCumulativeDistance = parseFloat(cumulativeDistance || 0);
+    
+        setCarData((prevCarData) =>
+            prevCarData.map((car) => {
+                if (car.id === selectedCar.id) {
+                    const updatedCar = { ...car };
+    
+                    // 소모품 별 업데이트
+                    if (maintenanceType === "엔진 오일 교체") {
+                        updatedCar.engine_oil_filter = Math.min(
+                            (car.engine_oil_filter || 0) + newCumulativeDistance,
+                            10000
+                        );
+                    }
+                    if (maintenanceType === "에어컨 필터 교체") {
+                        updatedCar.aircon_filter = Math.min(
+                            (car.aircon_filter || 0) + newCumulativeDistance,
+                            15000
+                        );
+                    }
+                    if (maintenanceType === "브레이크 패드 교체") {
+                        updatedCar.brake_pad = Math.min(
+                            (car.brake_pad || 0) + newCumulativeDistance,
+                            10000
+                        );
+                    }
+                    if (maintenanceType === "타이어 교체") {
+                        updatedCar.tire = Math.min(
+                            (car.tire || 0) + newCumulativeDistance,
+                            60000
+                        );
+                    }
+    
+                    return updatedCar;
+                }
+                return car;
+            })
+        );
+    
+        // 선택된 차량 상태도 동기화
+        setSelectedCar((prevCar) =>
+            prevCar
+                ? {
+                      ...prevCar,
+                      engine_oil_filter:
+                          maintenanceType === "엔진 오일 교체"
+                              ? Math.min(
+                                    (selectedCar.total_mileage || 0) + newCumulativeDistance,
+                                    10000
+                                )
+                              : selectedCar.total_mileage,
+                      aircon_filter:
+                          maintenanceType === "에어컨 필터 교체"
+                              ? Math.min(
+                                    (selectedCar.total_mileage || 0) + newCumulativeDistance,
+                                    15000
+                                )
+                              : selectedCar.total_mileage,
+                      brake_pad:
+                          maintenanceType === "브레이크 패드 교체"
+                              ? Math.min(
+                                    (selectedCar.total_mileage || 0) + newCumulativeDistance,
+                                    10000
+                                )
+                              : selectedCar.total_mileage,
+                      tire:
+                          maintenanceType === "타이어 교체"
+                              ? Math.min(
+                                    (selectedCar.total_mileage|| 0) + newCumulativeDistance,
+                                    60000
+                                )
+                              : selectedCar.total_mileage,
+                  }
+                : null
+        );
+    };
+    
+    
+    
 
     // 소모품 상태 계산 함수들
+    const calculateProgress = (current, max) => {
+        return Math.min((current / max) * 100, 100);
+    };
+    
     const carStatusEngine = () => {
         const maxLimit = 10000; // 엔진 오일 교체 기준
-        if (!selectedCar || selectedCar.engine_oil_filter == null) {
-            return { engine_oil_filter: 0 };
-        }
         const currentDistance = selectedCar.engine_oil_filter || 0;
-        const additionalDistance = parseFloat(cumulativeDistance || 0) || 0;
-    
-        const progress = Math.min(((currentDistance + additionalDistance) / maxLimit) * 100, 100);
-        return { engine_oil_filter: progress };
+        return { engine_oil_filter: calculateProgress(currentDistance, maxLimit) };
     };
     
     const carStatusAc = () => {
         const maxLimit = 15000; // 에어컨 필터 교체 기준 거리
-        if (!selectedCar) {
-            console.error("선택된 차량이 없습니다.");
-            return { aircon_filter: 0 };
-        }
         const currentDistance = selectedCar.aircon_filter || 0;
-        const additionalDistance = parseFloat(cumulativeDistance || 0);
-    
-        console.log("AC Filter Data:", { currentDistance, additionalDistance });
-    
-        const progress = Math.min(((currentDistance + additionalDistance) / maxLimit) * 100, 100);
-        return { aircon_filter: progress };
+        return { aircon_filter: calculateProgress(currentDistance, maxLimit) };
     };
     
     const carStatusBreak = () => {
         const maxLimit = 10000; // 브레이크 패드 교체 기준 거리
-        if (!selectedCar) {
-            console.error("선택된 차량이 없습니다.");
-            return { brake_pad: 0 };
-        }
         const currentDistance = selectedCar.brake_pad || 0;
-        const additionalDistance = parseFloat(cumulativeDistance || 0);
-    
-        console.log("Brake Pad Data:", { currentDistance, additionalDistance });
-    
-        const progress = Math.min(((currentDistance + additionalDistance) / maxLimit) * 100, 100);
-        return { brake_pad: progress };
+        return { brake_pad: calculateProgress(currentDistance, maxLimit) };
     };
     
     const carStatusTire = () => {
         const maxLimit = 60000; // 타이어 교체 기준 거리
-        if (!selectedCar) {
-            console.error("선택된 차량이 없습니다.");
-            return { tire: 0 };
-        }
         const currentDistance = selectedCar.tire || 0;
-        const additionalDistance = parseFloat(cumulativeDistance || 0);
-    
-        console.log("Tire Data:", { currentDistance, additionalDistance });
-    
-        const progress = Math.min(((currentDistance + additionalDistance) / maxLimit) * 100, 100);
-        return { tire: progress };
+        return { tire: calculateProgress(currentDistance, maxLimit) };
     };
     
 
@@ -141,27 +200,31 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
             console.error("모든 필드를 입력해야 합니다.");
             return;
         }
-
+    
         try {
-            // 업데이트된 차량 누적 주행 거리 상태를 서버에 보냄
             const updatedMileage = selectedCar.total_mileage + parseFloat(cumulativeDistance || 0);
             await axios.patch(
                 `https://hizenberk.pythonanywhere.com/api/vehicles/${selectedCar.id}/`,
                 { total_mileage: updatedMileage },
                 { headers: { Authorization: `Bearer ${authState.access}` } }
             );
-
-            // 로컬 상태 업데이트
+    
+            // 업데이트 후 상태 업데이트
             setSelectedCar({
                 ...selectedCar,
                 total_mileage: updatedMileage,
             });
-
+    
+            // 게이지 업데이트 호출
+            updateProgressBars();
+    
             setCumulativeDistance(''); // 입력 필드 초기화
+            closeModal(); // 모달 닫기
         } catch (error) {
             console.error('정비 기록 등록 실패:', error);
         }
     };
+    
 
 
     // 정비 기록 삭제 함수
