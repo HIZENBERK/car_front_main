@@ -74,18 +74,18 @@ function Signup() {
           </div>
 
           <div className="admin-signup-e-box">
-            <div className="form-group">
+            <div className="pass1-form-group">
             <input type="password"
-                  className="input-field"
+                  className="pass-input-field"
                   id="password"
                   name="password"
                   placeholder="비밀번호"
                   onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <div className="form-group">
+            <div className="pass-form-group">
               <input type="password"
-                    className="input-field"
+                    className="pass-input-field"
                     id="password"
                     name="password"
                     placeholder="비밀번호 확인"

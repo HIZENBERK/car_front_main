@@ -453,113 +453,129 @@ const CarHistory = () => {
   isOpen={isModalOpen}
   onRequestClose={() => setIsModalOpen(false)}
   ariaHideApp={false}
-  style={{ content: { marginLeft: '200px' } }} // 스타일 커스터마이즈
+  className="car-history-update-modal"
 >
-  <h2>운행 기록 수정</h2>
+  <div className="car-history-update-modal-box">
+  <div className="car-history-update-modal-box-top-box">
+    <h2>운행 기록 수정</h2>
+  </div>
   {error && <p className="error-message">{error}</p>}
-  <div>
-    <label>차량 ID</label>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">차량 ID :</label>
     <input
       type="text"
       name="vehicle"
+      className="car-history-update-modal-input"
       value={editingRecord.vehicle || ''} // 안전한 기본값
       onChange={handleInputChange}
     />
   </div>
-  <div>
-    <label>출발지</label>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">출발지 :</label>
     <input
       type="text"
       name="departure_location"
+      className="car-history-update-modal-input"
       value={editingRecord.departure_location || ''}
       onChange={handleInputChange}
     />
   </div>
-  <div>
-    <label>도착지</label>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">도착지 :</label>
     <input
       type="text"
       name="arrival_location"
+      className="car-history-update-modal-input"
       value={editingRecord.arrival_location || ''}
       onChange={handleInputChange}
     />
   </div>
-  <div>
-    <label>출발 전 누적 주행거리</label>
-    <input
-      type="number"
-      name="departure_mileage"
-      value={editingRecord.departure_mileage || 0}
-      onChange={handleInputChange}
-    />
-  </div>
-  <div>
-    <label>도착 후 누적 주행거리</label>
-    <input
-      type="number"
-      name="arrival_mileage"
-      value={editingRecord.arrival_mileage || 0}
-      onChange={handleInputChange}
-    />
-  </div>
-  <div>
-    <label>출발 시간</label>
-    <input
-      type="datetime-local"
-      name="departure_time"
-      value={editingRecord.departure_time || ''}
-      onChange={handleInputChange}
-    />
-  </div>
-  <div>
-    <label>도착 시간</label>
-    <input
-      type="datetime-local"
-      name="arrival_time"
-      value={editingRecord.arrival_time || ''}
-      onChange={handleInputChange}
-    />
-  </div>
-  <div>
-    <label>운행 목적</label>
-    <input
-      type="text"
-      name="driving_purpose"
-      value={editingRecord.driving_purpose || ''}
-      onChange={handleInputChange}
-    />
-  </div>
-  <div>
-    <label>연료비</label>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">연료비 :</label>
     <input
       type="number"
       name="fuel_cost"
+      className="car-history-update-modal-input"
       value={editingRecord.fuel_cost || 0}
       onChange={handleInputChange}
     />
   </div>
-  <div>
-    <label>통행료</label>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">통행료 :</label>
     <input
       type="number"
       name="toll_fee"
+      className="car-history-update-modal-input"
       value={editingRecord.toll_fee || 0}
       onChange={handleInputChange}
     />
   </div>
-  <div>
-    <label>기타 비용</label>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">운행 목적 :</label>
+    <input
+      type="text"
+      name="driving_purpose"
+      className="car-history-update-modal-input"
+      value={editingRecord.driving_purpose || ''}
+      onChange={handleInputChange}
+    />
+  </div>
+ 
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">기타 비용 :</label>
     <input
       type="number"
       name="other_costs"
+      className="car-history-update-modal-input"
       value={editingRecord.other_costs || 0}
       onChange={handleInputChange}
     />
   </div>
-  <div style={{ marginTop: '20px' }}>
-    <button onClick={handleSubmit}>수정</button>
-    <button onClick={() => setIsModalOpen(false)}>닫기</button>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">출발 시간 :</label>
+    <input
+      type="datetime-local"
+      name="departure_time"
+      className="car-history-update-modal-input"
+      value={editingRecord.departure_time || ''}
+      onChange={handleInputChange}
+    />
   </div>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">도착 시간 :</label>
+    <input
+      type="datetime-local"
+      name="arrival_time"
+      className="car-history-update-modal-input"
+      value={editingRecord.arrival_time || ''}
+      onChange={handleInputChange}
+    />
+  </div>
+  
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">출발 전 누적 주행거리 :</label>
+    <input
+      type="number"
+      name="departure_mileage"
+      className="car-history-update-modal-input"
+      value={editingRecord.departure_mileage || 0}
+      onChange={handleInputChange}
+    />
+  </div>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">도착 후 누적 주행거리 :</label>
+    <input
+      type="number"
+      name="arrival_mileage"
+      className="car-history-update-modal-input"
+      value={editingRecord.arrival_mileage || 0}
+      onChange={handleInputChange}
+    />
+  </div>
+  <div style={{ marginTop: '20px' }}>
+    <button className="car-history-update-modal-update-btn" onClick={handleSubmit}>수정</button>
+    <button className="car-history-update-modal-close-btn" onClick={() => setIsModalOpen(false)}>닫기</button>
+  </div></div>
 </Modal>
 {isMapOpen && (
   <Modal
@@ -576,113 +592,118 @@ const CarHistory = () => {
   isOpen={isRegisterModalOpen}
   onRequestClose={() => setIsRegisterModalOpen(false)}
   ariaHideApp={false}
-  style={{ content: { marginLeft: '200px' } }} // 스타일 커스터마이즈
+  className="car-history-update-modal"
 >
-  <h2>운행 기록 등록</h2>
+<div className="car-history-update-modal-box">
+  <div className="car-history-update-modal-box-top-box">
+    <h2>운행 기록 등록</h2>
+  </div>
   {error && <p className="error-message">{error}</p>}
-  <div>
-    <label>차량 ID</label>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">차량 ID :</label>
     <input
       type="text"
       name="vehicle"
-      value={editingRecord.vehicle || ''} // 안전한 기본값
+      className="car-history-update-modal-input"
       onChange={handleInputChange}
     />
   </div>
-  <div>
-    <label>출발지</label>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">출발지 :</label>
     <input
       type="text"
       name="departure_location"
-      value={editingRecord.departure_location || ''}
+      className="car-history-update-modal-input"
       onChange={handleInputChange}
     />
   </div>
-  <div>
-    <label>도착지</label>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">도착지 :</label>
     <input
       type="text"
       name="arrival_location"
-      value={editingRecord.arrival_location || ''}
+      className="car-history-update-modal-input"
       onChange={handleInputChange}
     />
   </div>
-  <div>
-    <label>출발 전 누적 주행거리</label>
-    <input
-      type="number"
-      name="departure_mileage"
-      value={editingRecord.departure_mileage || 0}
-      onChange={handleInputChange}
-    />
-  </div>
-  <div>
-    <label>도착 후 누적 주행거리</label>
-    <input
-      type="number"
-      name="arrival_mileage"
-      value={editingRecord.arrival_mileage || 0}
-      onChange={handleInputChange}
-    />
-  </div>
-  <div>
-    <label>출발 시간</label>
-    <input
-      type="datetime-local"
-      name="departure_time"
-      value={editingRecord.departure_time || ''}
-      onChange={handleInputChange}
-    />
-  </div>
-  <div>
-    <label>도착 시간</label>
-    <input
-      type="datetime-local"
-      name="arrival_time"
-      value={editingRecord.arrival_time || ''}
-      onChange={handleInputChange}
-    />
-  </div>
-  <div>
-    <label>운행 목적</label>
-    <input
-      type="text"
-      name="driving_purpose"
-      value={editingRecord.driving_purpose || ''}
-      onChange={handleInputChange}
-    />
-  </div>
-  <div>
-    <label>연료비</label>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">연료비 :</label>
     <input
       type="number"
       name="fuel_cost"
-      value={editingRecord.fuel_cost || 0}
+      className="car-history-update-modal-input"
       onChange={handleInputChange}
     />
   </div>
-  <div>
-    <label>통행료</label>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">통행료 :</label>
     <input
       type="number"
       name="toll_fee"
-      value={editingRecord.toll_fee || 0}
+      className="car-history-update-modal-input"
       onChange={handleInputChange}
     />
   </div>
-  <div>
-    <label>기타 비용</label>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">운행 목적 :</label>
+    <input
+      type="text"
+      name="driving_purpose"
+      className="car-history-update-modal-input"
+      onChange={handleInputChange}
+    />
+  </div>
+ 
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">기타 비용 :</label>
     <input
       type="number"
       name="other_costs"
-      value={editingRecord.other_costs || 0}
+      className="car-history-update-modal-input"
+      onChange={handleInputChange}
+    />
+  </div>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">출발 시간 :</label>
+    <input
+      type="datetime-local"
+      name="departure_time"
+      className="car-history-update-modal-input"
+      onChange={handleInputChange}
+    />
+  </div>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">도착 시간 :</label>
+    <input
+      type="datetime-local"
+      name="arrival_time"
+      className="car-history-update-modal-input"
+      onChange={handleInputChange}
+    />
+  </div>
+  
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">출발 전 누적 주행거리 :</label>
+    <input
+      type="number"
+      name="departure_mileage"
+      className="car-history-update-modal-input"
+      onChange={handleInputChange}
+    />
+  </div>
+  <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">도착 후 누적 주행거리 :</label>
+    <input
+      type="number"
+      name="arrival_mileage"
+      className="car-history-update-modal-input"
       onChange={handleInputChange}
     />
   </div>
   <div style={{ marginTop: '20px' }}>
-    <button onClick={handleRegisterRecord}>등록</button>
-    <button onClick={() => setIsRegisterModalOpen(false)}>닫기</button>
-  </div>
+    <button className="car-history-update-modal-update-btn" onClick={handleSubmit}>수정</button>
+    <button className="car-history-update-modal-close-btn" onClick={() => setIsRegisterModalOpen(false)}>닫기</button>
+  </div></div>
 </Modal>
 
       </div>

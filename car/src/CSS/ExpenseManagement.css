@@ -185,10 +185,26 @@
 
 .expensemanagement-modal-content {
   background-color: white;
-  width: 80%;
+  width: 60%;
   padding: 20px;
   display: flex;
   flex-direction: column;
+}
+
+.expensemanagement-modal-return-box {
+  display: flex;
+  align-items: center;
+  cursor: pointer; /* 클릭 가능한 포인터로 변경 */
+  font-size: 16px; /* 텍스트 크기 조정 */
+  color: #333; /* 텍스트 및 아이콘 색상 설정 */
+  font-weight: bold;
+  margin-right: 16%;
+}
+
+.expensemanagement-modal-return-box i {
+  margin-right: 5px;
+  font-size: 1.5em; /* 아이콘 크기 조정 */
+  font-weight: bold; /* 일부 브라우저에서 두께 효과 */
 }
 
 .expensemanagement-modal-fields {
@@ -197,6 +213,7 @@
   width: 50%;
   height: 100% !important;
 }
+
 
 .expensemanagement-modal-body-box {
   display: flex;
@@ -216,7 +233,7 @@
   border-bottom: 1px solid black;
 }
 
-.expensmanagement-modal-a-box {
+.expensemanagement-modal-a-box {
   width: 100%;
   height: 100%;
   display: flex;
@@ -234,7 +251,7 @@
 .expensemanagement-modal-receipt-box {
   border: 2px solid black;
   width: 300px;
-  height: 500px;
+  height: 400px;
 }
 
 .expensemanagement-modal-buttons {

@@ -262,7 +262,7 @@ const ExpenseManagement = () => {
         <div className="expensemanagement-modal-overlay" onClick={closeModal}>
           <div className="expensemanagement-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="expensemanagement-modal-top-box">
-              <div className="signup-return-box" onClick={closeModal}>
+              <div className="expensemanagement-modal-return-box" onClick={closeModal}>
                 <i className="bi bi-arrow-return-left"></i>
                 <span>뒤로 가기</span>
               </div>
@@ -289,9 +289,13 @@ const ExpenseManagement = () => {
                   <label>결제수단:</label> <input className="expensemanagement-input-4" type="text" value={selectedRow.payment_method} readOnly />
                 </div>
               </div>
+              <div className="expensemanaegement-modal-receipt-a-box">
+              <div className="expensemanagement-modal-receipt-box">
+              </div>
               <div className="expensemanagement-modal-buttons">
-                <button className="approve-btn" onClick={() => updateExpenseStatus(selectedRow.id, "승인")}>승인</button>
-                <button className="reject-btn" onClick={() => updateExpenseStatus(selectedRow.id, "반려")}>반려</button>
+                <button className="approve-btn">승인</button>
+                <button className="reject-btn">반려</button>
+              </div>
               </div>
             </div>
           </div>
