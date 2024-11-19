@@ -273,18 +273,40 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
                                         <option value="렌트">렌트</option>
                                     </select>
                                 </div>
+
                                 <div className="vehiclelist-form-group-3">
                                     <label>선수금:</label>
-                                    <input type="number" value={downPayment} onChange={(e) => setDownPayment(e.target.value)} />
+                                    <input 
+                                        type="number" 
+                                        value={downPayment} 
+                                        onChange={(e) => setDownPayment(e.target.value)} 
+                                        disabled={purchaseType === "매매" || purchaseType === ""}  // "매매" 또는 ""일 때 비활성화
+                                        className={purchaseType === "매매" || purchaseType === "" ? "disabled-input" : ""}
+                                    />
                                 </div>
+
                                 <div className="vehiclelist-form-group-3">
                                     <label>보증금:</label>
-                                    <input type="number" value={deposit} onChange={(e) => setDeposit(e.target.value)} />
+                                    <input 
+                                        type="number" 
+                                        value={deposit} 
+                                        onChange={(e) => setDeposit(e.target.value)} 
+                                        disabled={purchaseType === "매매" || purchaseType === ""}  // "매매" 또는 ""일 때 비활성화
+                                        className={purchaseType === "매매" || purchaseType === "" ? "disabled-input" : ""}
+                                    />
                                 </div>
+
                                 <div className="vehiclelist-form-group-3">
                                     <label>만기일:</label>
-                                    <input type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
+                                    <input 
+                                        type="date" 
+                                        value={expirationDate} 
+                                        onChange={(e) => setExpirationDate(e.target.value)} 
+                                        disabled={purchaseType === "" || purchaseType === "매매"}  // '매매' 또는 '선택'일 경우 입력 불가
+                                        className={purchaseType === "" || purchaseType === "매매" ? "disabled-input" : ""}
+                                    />
                                 </div>
+
                                 <div className="vehiclelist-form-group-check-6">
                                     <label>차량 현재 상황:</label>
                                     <select value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)}>

@@ -36,7 +36,8 @@
   justify-content: flex-end; /* 수평 방향 오른쪽 정렬 */
   align-items: center; /* 수직 방향 중앙 정렬 */
   height: 100vh; /* 화면 전체 높이를 사용 */
-  padding-right: 100px; /* 오른쪽에서 일정 간격 띄우기 */
+  padding-right: 800px; /* 오른쪽에서 일정 간격 띄우기 */
+  margin-top: 50px;
   transform: translateY(-100px); /* 위로 100px 이동 */
 }
 
@@ -59,7 +60,8 @@
 .form-footer {
   display: flex; /* 플렉스 박스 사용 */
   align-items: center; /* 수직 정렬 */
-  justify-content: flex-start; /* 좌측 정렬 */
+  justify-content: center; /* 수평 정렬 (중앙) */
+  width: 100%; /* 부모 요소에 맞게 크기 설정 */
 }
 
 .auto-login {
@@ -89,6 +91,7 @@
 .login-button:hover {
   background-color: #f0f0f0; /* 호버 시 배경색 변화 */
 }
+
 
 
 

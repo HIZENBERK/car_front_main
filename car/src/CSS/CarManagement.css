@@ -833,3 +833,9 @@
   border: 2px solid black;
   margin-right: 10px;
 }
+
+.disabled-input {
+  background-color: #f0f0f0;  /* 흐리게 보이도록 배경색 변경 */
+  cursor: not-allowed;         /* 마우스 커서를 '허용되지 않음'으로 변경 */
+  color: #a0a0a0;              /* 텍스트 색상을 흐리게 설정 */
+}
