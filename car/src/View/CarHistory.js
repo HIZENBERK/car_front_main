@@ -432,7 +432,7 @@ const CarHistory = () => {
                     <td>{car.vehicle_type}</td> {/* 차량 종류 */}
                     <td>{car.vehicle_license_plate_number}</td> {/* 차량 종류 */}
                     <td>{car.user_name}</td> {/* 사용자 이름 */}
-                    <td>{car.driving_distance}m</td>
+                    <td>{car.driving_distance}Km</td>
                     <td>{car.driving_time}</td>
                     <td>
                       출발: {car.departure_location}<br />
