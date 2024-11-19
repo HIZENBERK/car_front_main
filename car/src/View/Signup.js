@@ -129,7 +129,7 @@ function Signup() {
             <input
               type="password"
               className="input-field"
-              id="password"
+              id="password1"
               name="password"
               placeholder="비밀번호 (영문, 숫자 포함 최소 8자)"
               onChange={(e) => setPassword(e.target.value)}
