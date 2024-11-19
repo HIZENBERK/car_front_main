@@ -36,7 +36,7 @@
   justify-content: flex-end; /* 수평 방향 오른쪽 정렬 */
   align-items: center; /* 수직 방향 중앙 정렬 */
   height: 100vh; /* 화면 전체 높이를 사용 */
-  padding-right: 800px; /* 오른쪽에서 일정 간격 띄우기 */
+  padding-right: 100px; /* 오른쪽에서 일정 간격 띄우기 */
   margin-top: 50px;
   transform: translateY(-100px); /* 위로 100px 이동 */
 }
