@@ -68,21 +68,21 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
     const carStatusEngine = () => {
         const maxLimit = 10000;
         return {
-            engine: selectedCar ? (selectedCar.engine / maxLimit) * 100 : 0,
+            engine_oil_filter: selectedCar ? (selectedCar.engine_oil_filter / maxLimit) * 100 : 0,
         };
     };
 
     const carStatusAc = () => {
         const maxLimit = 15000;
         return {
-            ac: selectedCar ? (selectedCar.ac / maxLimit) * 100 : 0,
+            aircon_filter: selectedCar ? (selectedCar.aircon_filter / maxLimit) * 100 : 0,
         };
     };
 
     const carStatusBreak = () => {
         const maxLimit = 10000;
         return {
-            break: selectedCar ? (selectedCar.break / maxLimit) * 100 : 0,
+            brake_pad: selectedCar ? (selectedCar.brake_pad / maxLimit) * 100 : 0,
         };
     };
 
@@ -118,7 +118,7 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
         }
 
         const maintenanceTypeMapping = {
-            '엔진오일 및 필터': 'engine_oil_change',
+            '엔진 오일 교체': 'engine_oil_change',
             '에어컨 필터 교체': 'air_filter_change',
             '브레이크 패드 교체': 'brake_pad_change',
             '타이어 교체': 'tire_change',
@@ -235,7 +235,7 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                             </div>
                             <div className="car-management-g-box-middle-text-box">
                                 <p className="car-management-g-box-middle-title">누적주행거리</p>
-                                <p className="car-management-g-box-middle-text-distance">{selectedCar.cumulative_distance}</p>
+                                <p className="car-management-g-box-middle-text-distance">{selectedCar.total_mileage}</p>
                             </div>
 
                             <p className="car-management-g-box-middle-top-text">소모품 현황</p>
@@ -243,12 +243,12 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                             <div className="car-management-progressbar-box">
                                 <div className="car-management-progressbar-title-box">
                                     <p className="car-management-progressbar-title">엔진오일 및 필터</p>
-                                    <p className="car-management-progressbar-text">{selectedCar ? `${selectedCar.engine} / 10000Km` : '데이터 없음'}</p>
+                                    <p className="car-management-progressbar-text">{selectedCar ? `${selectedCar.engine_oil_filter} / 10000Km` : '데이터 없음'}</p>
                                 </div>
                                 <div className="progress" role="progressbar" aria-label="Animated striped example"
-                                    aria-valuenow={carStatusEngine().engine} aria-valuemin="0" aria-valuemax="100" style={{ width: '80%' }}>
+                                    aria-valuenow={carStatusEngine().engine_oil_filter} aria-valuemin="0" aria-valuemax="100" style={{ width: '80%' }}>
                                     <div className="progress-bar progress-bar-striped progress-bar-animated"
-                                        style={{ width: `${carStatusEngine().engine}%` }}>
+                                        style={{ width: `${carStatusEngine().engine_oil_filter}%` }}>
                                     </div>
                                 </div>
                             </div>
@@ -256,12 +256,12 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                             <div className="car-management-progressbar-box">
                                 <div className="car-management-progressbar-title-box">
                                     <p className="car-management-progressbar-title">에어컨 필터(향균 필터)</p>
-                                    <p className="car-management-progressbar-text">{selectedCar ? `${selectedCar.ac} / 15000Km` : '데이터 없음'}</p>
+                                    <p className="car-management-progressbar-text">{selectedCar ? `${selectedCar.aircon_filter} / 15000Km` : '데이터 없음'}</p>
                                 </div>
                                 <div className="progress" role="progressbar" aria-label="Animated striped example"
-                                    aria-valuenow={carStatusAc().ac} aria-valuemin="0" aria-valuemax="100" style={{ width: '80%' }}>
+                                    aria-valuenow={carStatusAc().aircon_filter} aria-valuemin="0" aria-valuemax="100" style={{ width: '80%' }}>
                                     <div className="progress-bar progress-bar-striped progress-bar-animated bg-info"
-                                        style={{ width: `${carStatusAc().ac}%` }}>
+                                        style={{ width: `${carStatusAc().aircon_filter}%` }}>
                                     </div>
                                 </div>
                             </div>
@@ -269,12 +269,12 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                             <div className="car-management-progressbar-box">
                                 <div className="car-management-progressbar-title-box">
                                     <p className="car-management-progressbar-title">브레이크 패드 및 디스크</p>
-                                    <p className="car-management-progressbar-text">{selectedCar ? `${selectedCar.break} / 10000Km` : '데이터 없음'}</p>
+                                    <p className="car-management-progressbar-text">{selectedCar ? `${selectedCar.brake_pad} / 10000Km` : '데이터 없음'}</p>
                                 </div>
                                 <div className="progress" role="progressbar" aria-label="Animated striped example"
-                                    aria-valuenow={carStatusBreak().break} aria-valuemin="0" aria-valuemax="100" style={{ width: '80%' }}>
+                                    aria-valuenow={carStatusBreak().brake_pad} aria-valuemin="0" aria-valuemax="100" style={{ width: '80%' }}>
                                     <div className="progress-bar progress-bar-striped progress-bar-animated bg-danger"
-                                        style={{ width: `${carStatusBreak().break}%` }}>
+                                        style={{ width: `${carStatusBreak().brake_pad}%` }}>
                                     </div>
                                 </div>
                             </div>
@@ -355,7 +355,7 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                             </div>
                             <div className="car-label-box">
                                 <select className="car-management-maintenance-select" onChange={(e) => setMaintenanceType(e.target.value)}>
-                                    <option value="엔진오일 및 필터">엔진오일 및 필터</option>
+                                    <option value="엔진 오일 교체">엔진 오일 교체</option>
                                     <option value="에어컨 필터 교체">에어컨 필터 교체</option>
                                     <option value="브레이크 패드 교체">브레이크 패드 교체</option>
                                     <option value="타이어 교체">타이어 교체</option>
