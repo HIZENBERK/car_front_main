@@ -839,3 +839,27 @@
   cursor: not-allowed;         /* 마우스 커서를 '허용되지 않음'으로 변경 */
   color: #a0a0a0;              /* 텍스트 색상을 흐리게 설정 */
 }
+.car-management-bar {
+  width: 100%;
+  height: 20px; /* 막대의 높이 설정 */
+  background-color: #e0e0e0; /* 배경 색상 */
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.car-management-bar-fill {
+  height: 100%;
+  transition: width 0.3s ease-in-out;
+}
+
+.bg-info {
+  background-color: #17a2b8; /* 에어컨 필터 색상 */
+}
+
+.bg-danger {
+  background-color: #dc3545; /* 브레이크 색상 */
+}
+
+.bg-warning {
+  background-color: #ffc107; /* 타이어 색상 */
+}

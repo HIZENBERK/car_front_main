@@ -18,7 +18,7 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
         fetchCarData();
         fetchMaintenanceData();
     }, []); // 빈 의존성
-    
+
 
     // 차량 데이터를 불러오는 함수
     const fetchCarData = async () => {
@@ -54,128 +54,118 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
 
     useEffect(() => {
         if (selectedCar) {
-            updateProgressBars();
+            // console.log(selectedCar)
+            // console.log(maintenanceData)
+            //updateProgressBars();
         }
-    }, [selectedCar, cumulativeDistance]);
+    }, [selectedCar]);
 
     // 차량 데이터가 로드될 때 첫 번째 차량 자동 선택
     useEffect(() => {
         if (carData.length > 0 && !selectedCar) {
             setSelectedCar(carData[0]);
         }
-    }, [carData, selectedCar]);
+    }, [carData]);
     const updateProgressBars = () => {
         if (!selectedCar) return;
-    
-        const newCumulativeDistance = parseFloat(cumulativeDistance || 0);
-    
-        setCarData((prevCarData) =>
-            prevCarData.map((car) => {
-                if (car.id === selectedCar.id) {
-                    const updatedCar = { ...car };
-    
-                    // 소모품 별 업데이트
-                    if (maintenanceType === "엔진 오일 교체") {
-                        updatedCar.engine_oil_filter = Math.min(
-                            (car.engine_oil_filter || 0) + newCumulativeDistance,
-                            10000
-                        );
-                    }
-                    if (maintenanceType === "에어컨 필터 교체") {
-                        updatedCar.aircon_filter = Math.min(
-                            (car.aircon_filter || 0) + newCumulativeDistance,
-                            15000
-                        );
-                    }
-                    if (maintenanceType === "브레이크 패드 교체") {
-                        updatedCar.brake_pad = Math.min(
-                            (car.brake_pad || 0) + newCumulativeDistance,
-                            10000
-                        );
-                    }
-                    if (maintenanceType === "타이어 교체") {
-                        updatedCar.tire = Math.min(
-                            (car.tire || 0) + newCumulativeDistance,
-                            60000
-                        );
-                    }
-    
-                    return updatedCar;
-                }
-                return car;
-            })
-        );
-    
-        // 선택된 차량 상태도 동기화
-        setSelectedCar((prevCar) =>
-            prevCar
-                ? {
-                      ...prevCar,
-                      engine_oil_filter:
-                          maintenanceType === "엔진 오일 교체"
-                              ? Math.min(
-                                    (selectedCar.total_mileage || 0) + newCumulativeDistance,
-                                    10000
-                                )
-                              : selectedCar.total_mileage,
-                      aircon_filter:
-                          maintenanceType === "에어컨 필터 교체"
-                              ? Math.min(
-                                    (selectedCar.total_mileage || 0) + newCumulativeDistance,
-                                    15000
-                                )
-                              : selectedCar.total_mileage,
-                      brake_pad:
-                          maintenanceType === "브레이크 패드 교체"
-                              ? Math.min(
-                                    (selectedCar.total_mileage || 0) + newCumulativeDistance,
-                                    10000
-                                )
-                              : selectedCar.total_mileage,
-                      tire:
-                          maintenanceType === "타이어 교체"
-                              ? Math.min(
-                                    (selectedCar.total_mileage|| 0) + newCumulativeDistance,
-                                    60000
-                                )
-                              : selectedCar.total_mileage,
-                  }
-                : null
-        );
+        console.log('5번 루프')
+        // const newCumulativeDistance = parseFloat(cumulativeDistance || 0);
+
+        // setCarData((prevCarData) =>
+        //     prevCarData.map((car) => {
+        //         if (car.id === selectedCar.id) {
+        //             const updatedCar = { ...car };
+        //
+        //             // 소모품 별 업데이트
+        //             if (maintenanceType === "엔진 오일 교체") {
+        //                 updatedCar.engine_oil_filter = car.engine_oil_filter ;
+        //             }
+        //             if (maintenanceType === "에어컨 필터 교체") {
+        //                 updatedCar.aircon_filter = car.aircon_filter;
+        //             }
+        //             if (maintenanceType === "브레이크 패드 교체") {
+        //                 updatedCar.brake_pad = car.brake_pad ;
+        //             }
+        //             if (maintenanceType === "타이어 교체") {
+        //                 updatedCar.tire = car.tire;
+        //             }
+        //
+        //             return updatedCar;
+        //         }
+        //         return car;
+        //     })
+        // );
+
+        //선택된 차량 상태도 동기화
+        // setSelectedCar((prevCar) =>
+        //     prevCar
+        //         ? {
+        //               ...prevCar,
+        //               engine_oil_filter:
+        //                   maintenanceType === "엔진 오일 교체"
+        //                       ? Math.min(
+        //                             (selectedCar.total_mileage || 0) + newCumulativeDistance,
+        //                             10000
+        //                         )
+        //                       : selectedCar.total_mileage,
+        //               aircon_filter:
+        //                   maintenanceType === "에어컨 필터 교체"
+        //                       ? Math.min(
+        //                             (selectedCar.total_mileage || 0) + newCumulativeDistance,
+        //                             15000
+        //                         )
+        //                       : selectedCar.total_mileage,
+        //               brake_pad:
+        //                   maintenanceType === "브레이크 패드 교체"
+        //                       ? Math.min(
+        //                             (selectedCar.total_mileage || 0) + newCumulativeDistance,
+        //                             10000
+        //                         )
+        //                       : selectedCar.total_mileage,
+        //               tire:
+        //                   maintenanceType === "타이어 교체"
+        //                       ? Math.min(
+        //                             (selectedCar.total_mileage|| 0) + newCumulativeDistance,
+        //                             60000
+        //                         )
+        //                       : selectedCar.total_mileage,
+        //           }
+        //         : null
+        // );
     };
-    
-    
-    
+
+
+
 
     // 소모품 상태 계산 함수들
     const calculateProgress = (current, max) => {
         return Math.min((current / max) * 100, 100);
     };
-    
+
     const carStatusEngine = () => {
         const maxLimit = 10000; // 엔진 오일 교체 기준
         const currentDistance = selectedCar.engine_oil_filter || 0;
         return { engine_oil_filter: calculateProgress(currentDistance, maxLimit) };
     };
-    
+
     const carStatusAc = () => {
         const maxLimit = 15000; // 에어컨 필터 교체 기준 거리
         const currentDistance = selectedCar.aircon_filter || 0;
         return { aircon_filter: calculateProgress(currentDistance, maxLimit) };
     };
-    
+
     const carStatusBreak = () => {
         const maxLimit = 10000; // 브레이크 패드 교체 기준 거리
         const currentDistance = selectedCar.brake_pad || 0;
         return { brake_pad: calculateProgress(currentDistance, maxLimit) };
     };
-    
+
     const carStatusTire = () => {
         const maxLimit = 60000; // 타이어 교체 기준 거리
         const currentDistance = selectedCar.tire || 0;
         return { tire: calculateProgress(currentDistance, maxLimit) };
     };
-    
+
 
     const handleCarTableClick = (car) => {
         setSelectedCar(car);
@@ -196,35 +186,39 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
 
     // 정비 기록 등록 함수
     const handleMaintenanceSubmit = async () => {
-        if (!selectedCar || !cumulativeDistance) {
+        if (!selectedCar) {
             console.error("모든 필드를 입력해야 합니다.");
             return;
         }
-    
+
         try {
-            const updatedMileage = selectedCar.total_mileage + parseFloat(cumulativeDistance || 0);
-            await axios.patch(
-                `https://hizenberk.pythonanywhere.com/api/vehicles/${selectedCar.id}/`,
-                { total_mileage: updatedMileage },
+            await axios.post(
+                `https://hizenberk.pythonanywhere.com/api/maintenances/create/`,
+                {
+                    "vehicle": selectedCar.id,  // 차량 ID
+                    "maintenance_date": maintenanceDate,  // 정비 일자
+                    "maintenance_type": maintenanceType,  // 정비 유형
+                    "maintenance_cost": maintenanceCost,  // 정비 비용
+                    "maintenance_description": '' // 정비 내용 상세
+                },
                 { headers: { Authorization: `Bearer ${authState.access}` } }
             );
-    
+
             // 업데이트 후 상태 업데이트
             setSelectedCar({
                 ...selectedCar,
-                total_mileage: updatedMileage,
             });
-    
+
             // 게이지 업데이트 호출
-            updateProgressBars();
-    
+            fetchMaintenanceData();
+
             setCumulativeDistance(''); // 입력 필드 초기화
             closeModal(); // 모달 닫기
         } catch (error) {
             console.error('정비 기록 등록 실패:', error);
         }
     };
-    
+
 
 
     // 정비 기록 삭제 함수
@@ -303,56 +297,76 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                             </div>
 
                             <p className="car-management-g-box-middle-top-text">소모품 현황</p>
-                            {/* 엔진 진행률 */}
+
+                            {/* 엔진 진행률 (백분율 계산 후 표시) */}
                             <div className="car-management-progressbar-box">
                                 <div className="car-management-progressbar-title-box">
                                     <p className="car-management-progressbar-title">엔진오일 및 필터</p>
-                                    <p className="car-management-progressbar-text">{selectedCar ? `${selectedCar.engine_oil_filter} / 10000Km` : '데이터 없음'}</p>
+                                    <p className="car-management-progressbar-text">
+                                        {selectedCar ? `${selectedCar.engine_oil_filter} / 10000Km` : '데이터 없음'}
+                                    </p>
                                 </div>
-                                <div className="progress" role="progressbar" aria-label="Animated striped example"
-                                    aria-valuenow={carStatusEngine().engine_oil_filter} aria-valuemin="0" aria-valuemax="100" style={{ width: '80%' }}>
-                                    <div className="progress-bar progress-bar-striped progress-bar-animated"
-                                        style={{ width: `${carStatusEngine().engine_oil_filter}%` }}>
-                                    </div>
+                                <div className="car-management-bar">
+                                    <div
+                                        className="car-management-bar-fill"
+                                        style={{
+                                            width: `${(selectedCar.engine_oil_filter / 10000) * 100}%`, // 백분율로 계산
+                                        }}
+                                    ></div>
                                 </div>
                             </div>
-                            {/* 에어컨 진행률 */}
+
+                            {/* 에어컨 진행률 (백분율 계산 후 표시) */}
                             <div className="car-management-progressbar-box">
                                 <div className="car-management-progressbar-title-box">
                                     <p className="car-management-progressbar-title">에어컨 필터(향균 필터)</p>
-                                    <p className="car-management-progressbar-text">{selectedCar ? `${selectedCar.aircon_filter} / 15000Km` : '데이터 없음'}</p>
+                                    <p className="car-management-progressbar-text">
+                                        {selectedCar ? `${selectedCar.aircon_filter} / 15000Km` : '데이터 없음'}
+                                    </p>
                                 </div>
-                                <div className="progress" role="progressbar" aria-label="Animated striped example"
-                                    aria-valuenow={carStatusAc().aircon_filter} aria-valuemin="0" aria-valuemax="100" style={{ width: '80%' }}>
-                                    <div className="progress-bar progress-bar-striped progress-bar-animated bg-info"
-                                        style={{ width: `${carStatusAc().aircon_filter}%` }}>
-                                    </div>
+                                <div className="car-management-bar">
+                                    <div
+                                        className="car-management-bar-fill bg-info"
+                                        style={{
+                                            width: `${(selectedCar.aircon_filter / 15000) * 100}%`, // 백분율로 계산
+                                        }}
+                                    ></div>
                                 </div>
                             </div>
-                            {/* 브레이크 진행률 */}
+
+                            {/* 브레이크 진행률 (백분율 계산 후 표시) */}
                             <div className="car-management-progressbar-box">
                                 <div className="car-management-progressbar-title-box">
                                     <p className="car-management-progressbar-title">브레이크 패드 및 디스크</p>
-                                    <p className="car-management-progressbar-text">{selectedCar ? `${selectedCar.brake_pad} / 10000Km` : '데이터 없음'}</p>
+                                    <p className="car-management-progressbar-text">
+                                        {selectedCar ? `${selectedCar.brake_pad} / 10000Km` : '데이터 없음'}
+                                    </p>
                                 </div>
-                                <div className="progress" role="progressbar" aria-label="Animated striped example"
-                                    aria-valuenow={carStatusBreak().brake_pad} aria-valuemin="0" aria-valuemax="100" style={{ width: '80%' }}>
-                                    <div className="progress-bar progress-bar-striped progress-bar-animated bg-danger"
-                                        style={{ width: `${carStatusBreak().brake_pad}%` }}>
-                                    </div>
+                                <div className="car-management-bar">
+                                    <div
+                                        className="car-management-bar-fill bg-danger"
+                                        style={{
+                                            width: `${(selectedCar.brake_pad / 10000) * 100}%`, // 백분율로 계산
+                                        }}
+                                    ></div>
                                 </div>
                             </div>
-                            {/* 타이어 진행률 */}
+
+                            {/* 타이어 진행률 (백분율 계산 후 표시) */}
                             <div className="car-management-progressbar-box">
                                 <div className="car-management-progressbar-title-box">
                                     <p className="car-management-progressbar-title">타이어</p>
-                                    <p className="car-management-progressbar-text">{selectedCar ? `${selectedCar.tire} / 60000Km` : '데이터 없음'}</p>
+                                    <p className="car-management-progressbar-text">
+                                        {selectedCar ? `${selectedCar.tire} / 60000Km` : '데이터 없음'}
+                                    </p>
                                 </div>
-                                <div className="progress" role="progressbar" aria-label="Animated striped example"
-                                    aria-valuenow={carStatusTire().tire} aria-valuemin="0" aria-valuemax="100" style={{ width: '80%' }}>
-                                    <div className="progress-bar progress-bar-striped progress-bar-animated bg-warning"
-                                        style={{ width: `${carStatusTire().tire}%` }}>
-                                    </div>
+                                <div className="car-management-bar">
+                                    <div
+                                        className="car-management-bar-fill bg-warning"
+                                        style={{
+                                            width: `${(selectedCar.tire / 60000) * 100}%`, // 백분율로 계산
+                                        }}
+                                    ></div>
                                 </div>
                             </div>
                         </div>
@@ -364,18 +378,20 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                                     <option value="2022">2022년</option>
                                     <option value="2021">2021년</option>
                                 </select>
-                                <button className="car-management-registration-maintenance" onClick={handleModalOpen}>정비 등록</button>
+                                <button className="car-management-registration-maintenance" onClick={handleModalOpen}>정비
+                                    등록
+                                </button>
                             </div>
                             <div className="car-management-j-box">
                                 <table className="car-management-car-maintenance-table">
                                     <thead>
-                                        <tr>
-                                            <th>정비 일자</th>
-                                            <th>정비 내용</th>
-                                            <th>누적 주행 거리</th>
-                                            <th>금액</th>
-                                            <th>삭제</th>
-                                        </tr>
+                                    <tr>
+                                        <th>정비 일자</th>
+                                        <th>정비 내용</th>
+                                        <th>누적 주행 거리</th>
+                                        <th>금액</th>
+                                        <th>삭제</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                     {filteredMaintenanceData.map((record, index) => (
@@ -410,23 +426,22 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                             <div className="car-label-box">
                                 <label className="car-label-text">정비 일자:</label>
                                 <div className="car-label-input-with-icon">
-                                    <input type="date" className="car-label-input-date" onChange={(e) => setMaintenanceDate(e.target.value)} />
+                                    <input type="date" className="car-label-input-date"
+                                           onChange={(e) => setMaintenanceDate(e.target.value)}/>
                                 </div>
                             </div>
                             <div className="car-label-box">
-                                <label className="car-label-text">누적 주행 거리:</label>
-                                <input type="text" className="car-label-input" onChange={(e) => setCumulativeDistance(e.target.value)} />Km
-                            </div>
-                            <div className="car-label-box">
-                                <select className="car-management-maintenance-select" onChange={(e) => setMaintenanceType(e.target.value)}>
-                                    <option value="엔진 오일 교체">엔진 오일 교체</option>
-                                    <option value="에어컨 필터 교체">에어컨 필터 교체</option>
-                                    <option value="브레이크 패드 교체">브레이크 패드 교체</option>
-                                    <option value="타이어 교체">타이어 교체</option>
-                                    <option value="기타">기타</option>
+                                <select className="car-management-maintenance-select"
+                                        onChange={(e) => setMaintenanceType(e.target.value)}>
+                                    <option value="engine_oil_change">엔진 오일 교체</option>
+                                    <option value="air_filter_change">에어컨 필터 교체</option>
+                                    <option value="brake_pad_change">브레이크 패드 교체</option>
+                                    <option value="tire_change">타이어 교체</option>
+                                    <option value="other">기타</option>
                                 </select>
                                 <label className="car-label-text">금액:</label>
-                                <input type="text" className="car-label-input-price" onChange={(e) => setMaintenanceCost(e.target.value)} />원
+                                <input type="text" className="car-label-input-price"
+                                       onChange={(e) => setMaintenanceCost(e.target.value)}/>원
                             </div>
                         </div>
                         <button className="car-management-update-btn" onClick={handleMaintenanceSubmit}>등록</button>
