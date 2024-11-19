@@ -317,3 +317,21 @@
 .expensemanagement-input-2 {
   margin-left: 12%;
 }
+
+.expensemanagement-receipt-image {
+  max-width: 100%; /* 모달의 너비에 맞게 */
+  max-height: 300px; /* 높이는 제한 */
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  object-fit: contain; /* 이미지가 왜곡되지 않게 */
+}
+
+.expensemanagement-modal-receipt-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}

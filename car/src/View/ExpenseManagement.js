@@ -24,7 +24,12 @@ const ExpenseManagement = () => {
       if (response.status === 200) {
         const updatedExpenses = response.data.expenses.map(expense => ({
           ...expense,
-          status: expense.status || "pending"
+          status: expense.status || "pending",
+          receipt_detail: expense.receipt_detail 
+            ? (expense.receipt_detail.startsWith("http") 
+                ? expense.receipt_detail 
+                : `https://hizenberk.pythonanywhere.com${expense.receipt_detail}`)
+            : null,
         }));
         setExpenses(updatedExpenses);
         updateCurrentRows(updatedExpenses);
@@ -291,11 +296,31 @@ const ExpenseManagement = () => {
               </div>
               <div className="expensemanaegement-modal-receipt-a-box">
               <div className="expensemanagement-modal-receipt-box">
+                {selectedRow.receipt_detail ? (
+                  <img
+                    src={selectedRow.receipt_detail}
+                    alt="Receipt"
+                    className="expensemanagement-receipt-image"
+                    style={{ maxWidth: '100%', height: 'auto', display: 'block' }}
+                  />
+                ) : (
+                  <p>영수증 이미지가 없습니다.</p>
+                )}
               </div>
               <div className="expensemanagement-modal-buttons">
-                <button className="approve-btn">승인</button>
-                <button className="reject-btn">반려</button>
-              </div>
+              <button
+                className="approve-btn"
+                onClick={() => updateExpenseStatus(selectedRow.id, "승인")}
+              >
+                승인
+              </button>
+              <button
+                className="reject-btn"
+                onClick={() => updateExpenseStatus(selectedRow.id, "반려")}
+              >
+                반려
+              </button>
+            </div>
               </div>
             </div>
           </div>
