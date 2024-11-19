@@ -244,6 +244,14 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
         }
     };
 
+    // 정기 검사 만료일(구매일 부터 1년 후) 계산 함수
+    const calculateExpirationDate = (purchaseDate) => {
+        if (!purchaseDate) return "데이터 없음"; // 구매일이 없을 경우 처리
+        const purchase = new Date(purchaseDate);
+        purchase.setFullYear(purchase.getFullYear() + 1); // 1년 후로 설정
+        return purchase.toISOString().split('T')[0]; // YYYY-MM-DD 형식으로 반환
+    };
+
     // 선택된 차량에 맞는 정비 기록 필터링
     const filteredMaintenanceData = selectedCar
         ? maintenanceData.filter(record => record.vehicle === selectedCar.id)
@@ -262,9 +270,10 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                     <tbody>
                         {carData.map((car, index) => (
                             <tr key={index} onClick={() => handleCarTableClick(car)} className="car-management-clickable-row">
-                                <td>
+                                {/* <td>
                                     <img src={car.img || '/Img/default_car.jpg'} alt="Car" className="car-management-car-table-td-img" />
-                                </td>
+                                </td> */}
+                                <td className="car-management-car-table-td-num">{car.vehicle_type}</td>
                                 <td className="car-management-car-table-td-num">{car.license_plate_number}</td>
                             </tr>
                         ))}
@@ -289,7 +298,9 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                             </div>
                             <div className="car-management-g-box-middle-text-box">
                                 <p className="car-management-g-box-middle-title">정기검사 만료일</p>
-                                <p className="car-management-g-box-middle-text">{selectedCar.expiration_date}</p>
+                                <p className="car-management-g-box-middle-text">
+                                    {selectedCar.purchase_date ? calculateExpirationDate(selectedCar.purchase_date) : '데이터 없음'}
+                                </p>
                             </div>
                             <div className="car-management-g-box-middle-text-box">
                                 <p className="car-management-g-box-middle-title">누적주행거리</p>
