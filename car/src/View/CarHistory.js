@@ -375,17 +375,24 @@ const CarHistory = () => {
               <input
                 type="radio"
                 name="use-type"
-                value="business"
-                checked={useType === 'business'}
+                value="commuting"
+                checked={useType === 'commuting'}
                 onChange={handleUseTypeChange}
-              /> 업무용
+              /> 출퇴근
               <input
                 type="radio"
                 name="use-type"
-                value="personal"
-                checked={useType === 'personal'}
+                value="business"
+                checked={useType === 'business'}
                 onChange={handleUseTypeChange}
-              /> 개인용
+              /> 일반업무
+              <input
+                type="radio"
+                name="use-type"
+                value="non_business"
+                checked={useType === 'non_business'}
+                onChange={handleUseTypeChange}
+              /> 비업무
             </div>
             <div className="car-history-d-box-date-check">
               <button className="car-history-date-check-button" onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}>
