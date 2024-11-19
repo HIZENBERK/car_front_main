@@ -46,25 +46,41 @@ const CarHistory = () => {
       return;
     }
   
-    fetch('https://hizenberk.pythonanywhere.com/api/driving-records/', {
-      headers: {
-        'Authorization': `Bearer ${authState.access}`,
-      },
+  //   fetch('https://hizenberk.pythonanywhere.com/api/driving-records/', {
+  //     headers: {
+  //       'Authorization': `Bearer ${authState.access}`,
+  //     },
+  //   })
+  //     .then(response => {
+  //       console.log("Response Status:", response.status); // 상태 코드 출력
+  //       return response.json();
+  //     })
+  //     .then(data => {
+  //       console.log("API Response Data:", data); // 응답 데이터 출력
+  //       if (data.records && Array.isArray(data.records)) {
+  //         setCarData(data.records);
+  //       } else {
+  //         console.error('Unexpected response format:', data);
+  //       }
+  //     })
+  //     .catch(error => console.error('Error fetching driving records:', error));
+  // }, [authState.access]);
+
+  fetch('https://hizenberk.pythonanywhere.com/api/driving-records/', {
+    headers: {
+      'Authorization': `Bearer ${authState.access}`,
+    },
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.records && Array.isArray(data.records)) {
+        setCarData(data.records);
+      } else {
+        console.error('Unexpected response format:', data);
+      }
     })
-      .then(response => {
-        console.log("Response Status:", response.status); // 상태 코드 출력
-        return response.json();
-      })
-      .then(data => {
-        console.log("API Response Data:", data); // 응답 데이터 출력
-        if (data.records && Array.isArray(data.records)) {
-          setCarData(data.records);
-        } else {
-          console.error('Unexpected response format:', data);
-        }
-      })
-      .catch(error => console.error('Error fetching driving records:', error));
-  }, [authState.access]);
+    .catch(error => console.error('Error fetching driving records:', error));
+}, [authState.access]);
 
 
   const filterCarData = () => {
@@ -388,8 +404,10 @@ const CarHistory = () => {
                   <th>출발 시간</th>
                   <th>도착 시간</th>
                   <th>목적</th>
-                  <th>차량 ID</th>
-                  <th>거리 (m)</th>
+                  <th>차종</th>
+                  <th>차량 번호</th>
+                  <th>이름</th>
+                  <th>거리 (km)</th>
                   <th>소요시간</th>
                   <th>출발/도착지</th>
                   <th>운행 경로</th>
@@ -404,7 +422,9 @@ const CarHistory = () => {
                     <td>{car.departure_time.split('T')[0]}</td>
                     <td>{car.arrival_time.split('T')[0]}</td>
                     <td>{getDrivingPurposeInKorean(car.driving_purpose)}</td>
-                    <td>{car.vehicle}</td>
+                    <td>{car.vehicle_type}</td> {/* 차량 종류 */}
+                    <td>{car.vehicle_license_plate_number}</td> {/* 차량 종류 */}
+                    <td>{car.user_name}</td> {/* 사용자 이름 */}
                     <td>{car.driving_distance}m</td>
                     <td>{car.driving_time}</td>
                     <td>
