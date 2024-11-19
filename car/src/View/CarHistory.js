@@ -41,20 +41,22 @@ const CarHistory = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // 토큰이 없으면 로그인을 요청합니다.
     if (!authState.access) {
       setError('로그인이 필요합니다.');
       return;
     }
-
-    // 인증된 상태에서만 데이터를 불러옵니다.
+  
     fetch('https://hizenberk.pythonanywhere.com/api/driving-records/', {
       headers: {
         'Authorization': `Bearer ${authState.access}`,
       },
     })
-      .then(response => response.json())
+      .then(response => {
+        console.log("Response Status:", response.status); // 상태 코드 출력
+        return response.json();
+      })
       .then(data => {
+        console.log("API Response Data:", data); // 응답 데이터 출력
         if (data.records && Array.isArray(data.records)) {
           setCarData(data.records);
         } else {
@@ -63,6 +65,7 @@ const CarHistory = () => {
       })
       .catch(error => console.error('Error fetching driving records:', error));
   }, [authState.access]);
+
 
   const filterCarData = () => {
     return carData.filter((car) => {
@@ -281,6 +284,19 @@ const CarHistory = () => {
     }
   };
 
+  const getDrivingPurposeInKorean = (purpose) => {
+    switch (purpose) {
+      case "commuting":
+        return "출/퇴근";
+      case "business":
+        return "일반업무";
+      case "non_business":
+        return "비업무";
+      default:
+        return "알 수 없음";
+    }
+  };
+
   return (
     <div className="car-history-container">
       <div className="car-history-background">
@@ -387,7 +403,7 @@ const CarHistory = () => {
                   <tr key={car.id}>
                     <td>{car.departure_time.split('T')[0]}</td>
                     <td>{car.arrival_time.split('T')[0]}</td>
-                    <td>{car.driving_purpose}</td>
+                    <td>{getDrivingPurposeInKorean(car.driving_purpose)}</td>
                     <td>{car.vehicle}</td>
                     <td>{car.driving_distance}m</td>
                     <td>{car.driving_time}</td>
