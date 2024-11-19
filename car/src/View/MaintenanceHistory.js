@@ -13,23 +13,18 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
     const [cumulativeDistance, setCumulativeDistance] = useState('');
     const [maintenanceType, setMaintenanceType] = useState('엔진오일 및 필터');
     const [maintenanceCost, setMaintenanceCost] = useState('');
+    
 
     // 차량 데이터를 불러오는 함수
     const fetchCarData = async () => {
         try {
             const response = await axios.get('https://hizenberk.pythonanywhere.com/api/vehicles/', {
-                headers: { Authorization: `Bearer ${authState.access}` }
+                headers: { Authorization: `Bearer ${authState.access}` },
             });
+            console.log('차량 데이터:', response.data.vehicles);
             setCarData(response.data.vehicles);
         } catch (error) {
-            if (error.response?.data?.code === 'token_not_valid') {
-                const newAccessToken = await refreshAccessToken();
-                if (newAccessToken) {
-                    fetchCarData();
-                }
-            } else {
-                console.error('차량 데이터 불러오기 실패:', error);
-            }
+            console.error('차량 데이터 불러오기 실패:', error);
         }
     };
 
@@ -66,32 +61,62 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
 
     // 소모품 상태 계산 함수들
     const carStatusEngine = () => {
-        const maxLimit = 10000;
-        return {
-            engine_oil_filter: selectedCar ? (selectedCar.engine_oil_filter / maxLimit) * 100 : 0,
-        };
+        const maxLimit = 10000; // 엔진 오일 교체 기준
+        if (!selectedCar || selectedCar.engine_oil_filter == null) {
+            return { engine_oil_filter: 0 };
+        }
+        const currentDistance = selectedCar.engine_oil_filter || 0;
+        const additionalDistance = parseFloat(cumulativeDistance || 0) || 0;
+    
+        const progress = Math.min(((currentDistance + additionalDistance) / maxLimit) * 100, 100);
+        return { engine_oil_filter: progress };
     };
-
+    
     const carStatusAc = () => {
-        const maxLimit = 15000;
-        return {
-            aircon_filter: selectedCar ? (selectedCar.aircon_filter / maxLimit) * 100 : 0,
-        };
+        const maxLimit = 15000; // 에어컨 필터 교체 기준 거리
+        if (!selectedCar) {
+            console.error("선택된 차량이 없습니다.");
+            return { aircon_filter: 0 };
+        }
+        const currentDistance = selectedCar.aircon_filter || 0;
+        const additionalDistance = parseFloat(cumulativeDistance || 0);
+    
+        console.log("AC Filter Data:", { currentDistance, additionalDistance });
+    
+        const progress = Math.min(((currentDistance + additionalDistance) / maxLimit) * 100, 100);
+        return { aircon_filter: progress };
     };
-
+    
     const carStatusBreak = () => {
-        const maxLimit = 10000;
-        return {
-            brake_pad: selectedCar ? (selectedCar.brake_pad / maxLimit) * 100 : 0,
-        };
+        const maxLimit = 10000; // 브레이크 패드 교체 기준 거리
+        if (!selectedCar) {
+            console.error("선택된 차량이 없습니다.");
+            return { brake_pad: 0 };
+        }
+        const currentDistance = selectedCar.brake_pad || 0;
+        const additionalDistance = parseFloat(cumulativeDistance || 0);
+    
+        console.log("Brake Pad Data:", { currentDistance, additionalDistance });
+    
+        const progress = Math.min(((currentDistance + additionalDistance) / maxLimit) * 100, 100);
+        return { brake_pad: progress };
     };
-
+    
     const carStatusTire = () => {
-        const maxLimit = 60000;
-        return {
-            tire: selectedCar ? (selectedCar.tire / maxLimit) * 100 : 0,
-        };
+        const maxLimit = 60000; // 타이어 교체 기준 거리
+        if (!selectedCar) {
+            console.error("선택된 차량이 없습니다.");
+            return { tire: 0 };
+        }
+        const currentDistance = selectedCar.tire || 0;
+        const additionalDistance = parseFloat(cumulativeDistance || 0);
+    
+        console.log("Tire Data:", { currentDistance, additionalDistance });
+    
+        const progress = Math.min(((currentDistance + additionalDistance) / maxLimit) * 100, 100);
+        return { tire: progress };
     };
+    
 
     const handleCarTableClick = (car) => {
         setSelectedCar(car);
@@ -112,56 +137,32 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
 
     // 정비 기록 등록 함수
     const handleMaintenanceSubmit = async () => {
-        if (!selectedCar || !maintenanceDate || !maintenanceType || !maintenanceCost) {
+        if (!selectedCar || !cumulativeDistance) {
             console.error("모든 필드를 입력해야 합니다.");
             return;
         }
 
-        const maintenanceTypeMapping = {
-            '엔진 오일 교체': 'engine_oil_change',
-            '에어컨 필터 교체': 'air_filter_change',
-            '브레이크 패드 교체': 'brake_pad_change',
-            '타이어 교체': 'tire_change',
-            '기타': 'other'
-        };
-
-        const mappedMaintenanceType = maintenanceTypeMapping[maintenanceType];
-
-        if (!mappedMaintenanceType) {
-            console.error("유효하지 않은 정비 유형입니다.");
-            return;
-        }
-        //console.log(selectedCar.id,maintenanceDate,mappedMaintenanceType,maintenanceCost,maintenanceType)
         try {
-            const response = await axios.post('https://hizenberk.pythonanywhere.com/api/maintenances/create/', {
-                vehicle: selectedCar.id,
-                maintenance_date: maintenanceDate,
-                maintenance_type: mappedMaintenanceType,
-                maintenance_cost: parseFloat(maintenanceCost),
-                maintenance_description: `${maintenanceType} 작업 완료`,
-            }, {
-                headers: { Authorization: `Bearer ${authState.access}` }
+            // 업데이트된 차량 누적 주행 거리 상태를 서버에 보냄
+            const updatedMileage = selectedCar.total_mileage + parseFloat(cumulativeDistance || 0);
+            await axios.patch(
+                `https://hizenberk.pythonanywhere.com/api/vehicles/${selectedCar.id}/`,
+                { total_mileage: updatedMileage },
+                { headers: { Authorization: `Bearer ${authState.access}` } }
+            );
+
+            // 로컬 상태 업데이트
+            setSelectedCar({
+                ...selectedCar,
+                total_mileage: updatedMileage,
             });
-            console.log('정비 기록 등록 성공:', response.data);
-            closeModal();
-            fetchMaintenanceData();
+
+            setCumulativeDistance(''); // 입력 필드 초기화
         } catch (error) {
-            if (error.response) {
-                console.error('정비 기록 등록 실패:', error.response.data);
-                if (error.response.data.errors) {
-                    console.error('구체적인 오류:', error.response.data.errors.maintenance_type);
-                }
-            } else {
-                console.error('정비 기록 등록 실패:', error.message);
-            }
-            if (error.response?.data?.code === 'token_not_valid') {
-                const newAccessToken = await refreshAccessToken();
-                if (newAccessToken) {
-                    handleMaintenanceSubmit();
-                }
-            }
+            console.error('정비 기록 등록 실패:', error);
         }
     };
+
 
     // 정비 기록 삭제 함수
     const handleMaintenanceDelete = async (maintenanceId) => {
@@ -314,22 +315,22 @@ const MaintenanceHistory = ({ authState, refreshAccessToken }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {filteredMaintenanceData.map((record, index) => (
-                                            <tr key={index}>
-                                                <td>{record.maintenance_date}</td>
-                                                <td>{record.maintenance_type_display}</td>
-                                                <td>{record.cumulative_distance || '데이터 없음'}</td>
-                                                <td>{record.maintenance_cost} 원</td>
-                                                <td>
-                                                    <button
-                                                        onClick={() => handleMaintenanceDelete(record.id)}
-                                                        className="car-management-delete-btn"
-                                                    >
-                                                        <i class="bi bi-x-circle"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                    {filteredMaintenanceData.map((record, index) => (
+                                        <tr key={index}>
+                                            <td>{record.maintenance_date}</td>
+                                            <td>{record.maintenance_type_display}</td>
+                                            <td>{record.cumulative_distance || selectedCar.total_mileage || '데이터 없음'}</td>
+                                            <td>{record.maintenance_cost} 원</td>
+                                            <td>
+                                                <button
+                                                    onClick={() => handleMaintenanceDelete(record.id)}
+                                                    className="car-management-delete-btn"
+                                                >
+                                                    <i className="bi bi-x-circle"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
                                     </tbody>
                                 </table>
                             </div>
