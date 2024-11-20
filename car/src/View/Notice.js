@@ -91,7 +91,7 @@ const Notice = () => {
         // number: index + 1,
         name: notice.title,
         user: notice.created_by__name,
-        date: notice.created_at,
+        date: notice.created_at.slice(0, 10),
         content: notice.content
       }));
       setNotices(fetchedNotices);
