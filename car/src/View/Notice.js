@@ -235,7 +235,7 @@ const Notice = () => {
           <table className="notice-table">
             <thead>
               <tr>
-                <th>번호</th>
+                {/* <th>번호</th> */}
                 <th>제목</th>
                 <th>작성자</th>
                 <th>등록일</th>
@@ -245,7 +245,7 @@ const Notice = () => {
             <tbody>
               {currentRows.map((row) => (
                 <tr key={row.id} onClick={() => handleRowClick(row.id)}>
-                  <td>{row.id}</td>
+                  {/* <td>{row.id}</td> */}
                   <td>{row.name}</td>
                   <td>{row.user}</td>
                   <td>{row.date}</td>

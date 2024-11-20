@@ -236,7 +236,7 @@ const UserManagement = () => {
                 {/* <th><input type="checkbox" /></th> */}
                 <th>부서</th>
                 <th>이름</th>
-                <th>등록번호</th>
+                {/* <th>등록번호</th> */}
                 <th>연락처</th>
                 <th>권한</th> 
                 <th>생성일시</th>
@@ -249,7 +249,7 @@ const UserManagement = () => {
                   {/* <td><input type="checkbox" /></td> */}
                   <td>{user.department}</td>
                   <td>{user.name}</td>
-                  <td>{user.id}</td>
+                  {/* <td>{user.id}</td> */}
                   <td>{user.phone_number}</td>
                   <td>{user.is_admin ? '관리자' : '사용자'}</td>
                   <td>{user.created_at}</td>
