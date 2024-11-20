@@ -216,7 +216,7 @@ const UserManagement = () => {
               <option value="id">사번</option>
               <option value="phone_number">연락처</option>
               <option value="is_admin">권한</option>
-              <option value="date">등록일</option>
+              <option value="created_at">생성일시</option>
             </select>
             <input
               type="text"
@@ -233,7 +233,7 @@ const UserManagement = () => {
           <table className="usermanegement-table">
             <thead>
               <tr>
-                <th><input type="checkbox" /></th>
+                {/* <th><input type="checkbox" /></th> */}
                 <th>부서</th>
                 <th>이름</th>
                 <th>등록번호</th>
@@ -246,7 +246,7 @@ const UserManagement = () => {
             <tbody>
               {currentRows.map((user) => (
               <tr key={user.id} className="user-click-td">
-                  <td><input type="checkbox" /></td>
+                  {/* <td><input type="checkbox" /></td> */}
                   <td>{user.department}</td>
                   <td>{user.name}</td>
                   <td>{user.id}</td>
@@ -335,7 +335,7 @@ const UserManagement = () => {
                     onChange={(e) => handleInputChange('phone_number', e.target.value)}
                   />
               </div>
-              <div className="user-label-box">
+              {/* <div className="user-label-box">
                 <label className="user-label-text">권한:</label>
                   <select
                     className="user-select-option"
@@ -345,7 +345,7 @@ const UserManagement = () => {
                     <option value="true">관리자</option>
                     <option value="false">사용자</option>
                   </select>
-                </div>
+                </div> */}
                 <div className="user-label-box">
                   <label className="user-label-text">상태:</label>
                   <span className="user-is-banned-span">{selectedRow.is_banned ? '중지됨' : '활성'}</span>

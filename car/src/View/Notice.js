@@ -202,7 +202,7 @@ const Notice = () => {
       <div className="notice-background">
       <div className="notice-top">
         <p className="notice-top-title">공지사항</p>
-        <button
+        {/* <button
           className="create-notice-btn"
           onClick={() => {
             setIsEditMode(false);
@@ -211,12 +211,27 @@ const Notice = () => {
           }}
         >
           공지 생성
-        </button>
+        </button> */}
       </div>
 
       <div className="notice-a-box">
 
         <div className="notice-b-box">
+          <div className="notice-c-box">
+            <button
+              className="create-notice-btn"
+              onClick={() => {
+                setIsEditMode(false);
+                setIsModalOpen(true);
+                setSelectedNotice(null);
+              }}
+            >
+              공지 생성
+            </button>
+          </div>
+          <div className="notice-d-box">
+            
+          </div>
           <table className="notice-table">
             <thead>
               <tr>
