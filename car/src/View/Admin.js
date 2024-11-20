@@ -30,7 +30,7 @@ function Admin() {
   const [expiredLeaseRentVehicles, setExpiredLeaseRentVehicles] = useState(0);
   const [bannedUserCount, setBannedUserCount] = useState(0);
   const [newUserCount, setNewUserCount] = useState(0);
-  const [currentMonthDrivingCount, setCurrentMonthDrivingCount] = useState(0);
+  const [MonthDrivingCount, setMonthDrivingCount] = useState(0);
   const [totalDrivingCount, setTotalDrivingCount] = useState(0);
   const [dailyAverage, setDailyAverage] = useState(0);
   const [weeklyAverage, setWeeklyAverage] = useState(0);
@@ -46,6 +46,8 @@ function Admin() {
   const [drivingRecords, setDrivingRecords] = useState([]);
   const [notices, setNotices] = useState([]);
   const navigate = useNavigate();
+  const [currentMonthRecords, setCurrentMonthRecords] = useState([]);
+  const [currentDayRecords, setCurrentDayRecords] = useState([]);
   
   const getUserInfo = async (filter = {}) => {
     try {
@@ -162,6 +164,15 @@ function Admin() {
     }
   };
 
+  const calculateCurrentDayRecords = (records) => {
+    const today = new Date().toISOString().split('T')[0]; // 현재 날짜 (YYYY-MM-DD)
+    const todayRecords = records.filter((record) => {
+        const recordDate = new Date(record.created_at).toISOString().split('T')[0];
+        return recordDate === today;
+    });
+    setCurrentDayRecords(todayRecords); // 금일 기록 상태 업데이트
+};
+
   const getDrivingRecords = async (year, month) => {
     try {
         const response = await axios.get('https://hizenberk.pythonanywhere.com/api/driving-records/', {
@@ -184,6 +195,21 @@ function Admin() {
             );
         });
         console.log("Filtered Records:", filteredRecords);
+
+        // 금월 데이터 계산
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        const currentMonth = now.getMonth() + 1;
+        const currentMonthRecords = uniqueRecords.filter((record) => {
+            const recordDate = new Date(record.created_at);
+            return (
+                recordDate.getFullYear() === currentYear &&
+                recordDate.getMonth() + 1 === currentMonth
+            );
+        });
+
+        // 금일 기록 계산
+        calculateCurrentDayRecords(uniqueRecords);
 
         // 총 운행 거리 계산 (미터에서 킬로미터로 변환)
         const totalDistance = filteredRecords.reduce(
@@ -282,7 +308,10 @@ function Admin() {
         setMonthlyAverage(dailyCountTotal.toFixed(2));
         setPieChartData(pieChartData);
         setChartData(barChartData);
-        setCurrentMonthDrivingCount(filteredRecords.length);
+        setMonthDrivingCount(filteredRecords.length);
+        setDrivingRecords(filteredRecords); // 선택된 연도/월 데이터
+        setCurrentMonthRecords(currentMonthRecords); // 금월 데이터
+        setMonthDrivingCount(currentMonthRecords.length); // 금월 운행 건수
 
         // 모든 데이터 반환
         return {
@@ -396,8 +425,8 @@ Date.prototype.getWeekNumber = function () {
                 <div className="vehicle-run-box">
                   <p className="admin-middle-title">운행</p>
                   <div className="admin-middle-content">
-                    <p className="admin-middle-text">금월 운행: {currentMonthDrivingCount}건</p>
-                    <p className="admin-middle-text">수정기록</p>
+                    <p className="admin-middle-text">금월 운행: {currentMonthRecords.length}건</p>
+                    <p className="admin-middle-text">금일 운행: {currentDayRecords.length}건</p>
                   </div>
                 </div>
               </div>
