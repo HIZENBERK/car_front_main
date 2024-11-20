@@ -16,7 +16,7 @@
   background-color: white;  /* 배경색을 동일하게 설정 */
   border-radius: 10px;      /* 둥근 모서리 */
   gap: 15px;                /* 요소 간격 */
-  position: relative;       /* 위치를 상대적으로 설정 */ 
+  position: relative;       /* 위치를 상대적으로 설정 */
   box-shadow: none;         /* 그림자 제거로 구분선 느낌 방지 */
 }
 

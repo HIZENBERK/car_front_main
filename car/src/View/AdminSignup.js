@@ -61,7 +61,7 @@ function Signup() {
 
 
   return (
-    <div className="signup-container">
+    <div className="admin-signup-container">
       <div className="admin-signup-a-box">
 
         <div className="admin-signup-b-box">
