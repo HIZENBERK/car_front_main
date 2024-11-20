@@ -210,6 +210,7 @@
   border: none;
   border-bottom: 1px solid black;
   background-color: #f3f3f300;
+  text-align: left; /* 제목 텍스트를 왼쪽 정렬 */
 }
 
 .notice-modal-textarea-box {
@@ -235,6 +236,8 @@
   border-radius: 5px;
   height: 100%;
   background-color: white;
+  text-align: left; /* 텍스트를 왼쪽 정렬 */
+  padding: 10px; /* 내부 여백 */
 }
 
 .notice-modal-footer {
