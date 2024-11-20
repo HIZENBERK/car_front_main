@@ -418,7 +418,7 @@ Date.prototype.getWeekNumber = function () {
                   <div className="admin-middle-content">
                     <p className="admin-middle-text">가용 차량: {availableVehicles}대</p>
                     <p className="admin-middle-text">사용불가: {unavailableVehicles}대</p>
-                    <p className="admin-middle-text">리스/렌트 만기 차량: {expiredLeaseRentVehicles}대</p>
+                    {/* <p className="admin-middle-text">리스/렌트 만기 차량: {expiredLeaseRentVehicles}대</p> */}
                   </div>
                 </div>
 
