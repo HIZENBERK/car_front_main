@@ -414,3 +414,20 @@
 .car-history-update-modal-update-btn:hover {
   background-color: #f0f0f0;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.page-btn {
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: 1px solid black;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
