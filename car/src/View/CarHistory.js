@@ -347,7 +347,7 @@ const handleDatePickerConfirm = () => {
         <div className="car-history-b-box">
           <p className="carhistory-name">차량 운행 내역</p>
           <div className="car-history-download-btn-box">
-            <button className="download-btn">엑셀 다운로드</button>
+            <button className="download-btn" onClick={handleDownloadExcel}>엑셀 다운로드</button>
           </div>
         </div>
 
