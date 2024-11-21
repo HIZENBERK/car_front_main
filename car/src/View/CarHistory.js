@@ -39,7 +39,6 @@ const CarHistory = () => {
     fuel_cost: 0,
     toll_fee: 0,
     other_costs: 0,
-    created_at:'',
   });
   const [error, setError] = useState(null);
 
@@ -153,64 +152,50 @@ const handleDatePickerConfirm = () => {
 
   const handleSubmit = async () => {
     if (!authState.access) {
-      // Access token이 없으면 로그인을 요청합니다.
       setError("로그인이 필요합니다.");
+      refreshAccessToken(); // 토큰 갱신 시도
       return;
     }
-
-    const payload = {
-      vehicle: editingRecord.vehicle,
-      departure_location: editingRecord.departure_location,
-      arrival_location: editingRecord.arrival_location,
-      departure_mileage: editingRecord.departure_mileage,
-      arrival_mileage: editingRecord.arrival_mileage,
-      departure_time: editingRecord.departure_time,
-      arrival_time: editingRecord.arrival_time,
-      coordinates: editingRecord.coordinates,
-      driving_purpose: editingRecord.driving_purpose,
-      fuel_cost: editingRecord.fuel_cost,
-      toll_fee: editingRecord.toll_fee,
-      other_costs: editingRecord.other_costs
-    };
-
+  
+    const payload = { ...editingRecord };
+  
     try {
       const response = await fetch(
         `https://hizenberk.pythonanywhere.com/api/driving-records/${recordIdToEdit}/`,
         {
-          method: 'PUT',
+          method: "PUT",
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${authState.access}` // Bearer 토큰을 Authorization 헤더에 추가
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authState.access}`, // Bearer 토큰 추가
           },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
         }
       );
-
+  
       if (!response.ok) {
         const errorData = await response.json();
-        setError(errorData.message || 'Failed to update record');
+        setError(errorData.message || "Failed to update record");
         return;
       }
-
-      // 성공적으로 수정된 후, carData를 다시 갱신
-      fetch('https://hizenberk.pythonanywhere.com/api/driving-records/', {
+  
+      // 수정 후 데이터 갱신
+      const updatedData = await fetch("https://hizenberk.pythonanywhere.com/api/driving-records/", {
         headers: {
-          'Authorization': `Bearer ${authState.access}`,
+          Authorization: `Bearer ${authState.access}`,
         },
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.records && Array.isArray(data.records)) {
-            setCarData(data.records);
-          }
-        })
-        .catch(error => console.error('Error fetching driving records:', error));
-
-      setIsModalOpen(false);
+      }).then((res) => res.json());
+  
+      if (updatedData.records && Array.isArray(updatedData.records)) {
+        setCarData(updatedData.records);
+      }
+  
+      setIsModalOpen(false); // 모달 닫기
     } catch (err) {
-      setError('Server error. Please try again later.');
+      setError("Server error. Please try again later.");
     }
   };
+  
+  
 
   const handleDeleteRecord = async (recordId) => {
     if (!authState.access) {
@@ -244,74 +229,81 @@ const handleDatePickerConfirm = () => {
 
   const handleRegisterRecord = async () => {
     if (!authState.access) {
-      setError('로그인이 필요합니다.');
+      setError("로그인이 필요합니다.");
       return;
     }
-
-    // Ensure `driving_purpose` is one of the valid options
-    const validDrivingPurposes = ["business", "personal", "other"]; // Add other valid options as needed
-    if (!validDrivingPurposes.includes(editingRecord.driving_purpose)) {
-      setError('운행 목적이 유효하지 않습니다.');
-      return;
-    }
-
-    const payload = {
-      vehicle: editingRecord.vehicle,
-      departure_location: editingRecord.departure_location,
-      arrival_location: editingRecord.arrival_location,
-      departure_mileage: editingRecord.departure_mileage,
-      arrival_mileage: editingRecord.arrival_mileage,
-      departure_time: editingRecord.departure_time,
-      arrival_time: editingRecord.arrival_time,
-      coordinates: editingRecord.coordinates,
-      driving_purpose: editingRecord.driving_purpose,
-      fuel_cost: editingRecord.fuel_cost,
-      toll_fee: editingRecord.toll_fee,
-      other_costs: editingRecord.other_costs
+  
+    const purposeMapping = {
+      "출/퇴근": "commuting",
+      "일반업무": "business",
+      "비업무": "non_business",
     };
-
-    console.log("Payload being sent:", payload); // Log the payload for debugging
-
+  
+    // 데이터 준비
+    const payload = {
+      vehicle: parseInt(editingRecord.vehicle, 10),
+      departure_location: editingRecord.departure_location || "서울 강남구",
+      arrival_location: editingRecord.arrival_location || "인천 중구",
+      departure_mileage: parseInt(editingRecord.departure_mileage, 10),
+      arrival_mileage: parseInt(editingRecord.arrival_mileage, 10),
+      departure_time: new Date(editingRecord.departure_time).toISOString(),
+      arrival_time: new Date(editingRecord.arrival_time).toISOString(),
+      coordinates: editingRecord.coordinates.length
+        ? editingRecord.coordinates
+        : [
+            { latitude: 37.4979, longitude: 127.0276 },
+            { latitude: 37.4602, longitude: 126.4407 },
+          ],
+      driving_purpose: purposeMapping[editingRecord.driving_purpose] || "business",
+      fuel_cost: parseFloat(editingRecord.fuel_cost) || 0,
+      toll_fee: parseFloat(editingRecord.toll_fee) || 0,
+      other_costs: parseFloat(editingRecord.other_costs) || 0,
+    };
+  
+    console.log("Payload being sent:", payload);
+  
     try {
       const response = await fetch(
-        'https://hizenberk.pythonanywhere.com/api/driving-records/create/',
+        "https://hizenberk.pythonanywhere.com/api/driving-records/create/",
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${authState.access}`,
           },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
         }
       );
-
+  
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Error data:", errorData); // Log the detailed error from the server
-        setError(errorData.message || '운행 기록 생성에 실패했습니다.');
+        console.error("Error response from server:", errorData);
+        setError(errorData.message || "운행 기록 생성에 실패했습니다.");
         return;
       }
-
-      // Successfully created, update the carData
-      fetch('https://hizenberk.pythonanywhere.com/api/driving-records/', {
-        headers: {
-          'Authorization': `Bearer ${authState.access}`,
-        },
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.records && Array.isArray(data.records)) {
-            setCarData(data.records);
-          }
-        })
-        .catch(error => console.error('Error fetching driving records:', error));
-
-      setIsRegisterModalOpen(false); // Close the register modal after submission
+  
+      // 성공 시 데이터 갱신
+      const updatedRecords = await fetch(
+        "https://hizenberk.pythonanywhere.com/api/driving-records/",
+        {
+          headers: {
+            Authorization: `Bearer ${authState.access}`,
+          },
+        }
+      ).then((res) => res.json());
+  
+      if (updatedRecords.records && Array.isArray(updatedRecords.records)) {
+        setCarData(updatedRecords.records);
+      }
+  
+      setIsRegisterModalOpen(false); // 등록 모달 닫기
+      setError(null); // 오류 메시지 초기화
     } catch (err) {
       console.error("Server error:", err);
-      setError('Server error. Please try again later.');
+      setError("서버 오류. 다시 시도해주세요.");
     }
   };
+  
 
   const getDrivingPurposeInKorean = (purpose) => {
     switch (purpose) {
@@ -340,6 +332,13 @@ const handleDatePickerConfirm = () => {
     setItemsPerPage(Number(e.target.value));
     setCurrentPage(1); // 항목 수 변경 시 페이지를 1로 초기화
   };
+  
+  const formatDateForInput = (dateString) => {
+    if (!dateString) return ""; // 기본값 처리
+    const date = new Date(dateString);
+    return date.toISOString().slice(0, 16); // 'yyyy-MM-ddThh:mm' 형식 반환
+  };
+
 
   return (
     <div className="car-history-container">
@@ -434,7 +433,10 @@ const handleDatePickerConfirm = () => {
               <button className="car-history-date-check-button" onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}>
                 기간 조회
               </button>
-              <button className="car-history-date-check-button" onClick={() => setIsRegisterModalOpen(true)}>
+              <button
+                className="car-history-date-check-button"
+                onClick={() => setIsRegisterModalOpen(true)}
+              >
                 등록
               </button>
             </div>
@@ -466,26 +468,30 @@ const handleDatePickerConfirm = () => {
       </tr>
     </thead>
     <tbody className="car-history-tbody">
-      {paginateCarData().map((car) => (
-        <tr key={car.id}>
-          <td>{car.created_at.split("T")[0]}</td>
-          <td>{new Date(car.departure_time).toLocaleTimeString('ko-KR', { hour12: false })}</td>
-        <td>{new Date(car.arrival_time).toLocaleTimeString('ko-KR', { hour12: false })}</td>
-          <td>{getDrivingPurposeInKorean(car.driving_purpose)}</td>
-          <td>{car.vehicle_type}</td>
-          <td>{car.vehicle_license_plate_number}</td>
-          <td>{car.user_name}</td>
-          <td>{car.driving_distance}Km</td>
-          <td>{car.driving_time}</td>
-          <td>
-            출발: {car.departure_location}
-            <br />
-            도착: {car.arrival_location}
-          </td>
-          <td>{car.total_cost} 원</td>
-        </tr>
-      ))}
-    </tbody>
+  {paginateCarData().map((car) => (
+    <tr
+      key={car.id}
+      onClick={() => handleEditRecord(car.id)} // 클릭 시 수정 모달 열기
+      style={{ cursor: "pointer" }} // 클릭 가능한 UI 표시
+    >
+      <td>{car.created_at.split("T")[0]}</td>
+      <td>{new Date(car.departure_time).toLocaleTimeString("ko-KR", { hour12: false })}</td>
+      <td>{new Date(car.arrival_time).toLocaleTimeString("ko-KR", { hour12: false })}</td>
+      <td>{getDrivingPurposeInKorean(car.driving_purpose)}</td>
+      <td>{car.vehicle_type}</td>
+      <td>{car.vehicle_license_plate_number}</td>
+      <td>{car.user_name}</td>
+      <td>{car.driving_distance} Km</td>
+      <td>{car.driving_time}</td>
+      <td>
+        출발: {car.departure_location}
+        <br />
+        도착: {car.arrival_location}
+      </td>
+      <td>{car.total_cost} 원</td>
+    </tr>
+  ))}
+</tbody>
   </table>
   {/* 페이지 번호 표시 영역 */}
   <div className="pagination-buttons" style={{ textAlign: "center", marginTop: "20px" }}>
@@ -618,27 +624,28 @@ const handleDatePickerConfirm = () => {
       value={editingRecord.other_costs || 0}
       onChange={handleInputChange}
     />
-  </div>
-  <div className="car-history-update-modal-body-box">
-    <label className="car-history-update-modal-label">출발 시간 :</label>
+    </div>
+    <div className="car-history-update-modal-body-box">
+    <label className="car-history-update-modal-label">출발 시간:</label>
     <input
       type="datetime-local"
       name="departure_time"
       className="car-history-update-modal-input"
-      value={editingRecord.departure_time || ''}
+      value={editingRecord.departure_time ? formatDateForInput(editingRecord.departure_time) : ""}
       onChange={handleInputChange}
     />
-  </div>
-  <div className="car-history-update-modal-body-box">
-    <label className="car-history-update-modal-label">도착 시간 :</label>
-    <input
-      type="datetime-local"
-      name="arrival_time"
-      className="car-history-update-modal-input"
-      value={editingRecord.arrival_time || ''}
-      onChange={handleInputChange}
-    />
-  </div>
+    </div>
+    <div className="car-history-update-modal-body-box">
+      <label className="car-history-update-modal-label">도착 시간:</label>
+      <input
+        type="datetime-local"
+        name="arrival_time"
+        className="car-history-update-modal-input"
+        value={editingRecord.arrival_time ? formatDateForInput(editingRecord.arrival_time) : ""}
+        onChange={handleInputChange}
+      />
+    </div>
+
   
   <div className="car-history-update-modal-body-box">
     <label className="car-history-update-modal-label">출발 전 누적 주행거리 :</label>
@@ -682,117 +689,140 @@ const handleDatePickerConfirm = () => {
   ariaHideApp={false}
   className="car-history-update-modal"
 >
-<div className="car-history-update-modal-box">
-  <div className="car-history-update-modal-box-top-box">
-    <h2>운행 기록 등록</h2>
+  <div className="car-history-update-modal-box">
+    <div className="car-history-update-modal-box-top-box">
+      <h2>운행 기록 등록</h2>
+    </div>
+    {error && <p className="error-message">{error}</p>}
+    <div className="car-history-update-modal-body-box">
+      <label className="car-history-update-modal-label">차량 ID :</label>
+      <input
+        type="text"
+        name="vehicle"
+        className="car-history-update-modal-input"
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className="car-history-update-modal-body-box">
+      <label className="car-history-update-modal-label">출발지 :</label>
+      <input
+        type="text"
+        name="departure_location"
+        className="car-history-update-modal-input"
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className="car-history-update-modal-body-box">
+      <label className="car-history-update-modal-label">도착지 :</label>
+      <input
+        type="text"
+        name="arrival_location"
+        className="car-history-update-modal-input"
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className="car-history-update-modal-body-box">
+  <label className="car-history-update-modal-label">운행 목적 :</label>
+  <select
+    name="driving_purpose"
+    className="car-history-update-modal-input"
+    onChange={(e) =>
+      setEditingRecord((prev) => ({
+        ...prev,
+        driving_purpose: e.target.value,
+      }))
+    }
+  >
+    <option value="" disabled selected>
+      선택하세요
+    </option>
+    <option value="출/퇴근">출/퇴근</option>
+    <option value="일반업무">일반업무</option>
+    <option value="비업무">비업무</option>
+  </select>
+</div>
+
+    <div className="car-history-update-modal-body-box">
+      <label className="car-history-update-modal-label">연료비 :</label>
+      <input
+        type="number"
+        name="fuel_cost"
+        className="car-history-update-modal-input"
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className="car-history-update-modal-body-box">
+      <label className="car-history-update-modal-label">통행료 :</label>
+      <input
+        type="number"
+        name="toll_fee"
+        className="car-history-update-modal-input"
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className="car-history-update-modal-body-box">
+      <label className="car-history-update-modal-label">기타 비용 :</label>
+      <input
+        type="number"
+        name="other_costs"
+        className="car-history-update-modal-input"
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className="car-history-update-modal-body-box">
+      <label className="car-history-update-modal-label">출발 시간 :</label>
+      <input
+        type="datetime-local"
+        name="departure_time"
+        className="car-history-update-modal-input"
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className="car-history-update-modal-body-box">
+      <label className="car-history-update-modal-label">도착 시간 :</label>
+      <input
+        type="datetime-local"
+        name="arrival_time"
+        className="car-history-update-modal-input"
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className="car-history-update-modal-body-box">
+      <label className="car-history-update-modal-label">출발 전 누적 주행거리 :</label>
+      <input
+        type="number"
+        name="departure_mileage"
+        className="car-history-update-modal-input"
+        onChange={handleInputChange}
+      />
+    </div>
+    <div className="car-history-update-modal-body-box">
+      <label className="car-history-update-modal-label">도착 후 누적 주행거리 :</label>
+      <input
+        type="number"
+        name="arrival_mileage"
+        className="car-history-update-modal-input"
+        onChange={handleInputChange}
+      />
+    </div>
+    <div style={{ marginTop: '20px' }}>
+      <button
+        className="car-history-update-modal-update-btn"
+        onClick={handleRegisterRecord} // handleRegisterRecord 호출
+      >
+        등록
+      </button>
+      <button
+        className="car-history-update-modal-close-btn"
+        onClick={() => setIsRegisterModalOpen(false)}
+      >
+        닫기
+      </button>
+    </div>
   </div>
-  {error && <p className="error-message">{error}</p>}
-  <div className="car-history-update-modal-body-box">
-    <label className="car-history-update-modal-label">차량 ID :</label>
-    <input
-      type="text"
-      name="vehicle"
-      className="car-history-update-modal-input"
-      onChange={handleInputChange}
-    />
-  </div>
-  <div className="car-history-update-modal-body-box">
-    <label className="car-history-update-modal-label">출발지 :</label>
-    <input
-      type="text"
-      name="departure_location"
-      className="car-history-update-modal-input"
-      onChange={handleInputChange}
-    />
-  </div>
-  <div className="car-history-update-modal-body-box">
-    <label className="car-history-update-modal-label">도착지 :</label>
-    <input
-      type="text"
-      name="arrival_location"
-      className="car-history-update-modal-input"
-      onChange={handleInputChange}
-    />
-  </div>
-  <div className="car-history-update-modal-body-box">
-    <label className="car-history-update-modal-label">연료비 :</label>
-    <input
-      type="number"
-      name="fuel_cost"
-      className="car-history-update-modal-input"
-      onChange={handleInputChange}
-    />
-  </div>
-  <div className="car-history-update-modal-body-box">
-    <label className="car-history-update-modal-label">통행료 :</label>
-    <input
-      type="number"
-      name="toll_fee"
-      className="car-history-update-modal-input"
-      onChange={handleInputChange}
-    />
-  </div>
-  <div className="car-history-update-modal-body-box">
-    <label className="car-history-update-modal-label">운행 목적 :</label>
-    <input
-      type="text"
-      name="driving_purpose"
-      className="car-history-update-modal-input"
-      onChange={handleInputChange}
-    />
-  </div>
- 
-  <div className="car-history-update-modal-body-box">
-    <label className="car-history-update-modal-label">기타 비용 :</label>
-    <input
-      type="number"
-      name="other_costs"
-      className="car-history-update-modal-input"
-      onChange={handleInputChange}
-    />
-  </div>
-  <div className="car-history-update-modal-body-box">
-    <label className="car-history-update-modal-label">출발 시간 :</label>
-    <input
-      type="datetime-local"
-      name="departure_time"
-      className="car-history-update-modal-input"
-      onChange={handleInputChange}
-    />
-  </div>
-  <div className="car-history-update-modal-body-box">
-    <label className="car-history-update-modal-label">도착 시간 :</label>
-    <input
-      type="datetime-local"
-      name="arrival_time"
-      className="car-history-update-modal-input"
-      onChange={handleInputChange}
-    />
-  </div>
-  
-  <div className="car-history-update-modal-body-box">
-    <label className="car-history-update-modal-label">출발 전 누적 주행거리 :</label>
-    <input
-      type="number"
-      name="departure_mileage"
-      className="car-history-update-modal-input"
-      onChange={handleInputChange}
-    />
-  </div>
-  <div className="car-history-update-modal-body-box">
-    <label className="car-history-update-modal-label">도착 후 누적 주행거리 :</label>
-    <input
-      type="number"
-      name="arrival_mileage"
-      className="car-history-update-modal-input"
-      onChange={handleInputChange}
-    />
-  </div>
-  <div style={{ marginTop: '20px' }}>
-    <button className="car-history-update-modal-update-btn" onClick={handleSubmit}>수정</button>
-    <button className="car-history-update-modal-close-btn" onClick={() => setIsRegisterModalOpen(false)}>닫기</button>
-  </div></div>
 </Modal>
+
+
 
       </div>
     </div>
