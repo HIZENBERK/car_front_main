@@ -47,7 +47,7 @@ const CarHistory = () => {
       setError('로그인이 필요합니다.');
       return;
     }
-  
+
   //   fetch('https://hizenberk.pythonanywhere.com/api/driving-records/', {
   //     headers: {
   //       'Authorization': `Bearer ${authState.access}`,
@@ -125,7 +125,7 @@ const handleDatePickerConfirm = () => {
     setSelectedCoordinates(coordinates); // 선택된 경로 좌표를 저장
     setIsMapOpen(true); // 지도 모달 열기
   };
-  
+
   const closeMapModal = () => {
     setIsMapOpen(false); // 지도 모달 닫기
     setSelectedCoordinates([]); // 좌표 초기화
@@ -156,9 +156,9 @@ const handleDatePickerConfirm = () => {
       refreshAccessToken(); // 토큰 갱신 시도
       return;
     }
-  
+
     const payload = { ...editingRecord };
-  
+
     try {
       const response = await fetch(
         `https://hizenberk.pythonanywhere.com/api/driving-records/${recordIdToEdit}/`,
@@ -171,31 +171,31 @@ const handleDatePickerConfirm = () => {
           body: JSON.stringify(payload),
         }
       );
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         setError(errorData.message || "Failed to update record");
         return;
       }
-  
+
       // 수정 후 데이터 갱신
       const updatedData = await fetch("https://hizenberk.pythonanywhere.com/api/driving-records/", {
         headers: {
           Authorization: `Bearer ${authState.access}`,
         },
       }).then((res) => res.json());
-  
+
       if (updatedData.records && Array.isArray(updatedData.records)) {
         setCarData(updatedData.records);
       }
-  
+
       setIsModalOpen(false); // 모달 닫기
     } catch (err) {
       setError("Server error. Please try again later.");
     }
   };
-  
-  
+
+
 
   const handleDeleteRecord = async (recordId) => {
     if (!authState.access) {
@@ -232,13 +232,13 @@ const handleDatePickerConfirm = () => {
       setError("로그인이 필요합니다.");
       return;
     }
-  
+
     const purposeMapping = {
       "출/퇴근": "commuting",
       "일반업무": "business",
       "비업무": "non_business",
     };
-  
+
     // 데이터 준비
     const payload = {
       vehicle: parseInt(editingRecord.vehicle, 10),
@@ -259,9 +259,9 @@ const handleDatePickerConfirm = () => {
       toll_fee: parseFloat(editingRecord.toll_fee) || 0,
       other_costs: parseFloat(editingRecord.other_costs) || 0,
     };
-  
+
     console.log("Payload being sent:", payload);
-  
+
     try {
       const response = await fetch(
         "https://hizenberk.pythonanywhere.com/api/driving-records/create/",
@@ -274,14 +274,14 @@ const handleDatePickerConfirm = () => {
           body: JSON.stringify(payload),
         }
       );
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Error response from server:", errorData);
         setError(errorData.message || "운행 기록 생성에 실패했습니다.");
         return;
       }
-  
+
       // 성공 시 데이터 갱신
       const updatedRecords = await fetch(
         "https://hizenberk.pythonanywhere.com/api/driving-records/",
@@ -291,11 +291,11 @@ const handleDatePickerConfirm = () => {
           },
         }
       ).then((res) => res.json());
-  
+
       if (updatedRecords.records && Array.isArray(updatedRecords.records)) {
         setCarData(updatedRecords.records);
       }
-  
+
       setIsRegisterModalOpen(false); // 등록 모달 닫기
       setError(null); // 오류 메시지 초기화
     } catch (err) {
@@ -303,7 +303,7 @@ const handleDatePickerConfirm = () => {
       setError("서버 오류. 다시 시도해주세요.");
     }
   };
-  
+
 
   const getDrivingPurposeInKorean = (purpose) => {
     switch (purpose) {
@@ -332,7 +332,7 @@ const handleDatePickerConfirm = () => {
     setItemsPerPage(Number(e.target.value));
     setCurrentPage(1); // 항목 수 변경 시 페이지를 1로 초기화
   };
-  
+
   const formatDateForInput = (dateString) => {
     if (!dateString) return ""; // 기본값 처리
     const date = new Date(dateString);
@@ -453,54 +453,63 @@ const handleDatePickerConfirm = () => {
   </div>
   <table className="car-history-table">
     <thead>
-      <tr>
-        <th>운행 기록 생성일</th>
-        <th>출발 시간</th>
-        <th>도착 시간</th>
-        <th>목적</th>
-        <th>차종</th>
-        <th>차량 번호</th>
-        <th>이름</th>
-        <th>거리 (km)</th>
-        <th>소요시간</th>
-        <th>출발/도착지</th>
-        <th>총 비용</th>
-      </tr>
+    <tr>
+      <th>운행 기록 생성일</th>
+      <th>출발 시간</th>
+      <th>도착 시간</th>
+      <th>목적</th>
+      <th>차종</th>
+      <th>차량 번호</th>
+      <th>이름</th>
+      <th>거리 (km)</th>
+      <th>소요시간</th>
+      <th>출발/도착지</th>
+      <th>총 비용</th>
+      <th>경로보기</th>
+    </tr>
     </thead>
     <tbody className="car-history-tbody">
   {paginateCarData().map((car) => (
-    <tr
-      key={car.id}
-      onClick={() => handleEditRecord(car.id)} // 클릭 시 수정 모달 열기
-      style={{ cursor: "pointer" }} // 클릭 가능한 UI 표시
-    >
-      <td>{car.created_at.split("T")[0]}</td>
-      <td>{new Date(car.departure_time).toLocaleTimeString("ko-KR", { hour12: false })}</td>
-      <td>{new Date(car.arrival_time).toLocaleTimeString("ko-KR", { hour12: false })}</td>
-      <td>{getDrivingPurposeInKorean(car.driving_purpose)}</td>
-      <td>{car.vehicle_type}</td>
-      <td>{car.vehicle_license_plate_number}</td>
-      <td>{car.user_name}</td>
-      <td>{car.driving_distance} Km</td>
-      <td>{car.driving_time}</td>
-      <td>
-        출발: {car.departure_location}
-        <br />
-        도착: {car.arrival_location}
-      </td>
-      <td>{car.total_cost} 원</td>
-    </tr>
+      <tr
+          key={car.id}
+          onClick={() => handleEditRecord(car.id)} // 클릭 시 수정 모달 열기
+          style={{cursor: "pointer"}} // 클릭 가능한 UI 표시
+      >
+        <td>{car.created_at.split("T")[0]}</td>
+        <td>{new Date(car.departure_time).toLocaleTimeString("ko-KR", {hour12: false})}</td>
+        <td>{new Date(car.arrival_time).toLocaleTimeString("ko-KR", {hour12: false})}</td>
+        <td>{getDrivingPurposeInKorean(car.driving_purpose)}</td>
+        <td>{car.vehicle_type}</td>
+        <td>{car.vehicle_license_plate_number}</td>
+        <td>{car.user_name}</td>
+        <td>{car.driving_distance} Km</td>
+        <td>{car.driving_time}</td>
+        <td>
+          출발: {car.departure_location}
+          <br/>
+          도착: {car.arrival_location}
+        </td>
+        <td>{car.total_cost} 원</td>
+        <td>
+          <button
+              className="car-history-map-btn"
+              onClick={() => openMapModal(car.coordinates)} // car.coordinates 전달
+          >
+            지도보기
+          </button>
+        </td>
+      </tr>
   ))}
-</tbody>
+    </tbody>
   </table>
-  {/* 페이지 번호 표시 영역 */}
-  <div className="pagination-buttons" style={{ textAlign: "center", marginTop: "20px" }}>
-    {Array.from(
-      { length: Math.ceil(filterCarData().length / itemsPerPage) },
-      (_, index) => (
-        <button
-          key={index + 1}
-          onClick={() => handlePageChange(index + 1)}
+            {/* 페이지 번호 표시 영역 */}
+            <div className="pagination-buttons" style={{textAlign: "center", marginTop: "20px"}}>
+              {Array.from(
+                  {length: Math.ceil(filterCarData().length / itemsPerPage)},
+                  (_, index) => (
+                      <button
+                          key={index + 1}
+                          onClick={() => handlePageChange(index + 1)}
           className={currentPage === index + 1 ? "active" : ""}
           style={{ margin: "5px" }}
         >
@@ -516,7 +525,7 @@ const handleDatePickerConfirm = () => {
         {isDatePickerOpen && (
           <div className="date-picker-popup">
             <div className="date-picker-popup-top">
-              <h4 className="date-picker-popup-title">가는날을 선택하세요</h4>
+              <h4 className="date-picker-popup-title">조회할 기간을 선택하세요</h4>
               <button className="car-history-reset-button" onClick={handleReset}>날짜 지우기</button>
             </div>
             <div className="date-picker-container">
@@ -614,7 +623,7 @@ const handleDatePickerConfirm = () => {
       onChange={handleInputChange}
     />
   </div>
- 
+
   <div className="car-history-update-modal-body-box">
     <label className="car-history-update-modal-label">기타 비용 :</label>
     <input
@@ -646,7 +655,7 @@ const handleDatePickerConfirm = () => {
       />
     </div>
 
-  
+
   <div className="car-history-update-modal-body-box">
     <label className="car-history-update-modal-label">출발 전 누적 주행거리 :</label>
     <input
