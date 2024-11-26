@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-
+import '../CSS/CarHistory.css';
 const { Tmapv2 } = window;
 
 function UseMap({ onClose, coord }) {
@@ -79,10 +79,16 @@ function UseMap({ onClose, coord }) {
 
     return (
         <div className="map-container" id="map-container">
-            <button onClick={onClose} className="close-button">
+            <button onClick={onClose} className="close-button" >
                 닫기
             </button>
-            <div id='map_div' style={{width: '100%', height: '100%'}}/>
+            <div id='map_div'
+                 style={{
+                     flexGrow: 1, // 버튼 아래 남은 공간을 지도에 할당
+                     width: '100%',
+                     height: '100%',
+                 }}
+            />
         </div>
     );
 }
