@@ -241,6 +241,7 @@ const UserManagement = () => {
                 <th>권한</th> 
                 <th>생성일시</th>
                 <th>작업</th>
+                <th>삭제</th>
               </tr>
             </thead>
             <tbody>
@@ -260,6 +261,14 @@ const UserManagement = () => {
                   >
                     수정
                   </button>
+                </td>
+                <td>
+                <button
+                  className="user-edit-btn"
+                  onClick={() => handleDeleteUser(user.id)}
+                >
+                  삭제
+                </button>
                 </td>
                 </tr>
               ))}
