@@ -171,7 +171,7 @@ export const makeXlsx = async (filteredData) => {
         worksheet.mergeCells(`B${row}`, `C${row}`);
         worksheet.mergeCells(`D${row}`, `E${row}`);
         worksheet.mergeCells(`F${row}`, `G${row}`);
-        worksheet.mergeCells(`H${row}`, `J${row}`);
+        worksheet.mergeCells(`H${row}`, `I${row}`);
         worksheet.mergeCells(`K${row}`, `M${row}`);
         worksheet.mergeCells(`N${row}`, `O${row}`);
 

@@ -91,7 +91,7 @@ const Notice = () => {
         // number: index + 1,
         name: notice.title,
         user: notice.created_by__name,
-        date: notice.created_at,
+        date: notice.created_at.slice(0, 10),
         content: notice.content
       }));
       setNotices(fetchedNotices);
@@ -202,7 +202,7 @@ const Notice = () => {
       <div className="notice-background">
       <div className="notice-top">
         <p className="notice-top-title">공지사항</p>
-        <button
+        {/* <button
           className="create-notice-btn"
           onClick={() => {
             setIsEditMode(false);
@@ -211,16 +211,31 @@ const Notice = () => {
           }}
         >
           공지 생성
-        </button>
+        </button> */}
       </div>
 
       <div className="notice-a-box">
 
         <div className="notice-b-box">
+          <div className="notice-c-box">
+            <button
+              className="create-notice-btn"
+              onClick={() => {
+                setIsEditMode(false);
+                setIsModalOpen(true);
+                setSelectedNotice(null);
+              }}
+            >
+              공지 생성
+            </button>
+          </div>
+          <div className="notice-d-box">
+            
+          </div>
           <table className="notice-table">
             <thead>
               <tr>
-                <th>번호</th>
+                {/* <th>번호</th> */}
                 <th>제목</th>
                 <th>작성자</th>
                 <th>등록일</th>
@@ -230,7 +245,7 @@ const Notice = () => {
             <tbody>
               {currentRows.map((row) => (
                 <tr key={row.id} onClick={() => handleRowClick(row.id)}>
-                  <td>{row.id}</td>
+                  {/* <td>{row.id}</td> */}
                   <td>{row.name}</td>
                   <td>{row.user}</td>
                   <td>{row.date}</td>

@@ -122,10 +122,10 @@ function Login() {
         </div>
         <div className="form-footer">
           <Link to="/adminsignup" className="adminSignup-label">관리자 회원가입</Link>
-          <div className="auto-login">
-            <input type="checkbox" id="autoLogin" name="autoLogin" />
-            <label htmlFor="autoLogin">자동로그인</label>
-          </div>
+          {/*<div className="auto-login">*/}
+          {/*  <input type="checkbox" id="autoLogin" name="autoLogin" />*/}
+          {/*  <label htmlFor="autoLogin">자동로그인</label>*/}
+          {/*</div>*/}
           <button type="submit" className="login-button">로그인</button>
         </div>
       </form>

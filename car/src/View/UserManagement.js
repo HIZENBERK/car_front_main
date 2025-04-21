@@ -3,6 +3,7 @@ import axios from 'axios'; // axios 추가
 import { useNavigate } from 'react-router-dom'; // useNavigate 훅 임포트
 import '../CSS/UserManagement.css';
 import { useAuth } from "../Component/AuthContext";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const UserManagement = () => {
   const navigate = useNavigate();
@@ -215,7 +216,7 @@ const UserManagement = () => {
               <option value="id">사번</option>
               <option value="phone_number">연락처</option>
               <option value="is_admin">권한</option>
-              <option value="date">등록일</option>
+              <option value="created_at">생성일시</option>
             </select>
             <input
               type="text"
@@ -232,23 +233,24 @@ const UserManagement = () => {
           <table className="usermanegement-table">
             <thead>
               <tr>
-                <th><input type="checkbox" /></th>
+                {/* <th><input type="checkbox" /></th> */}
                 <th>부서</th>
                 <th>이름</th>
-                <th>등록번호</th>
+                {/* <th>등록번호</th> */}
                 <th>연락처</th>
                 <th>권한</th> 
                 <th>생성일시</th>
                 <th>작업</th>
+                <th>삭제</th>
               </tr>
             </thead>
             <tbody>
               {currentRows.map((user) => (
               <tr key={user.id} className="user-click-td">
-                  <td><input type="checkbox" /></td>
+                  {/* <td><input type="checkbox" /></td> */}
                   <td>{user.department}</td>
                   <td>{user.name}</td>
-                  <td>{user.id}</td>
+                  {/* <td>{user.id}</td> */}
                   <td>{user.phone_number}</td>
                   <td>{user.is_admin ? '관리자' : '사용자'}</td>
                   <td>{user.created_at}</td>
@@ -259,6 +261,14 @@ const UserManagement = () => {
                   >
                     수정
                   </button>
+                </td>
+                <td>
+                <button
+                  className="user-edit-btn"
+                  onClick={() => handleDeleteUser(user.id)}
+                >
+                  삭제
+                </button>
                 </td>
                 </tr>
               ))}
@@ -295,7 +305,17 @@ const UserManagement = () => {
       {isModalOpen && (
         <div className="user-management-modal-overlay">
           <div className="user-management-modal">
-              <h2>사용자 정보 관리</h2>
+            <div className="user-management-modal-top-box">
+                <button
+                  className="user-delete-btn"
+                  onClick={() => {
+                    handleDeleteUser(selectedRow.id);
+                    closeModal();
+                  }}
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              <h2>사용자 정보 관리</h2> </div>
             <div className="user-management-modal-content">
               <div className="user-label-box">
                 <label className="user-label-text">부서:</label>
@@ -324,19 +344,26 @@ const UserManagement = () => {
                     onChange={(e) => handleInputChange('phone_number', e.target.value)}
                   />
               </div>
-              <div className="user-label-box">
+              {/* <div className="user-label-box">
                 <label className="user-label-text">권한:</label>
                   <select
+                    className="user-select-option"
                     value={selectedRow.is_admin}
                     onChange={(e) => handleInputChange('is_admin', e.target.value === 'true')}
                   >
                     <option value="true">관리자</option>
                     <option value="false">사용자</option>
                   </select>
-                </div>
+                </div> */}
                 <div className="user-label-box">
                   <label className="user-label-text">상태:</label>
-                  <span>{selectedRow.is_banned ? '중지됨' : '활성'}</span>
+                  <span className="user-is-banned-span">{selectedRow.is_banned ? '중지됨' : '활성'}</span>
+                  <button
+                  className="user-ban-btn"
+                  onClick={() => handleToggleUserBan(selectedRow)}
+                >
+                  {selectedRow.is_banned ? '활성화' : '사용 중지'}
+                </button>
                 </div>
               </div>
               <div className="modal-buttons">
@@ -347,21 +374,7 @@ const UserManagement = () => {
                 >
                   {isLoading ? '수정 중...' : '수정'}
                 </button>
-                <button
-                  className="user-ban-btn"
-                  onClick={() => handleToggleUserBan(selectedRow)}
-                >
-                  {selectedRow.is_banned ? '활성화' : '사용 중지'}
-                </button>
-                <button
-                  className="user-delete-btn"
-                  onClick={() => {
-                    handleDeleteUser(selectedRow.id);
-                    closeModal();
-                  }}
-                >
-                  삭제
-                </button>
+                
                 <button
                   className="user-management-close-btn"
                   onClick={closeModal}

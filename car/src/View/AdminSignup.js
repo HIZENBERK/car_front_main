@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../CSS/Signup.css';
+import '../CSS/AdminSignup.css';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
@@ -61,7 +61,7 @@ function Signup() {
 
 
   return (
-    <div className="signup-container">
+    <div className="admin-signup-container">
       <div className="admin-signup-a-box">
 
         <div className="admin-signup-b-box">
@@ -74,18 +74,18 @@ function Signup() {
           </div>
 
           <div className="admin-signup-e-box">
-            <div className="form-group">
+            <div className="pass1-form-group">
             <input type="password"
-                  className="input-field"
+                  className="pass-input-field"
                   id="password"
                   name="password"
                   placeholder="비밀번호"
                   onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <div className="form-group">
+            <div className="pass-form-group">
               <input type="password"
-                    className="input-field"
+                    className="pass-input-field"
                     id="password"
                     name="password"
                     placeholder="비밀번호 확인"

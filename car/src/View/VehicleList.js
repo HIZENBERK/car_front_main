@@ -31,7 +31,7 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
                 }
             });
             setVehicles(response.data.vehicles);
-            
+
         } catch (error) {
     //         if (error.response?.data?.code === 'token_not_valid') {
     //             const newAccessToken = await refreshAccessToken();
@@ -82,7 +82,7 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
             if (editingVehicleId) {
                 // 차량 정보 수정 요청
                 await axios.patch(
-                    `https://hizenberk.pythonanywhere.com/api/vehicles/${licensePlateNumber}`,
+                    `https://hizenberk.pythonanywhere.com/api/vehicles/${editingVehicleId}`,
                     vehicleData,
                     { headers: { Authorization: `Bearer ${authState.access}` } }
                 );
@@ -105,7 +105,7 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
             //     if (newAccessToken) {
             //         handleRegisterOrUpdateVehicle(e); // 새 토큰으로 등록/수정 요청 재시도
             //     }
-            // } else 
+            // } else
             {
                 console.error('차량 등록/수정 실패:', error.response?.data);
             }
@@ -130,9 +130,9 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
         setIsFormVisible(true);
     };
 
-    const handleDeleteVehicle = async (licensePlateNumber) => {
+    const handleDeleteVehicle = async (vehicleId) => {
         try {
-            await axios.delete(`https://hizenberk.pythonanywhere.com/api/vehicles/${licensePlateNumber}`, {
+            await axios.delete(`https://hizenberk.pythonanywhere.com/api/vehicles/${vehicleId}`, {
                 headers: { Authorization: `Bearer ${authState.access}` }
             });
             console.log('차량 삭제 성공');
@@ -143,7 +143,7 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
             //     if (newAccessToken) {
             //         handleDeleteVehicle(licensePlateNumber); // 새 토큰으로 삭제 요청 재시도
             //     }
-            // } else 
+            // } else
             {
                 console.error('차량 삭제 실패:', error.response?.data);
             }
@@ -193,7 +193,7 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
                             <td>{vehicle.total_mileage} km</td>
                             <td>{vehicle.current_status}</td>
                             <td><button className="vehiclelist-update-btn" onClick={() => handleEditVehicle(vehicle)}>수정</button></td>
-                            <td><button className="vehiclelist-delete-btn" onClick={() => handleDeleteVehicle(vehicle.license_plate_number)}>삭제</button></td>
+                            <td><button className="vehiclelist-delete-btn" onClick={() => handleDeleteVehicle(vehicle.id)}>삭제</button></td>
                         </tr>
                     ))}
                 </tbody>
@@ -273,18 +273,40 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
                                         <option value="렌트">렌트</option>
                                     </select>
                                 </div>
+
                                 <div className="vehiclelist-form-group-3">
                                     <label>선수금:</label>
-                                    <input type="number" value={downPayment} onChange={(e) => setDownPayment(e.target.value)} />
+                                    <input 
+                                        type="number" 
+                                        value={downPayment} 
+                                        onChange={(e) => setDownPayment(e.target.value)} 
+                                        disabled={purchaseType === "매매" || purchaseType === ""}  // "매매" 또는 ""일 때 비활성화
+                                        className={purchaseType === "매매" || purchaseType === "" ? "disabled-input" : ""}
+                                    />
                                 </div>
+
                                 <div className="vehiclelist-form-group-3">
                                     <label>보증금:</label>
-                                    <input type="number" value={deposit} onChange={(e) => setDeposit(e.target.value)} />
+                                    <input 
+                                        type="number" 
+                                        value={deposit} 
+                                        onChange={(e) => setDeposit(e.target.value)} 
+                                        disabled={purchaseType === "매매" || purchaseType === ""}  // "매매" 또는 ""일 때 비활성화
+                                        className={purchaseType === "매매" || purchaseType === "" ? "disabled-input" : ""}
+                                    />
                                 </div>
+
                                 <div className="vehiclelist-form-group-3">
                                     <label>만기일:</label>
-                                    <input type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
+                                    <input 
+                                        type="date" 
+                                        value={expirationDate} 
+                                        onChange={(e) => setExpirationDate(e.target.value)} 
+                                        disabled={purchaseType === "" || purchaseType === "매매"}  // '매매' 또는 '선택'일 경우 입력 불가
+                                        className={purchaseType === "" || purchaseType === "매매" ? "disabled-input" : ""}
+                                    />
                                 </div>
+
                                 <div className="vehiclelist-form-group-check-6">
                                     <label>차량 현재 상황:</label>
                                     <select value={currentStatus} onChange={(e) => setCurrentStatus(e.target.value)}>
@@ -294,7 +316,7 @@ const VehicleList = ({ authState, refreshAccessToken }) => {
                                         <option value="삭제">삭제</option>
                                     </select>
                                 </div>
-                                
+
                             </div>
                             <div className="vehiclelist-registration-form-f-box">
                                 <button type="submit" className="vehiclelist-submit-button">
